@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayUser" parent="global:PayUser">
+      <PropertyDef name="sex">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;userService#getSexDesc&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonAdd">
+        <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        <Property name="caption">新增</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEdit">
+        <Property name="caption">编辑</Property>
+        <Property name="action">updateActionSave</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDel">
+        <Property name="caption">删除并保存</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">400,*,*</Property>
+      <Property name="labelSeparator">:</Property>
+      <AutoFormElement>
+        <Property name="name">userName</Property>
+        <Property name="label">用户名</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">addr</Property>
+        <Property name="label">地址</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetUser">
+      <Property name="dataType">[PayUser]</Property>
+      <Property name="dataProvider">userService#queryForCondition</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="datapilotWaterMeterUser">
+        <Property name="itemCodes">pages,pageSize</Property>
+        <Property name="dataSet">dataSetWaterMeterUser</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="datagridUser">
+      <Property name="dataSet">dataSetUser</Property>
+      <Property name="height">400</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="id">
+        <Property name="property">id</Property>
+        <Property name="visible">false</Property>
+      </DataColumn>
+      <DataColumn name="userName">
+        <Property name="property">userName</Property>
+      </DataColumn>
+      <DataColumn name="sex">
+        <Property name="property">sex</Property>
+        <Property name="trigger">listDropDownSex</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn name="idCardNo">
+        <Property name="property">idCardNo</Property>
+      </DataColumn>
+      <DataColumn name="addr">
+        <Property name="property">addr</Property>
+      </DataColumn>
+      <DataColumn name="printName">
+        <Property name="property">printName</Property>
+      </DataColumn>
+      <DataColumn name="tel">
+        <Property name="property">tel</Property>
+      </DataColumn>
+      <DataColumn name="mobile">
+        <Property name="property">mobile</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionSave">
+      <Property name="successMessage">保存成功！</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="confirmMessage">是否确认保存？</Property>
+      <Property name="hotkey">ctrl+s</Property>
+      <Property name="dataResolver">userService#saveAll</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetUser</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogEdit">
+      <Property name="width">650</Property>
+      <Property name="height">500</Property>
+      <Property name="caption">水表用户信息</Property>
+      <Buttons>
+        <Button id="buttonSave">
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">保存</Property>
+        </Button>
+        <Button id="buttonCancel">
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormBuildingInfo">
+          <Property name="dataSet">dataSetUser</Property>
+          <AutoFormElement>
+            <Property name="name">userName</Property>
+            <Property name="property">userName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">sex</Property>
+            <Property name="property">sex</Property>
+            <Property name="trigger">listDropDownSex</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">idCardNo</Property>
+            <Property name="property">idCardNo</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">addr</Property>
+            <Property name="property">addr</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">printName</Property>
+            <Property name="property">printName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">tel</Property>
+            <Property name="property">tel</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mobile</Property>
+            <Property name="property">mobile</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <ListDropDown id="listDropDownSex">
+      <Property name="items">
+        <Collection>
+          <Entity>
+            <Property name="key">男</Property>
+            <Property name="value">1</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">女</Property>
+            <Property name="value">0</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="displayProperty">key</Property>
+      <Property name="property">value</Property>
+    </ListDropDown>
+  </View>
+</ViewConfig>

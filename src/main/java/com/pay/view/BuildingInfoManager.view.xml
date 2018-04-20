@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayBuildingInfo" parent="global:PayBuildingInfo">
+      <Reference name="payBuildingDetail">
+        <Property name="dataType">[PayBuildingDetail]</Property>
+      </Reference>
+      <PropertyDef name="status">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;buildingInfoService#getStatusDesc&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="PayBuildingDetail" parent="global:PayBuildingDetail">
+      <PropertyDef name="userName"/>
+      <PropertyDef name="pricingTypeId">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;pricingTypeService#getPricingTypeDesc&quot;).getResult()}</Property>
+        </Property>
+        <Property name="label">计价类型</Property>
+      </PropertyDef>
+      <PropertyDef name="apportionTypeId">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;apportionTypeService#getApportionTypeDesc&quot;).getResult()}</Property>
+        </Property>
+        <Property name="label">分摊类型</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;waterMeterInfoService#getStatusDesc&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="contractorName"/>
+    </DataType>
+    <DataType name="PayReplaceWaterMeterHistory" parent="global:PayReplaceWaterMeterHistory"/>
+  </Model>
+  <View>
+    <ClientEvent name="onReady" signature="self,arg,autoFormCondition">&#xD;
+&#xD;
+&#xD;
+setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
+</ClientEvent>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonAdd">
+        <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        <Property name="caption">新增</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEdit">
+        <Property name="caption">编辑</Property>
+        <Property name="action">updateActionSave</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDel">
+        <Property name="caption">删除并保存</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonDetail">
+        <Property name="caption">明细</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -160px -140px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">400,*,*</Property>
+      <Property name="labelSeparator">:</Property>
+      <AutoFormElement id="code">
+        <Property name="name">code</Property>
+        <Property name="label">楼宇编号</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">addr</Property>
+        <Property name="label">地址</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetBuildingInfo">
+      <Property name="dataType">[PayBuildingInfo]</Property>
+      <Property name="dataProvider">buildingInfoService#queryPageForCondition</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="datapilotBuilding">
+        <Property name="itemCodes">pages,pageSize</Property>
+        <Property name="dataSet">dataSetBuildingInfo</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="datagridBuilding">
+      <Property name="dataSet">dataSetBuildingInfo</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="code">
+        <Property name="property">code</Property>
+        <Property name="width">70</Property>
+      </DataColumn>
+      <DataColumn name="housemaster">
+        <Property name="property">housemaster</Property>
+        <Property name="width">100</Property>
+      </DataColumn>
+      <DataColumn name="mobile">
+        <Property name="property">mobile</Property>
+        <Property name="width">100</Property>
+      </DataColumn>
+      <DataColumn name="addr">
+        <Property name="property">addr</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionSave">
+      <Property name="successMessage">保存成功！</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="confirmMessage">是否确认保存？</Property>
+      <Property name="hotkey">ctrl+s</Property>
+      <Property name="dataResolver">buildingInfoService#saveAll</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetBuildingInfo</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogEdit">
+      <Property name="width">650</Property>
+      <Property name="height">500</Property>
+      <Property name="caption">楼宇信息</Property>
+      <Buttons>
+        <Button id="buttonSave">
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">保存</Property>
+        </Button>
+        <Button id="buttonCancel">
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormBuildingInfo">
+          <Property name="dataSet">dataSetBuildingInfo</Property>
+          <AutoFormElement>
+            <Property name="name">code</Property>
+            <Property name="property">code</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">housemaster</Property>
+            <Property name="property">housemaster</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mobile</Property>
+            <Property name="property">mobile</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">addr</Property>
+            <Property name="property">addr</Property>
+            <Property name="editorType">TextArea</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Property name="editorType">TextArea</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">status</Property>
+            <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogDetail">
+      <Property name="width">800</Property>
+      <Property name="height">600</Property>
+      <Buttons/>
+      <Children>
+        <DataSet id="dataSetBuildingDetail">
+          <Property name="dataType">[PayBuildingDetail]</Property>
+          <Property name="dataProvider">buildingDetailService#queryPageForCondition</Property>
+          <Property name="pageSize">20</Property>
+        </DataSet>
+        <DataSet id="dataSetReplaceWaterMeter">
+          <Property name="dataType">PayReplaceWaterMeterHistory</Property>
+        </DataSet>
+        <ToolBar>
+          <DataPilot id="dataPilotBuildingDetail">
+            <Property name="dataSet">dataSetBuildingDetail</Property>
+          </DataPilot>
+          <ToolBarButton id="buttonAddDetail">
+            <Property name="caption">新增</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+          </ToolBarButton>
+          <ToolBarButton id="buttonEditDetail">
+            <Property name="caption">编辑</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+          </ToolBarButton>
+          <ToolBarButton id="buttonDelDetail">
+            <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+            <Property name="caption">删除</Property>
+          </ToolBarButton>
+          <ToolBarButton id="buttonReplaceWaterMeter">
+            <Property name="caption">更换水表</Property>
+            <Property name="icon">url(>skin>common/icons.gif) -60px -20px</Property>
+          </ToolBarButton>
+        </ToolBar>
+        <DataGrid id="dataGridBuildingDetail">
+          <Property name="dataSet">dataSetBuildingDetail</Property>
+          <DataColumn name="roomNo">
+            <Property name="property">roomNo</Property>
+            <Property name="width">60</Property>
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="waterMeterCode">
+            <Property name="property">waterMeterCode</Property>
+            <Property name="width">60</Property>
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="name">userName</Property>
+            <Property name="caption">用户名</Property>
+            <Property name="width">60</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="property">userName</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn>
+            <Property name="name">contractorName</Property>
+            <Property name="property">contractorName</Property>
+            <Property name="caption">承包者</Property>
+            <Property name="width">60</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn name="apportionTypeId">
+            <Property name="property">apportionTypeId</Property>
+            <Property name="width">60</Property>
+            <Property name="readOnly">true</Property>
+            <Property name="renderer">url(>skin>common/icons.gif) -140px -0px</Property>
+          </DataColumn>
+          <DataColumn name="pricingTypeId">
+            <Property name="property">pricingTypeId</Property>
+            <Property name="width">60</Property>
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="status">
+            <Property name="property">status</Property>
+            <Property name="width">50</Property>
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+          <DataColumn name="remark">
+            <Property name="property">remark</Property>
+            <Property name="readOnly">true</Property>
+          </DataColumn>
+        </DataGrid>
+        <Dialog id="dialogDetailEdit">
+          <Property name="width">600</Property>
+          <Property name="height">400</Property>
+          <Buttons>
+            <Button id="buttonSaveDetail">
+              <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+              <Property name="caption">保存</Property>
+            </Button>
+            <Button id="buttonCancelDetail">
+              <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+              <Property name="caption">取消</Property>
+            </Button>
+          </Buttons>
+          <Children>
+            <AutoForm id="autoFormDetail">
+              <Property name="dataSet">dataSetBuildingDetail</Property>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">code</Property>
+                <Property name="property">code</Property>
+                <Property name="readOnly">true</Property>
+                <Property name="editorWidth">180</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">roomNo</Property>
+                <Property name="property">roomNo</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">waterMeterCode</Property>
+                <Property name="property">waterMeterCode</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">userName</Property>
+                <Property name="label">用户名称</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">contractorName</Property>
+                <Property name="label">承包者名称</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">apportionTypeId</Property>
+                <Property name="property">apportionTypeId</Property>
+                <Property name="trigger">dataSetDropDownApportionType</Property>
+                <Property name="editable">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">pricingTypeId</Property>
+                <Property name="property">pricingTypeId</Property>
+                <Property name="trigger">dataSetDropDownPricingType</Property>
+                <Property name="editable">false</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">status</Property>
+                <Property name="property">status</Property>
+                <Property name="editorWidth">180</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">remark</Property>
+                <Property name="property">remark</Property>
+                <Property name="editorType">TextArea</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+            <DataSetDropDown id="dataSetDropDownPricingType">
+              <Property name="dataSet">dataSetPricingType</Property>
+              <Property name="displayProperty">pricingName</Property>
+              <Property name="property">id</Property>
+            </DataSetDropDown>
+            <DataSet id="dataSetPricingType">
+              <Property name="dataProvider">pricingTypeService#queryAll</Property>
+            </DataSet>
+            <DataSetDropDown id="dataSetDropDownApportionType">
+              <Property name="dataSet">dataSetApportionType</Property>
+              <Property name="displayProperty">apportionName</Property>
+              <Property name="property">id</Property>
+            </DataSetDropDown>
+            <DataSet id="dataSetApportionType">
+              <Property name="dataProvider">apportionTypeService#queryAll</Property>
+            </DataSet>
+            <Trigger id="triggerUserCode">
+              <Property name="iconClass">d-trigger-icon-search</Property>
+            </Trigger>
+            <Dialog id="dialogUserCode">
+              <Property name="width">500</Property>
+              <Property name="height">400</Property>
+              <Property name="caption">用户查询</Property>
+              <Buttons/>
+              <Children>
+                <Container>
+                  <Property name="height">30</Property>
+                  <ToolBar>
+                    <ToolBarButton id="buttonSearchUser">
+                      <Property name="caption">查询</Property>
+                      <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+                    </ToolBarButton>
+                  </ToolBar>
+                </Container>
+                <Container>
+                  <AutoForm id="autoFormUserCondition">
+                    <Property name="createPrivateDataSet">true</Property>
+                    <Property name="labelAlign">left</Property>
+                    <AutoFormElement>
+                      <Property name="label">用户名</Property>
+                      <Property name="name">userName</Property>
+                      <Property name="labelWidth">50</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">addr</Property>
+                      <Property name="label">地址</Property>
+                      <Property name="labelWidth">50</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="name">idCardNo</Property>
+                      <Property name="label">身份证</Property>
+                      <Property name="labelWidth">50</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                    <AutoFormElement>
+                      <Property name="label">手机</Property>
+                      <Property name="name">mobile</Property>
+                      <Property name="labelWidth">50</Property>
+                      <Editor/>
+                    </AutoFormElement>
+                  </AutoForm>
+                  <ToolBar>
+                    <DataPilot id="datapilotUser">
+                      <Property name="itemCodes">pages,pageSize</Property>
+                      <Property name="dataSet">dataSetUser</Property>
+                    </DataPilot>
+                  </ToolBar>
+                  <DataGrid id="datagridUser">
+                    <Property name="dataSet">dataSetUser</Property>
+                    <Property name="height">400</Property>
+                    <Property name="readOnly">true</Property>
+                    <DataColumn name="id">
+                      <Property name="property">id</Property>
+                      <Property name="readOnly">true</Property>
+                      <Property name="visible">false</Property>
+                    </DataColumn>
+                    <DataColumn name="userName">
+                      <Property name="property">userName</Property>
+                      <Property name="width">60</Property>
+                    </DataColumn>
+                    <DataColumn name="sex">
+                      <Property name="property">sex</Property>
+                      <Property name="width">30</Property>
+                    </DataColumn>
+                    <DataColumn name="idCardNo">
+                      <Property name="property">idCardNo</Property>
+                      <Property name="width">100</Property>
+                    </DataColumn>
+                    <DataColumn name="addr">
+                      <Property name="property">addr</Property>
+                    </DataColumn>
+                    <DataColumn name="mobile">
+                      <Property name="property">mobile</Property>
+                      <Property name="width">80</Property>
+                    </DataColumn>
+                  </DataGrid>
+                </Container>
+              </Children>
+              <Tools/>
+            </Dialog>
+            <DataSet id="dataSetUser">
+              <Property name="dataProvider">userService#queryForCondition</Property>
+              <Property name="dataType">[PayUser]</Property>
+              <Property name="pageSize">20</Property>
+            </DataSet>
+            <UpdateAction id="updateActionSaveDetail">
+              <Property name="confirmMessage">是否确认保存？</Property>
+              <Property name="executingMessage">保存中...</Property>
+              <Property name="successMessage">保存成功！</Property>
+              <Property name="dataResolver">buildingDetailService#saveAll</Property>
+              <UpdateItem>
+                <Property name="dataSet">dataSetBuildingDetail</Property>
+              </UpdateItem>
+            </UpdateAction>
+          </Children>
+          <Tools/>
+        </Dialog>
+        <Dialog id="dialogUpdateWaterMeter">
+          <Property name="caption">更换水表</Property>
+          <Buttons>
+            <Button id="buttonSaveReplaceHistory">
+              <Property name="caption">保存</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+            </Button>
+            <Button id="buttonCancelReplaceHistory">
+              <Property name="caption">取消</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            </Button>
+          </Buttons>
+          <Children>
+            <AutoForm id="autoFormReplaceWaterMeter">
+              <Property name="dataSet">dataSetReplaceWaterMeter</Property>
+              <Property name="width">300</Property>
+              <Property name="height">200</Property>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">oldWaterMeterCode</Property>
+                <Property name="property">oldWaterMeterCode</Property>
+                <Property name="label">原表号</Property>
+                <Property name="readOnly">true</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">newWaterMeterCode</Property>
+                <Property name="property">newWaterMeterCode</Property>
+                <Property name="label">更新表号</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">qty</Property>
+                <Property name="property">qty</Property>
+                <Property name="width">200</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">remark</Property>
+                <Property name="property">remark</Property>
+                <Property name="editorType">TextArea</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+            <UpdateAction id="updateActionReplaceWaterMeter">
+              <Property name="confirmMessage">是否更换水表？</Property>
+              <Property name="executingMessage">更换中...</Property>
+              <Property name="successMessage">更换成功</Property>
+              <Property name="dataResolver">replaceWaterMeterHistoryService#save</Property>
+              <UpdateItem>
+                <Property name="dataSet">dataSetReplaceWaterMeter</Property>
+              </UpdateItem>
+            </UpdateAction>
+          </Children>
+          <Tools/>
+        </Dialog>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="BuildingInfo" parent="global:BuildingInfo"/>
+  </Model>
+  <View>
+    <GroupStart id="triggerBuildingInfo"/>
+    <Trigger id="triggerBuildingCode">
+      <ClientEvent name="onExecute" signature="self,arg,dialogBuildingCode">&#xD;
+dialogBuildingCode.set(&quot;userData&quot;, arg.editor);&#xD;
+dialogBuildingCode.show();</ClientEvent>
+      <Property name="iconClass">d-trigger-icon-search</Property>
+    </Trigger>
+    <Dialog id="dialogBuildingCode">
+      <ClientEvent name="onDoubleClick">var dialog = self.findParent(dorado.widget.Dialog);&#xD;
+var editor = dialog.get(&quot;userData&quot;); // 取得对应的编辑框 &#xD;
+&#xD;
+&#xD;
+var building= dataSetBuilding.getData(&quot;#&quot;);&#xD;
+var id=building.get(&quot;id&quot;);&#xD;
+&#xD;
+editor.set(&quot;text&quot;, id);</ClientEvent>
+      <Property name="width">400</Property>
+      <Property name="height">400</Property>
+      <Property name="caption">楼宇查询</Property>
+      <Buttons/>
+      <Children>
+        <Container>
+          <Property name="height">30</Property>
+          <ToolBar>
+            <ToolBarButton id="buttonSearchBuilding">
+              <ClientEvent name="onClick" signature="self,arg,autoFormBuildingCondition,dataSetBuilding">//获取autoformCondition绑定的实体对象&#xD;
+&#xD;
+var entity = autoFormBuildingCondition.get(&quot;entity&quot;);&#xD;
+&#xD;
+		//将实体对象作为参数传入，并异步刷新&#xD;
+dataSetBuilding.set(&quot;parameter&quot;,entity).flushAsync();</ClientEvent>
+              <Property name="caption">查询</Property>
+              <Property name="icon">url(>skin>common/icons.gif) -40px -100px</Property>
+            </ToolBarButton>
+          </ToolBar>
+        </Container>
+        <Container>
+          <AutoForm id="autoFormBuildingCondition">
+            <Property name="createPrivateDataSet">true</Property>
+            <Property name="labelAlign">left</Property>
+            <AutoFormElement>
+              <Property name="label">楼宇编号</Property>
+              <Property name="name">code</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+          <ToolBar>
+            <DataPilot id="datapilotBuilding">
+              <Property name="itemCodes">pages,pageSize</Property>
+              <Property name="dataSet">dataSetBuilding</Property>
+            </DataPilot>
+          </ToolBar>
+          <DataGrid id="datagridBuilding">
+            <ClientEvent name="onClick">var autoForm=view.get(&quot;#autoFormWaterMeterInfo&quot;);&#xD;
+	&#xD;
+alert(autoForm.get(&quot;entity&quot;));</ClientEvent>
+            <Property name="dataSet">dataSetBuilding</Property>
+            <Property name="height">400</Property>
+            <Property name="readOnly">true</Property>
+            <DataColumn name="id">
+              <Property name="property">id</Property>
+              <Property name="visible">false</Property>
+            </DataColumn>
+            <DataColumn name="code">
+              <Property name="property">code</Property>
+            </DataColumn>
+            <DataColumn name="name">
+              <Property name="property">name</Property>
+            </DataColumn>
+          </DataGrid>
+        </Container>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <DataSet id="dataSetBuilding">
+      <Property name="dataProvider">buildingInfoService#queryForCondition</Property>
+      <Property name="dataType">[BuildingInfo]</Property>
+      <Property name="pageSize">40</Property>
+    </DataSet>
+    <GroupEnd/>
+  </View>
+</ViewConfig>

@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType name="PayApportionType" meta="x:45;y:30">
+    <Property name="matchType">com.pay.pojo.PayApportionType</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">int</Property>
+      <Property name="label">ID</Property>
+    </PropertyDef>
+    <PropertyDef name="apportionName">
+      <Property></Property>
+      <Property name="label">分摊类型</Property>
+    </PropertyDef>
+    <PropertyDef name="percent">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">分摊占比</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property></Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改用户</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayBuildingInfo">
+    <Property name="matchType">com.pay.pojo.PayBuildingInfo</Property>
+    <PropertyDef name="code">
+      <Property></Property>
+      <Property name="label">楼宇编号</Property>
+      <Property name="dataType">String</Property>
+    </PropertyDef>
+    <PropertyDef name="housemaster">
+      <Property></Property>
+      <Property name="label">户主</Property>
+    </PropertyDef>
+    <PropertyDef name="mobile">
+      <Property></Property>
+      <Property name="label">联系电话</Property>
+    </PropertyDef>
+    <PropertyDef name="addr">
+      <Property></Property>
+      <Property name="label">地址</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建用户</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改用户</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayPricingType">
+    <Property name="matchType">com.pay.pojo.PayPricingType</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">int</Property>
+      <Property name="label">ID</Property>
+    </PropertyDef>
+    <PropertyDef name="pricingName">
+      <Property></Property>
+      <Property name="label">计价名称（征收类型）</Property>
+    </PropertyDef>
+    <PropertyDef name="pricingDesc">
+      <Property></Property>
+      <Property name="label">描述</Property>
+    </PropertyDef>
+    <PropertyDef name="price">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">单价</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建用户</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayUser">
+    <Property name="matchType">com.pay.pojo.PayUser</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">int</Property>
+      <Property name="label">ID</Property>
+    </PropertyDef>
+    <PropertyDef name="userName">
+      <Property></Property>
+      <Property name="label">用户名</Property>
+    </PropertyDef>
+    <PropertyDef name="sex">
+      <Property name="dataType">int</Property>
+      <Property name="label">性别</Property>
+      <Property name="mapping">
+        <Property name="mapValues">${dorado.getDataProvider(&quot;userService#getSexDesc&quot;).getResult()}</Property>
+      </Property>
+    </PropertyDef>
+    <PropertyDef name="idCardNo">
+      <Property></Property>
+      <Property name="label">身份证</Property>
+    </PropertyDef>
+    <PropertyDef name="addr">
+      <Property></Property>
+      <Property name="label">地址</Property>
+    </PropertyDef>
+    <PropertyDef name="printName">
+      <Property></Property>
+      <Property name="label">打印名称</Property>
+    </PropertyDef>
+    <PropertyDef name="tel">
+      <Property></Property>
+      <Property name="label">固话</Property>
+    </PropertyDef>
+    <PropertyDef name="mobile">
+      <Property></Property>
+      <Property name="label">手机</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property></Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayBuildingDetail">
+    <Property name="matchType">com.pay.pojo.PayBuildingDetail</Property>
+    <PropertyDef name="code">
+      <Property></Property>
+      <Property name="label">楼宇编号</Property>
+    </PropertyDef>
+    <PropertyDef name="roomNo">
+      <Property></Property>
+      <Property name="label">房间号</Property>
+    </PropertyDef>
+    <PropertyDef name="userName">
+      <Property name="label">用户</Property>
+    </PropertyDef>
+    <PropertyDef name="waterMeterCode">
+      <Property></Property>
+      <Property name="label">水表编号</Property>
+    </PropertyDef>
+    <PropertyDef name="apportionTypeId">
+      <Property name="dataType">int</Property>
+      <Property name="label">分摊ID</Property>
+    </PropertyDef>
+    <PropertyDef name="pricingTypeId">
+      <Property name="dataType">int</Property>
+      <Property name="label">计费ID</Property>
+    </PropertyDef>
+    <PropertyDef name="contractorName">
+      <Property name="label">承包者</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property></Property>
+      <Property name="label">最后修改时间</Property>
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayWaterMeterInfo">
+    <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInfo</Property>
+    <PropertyDef name="waterMeterCode">
+      <Property></Property>
+      <Property name="label">水表号</Property>
+    </PropertyDef>
+    <PropertyDef name="openDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">开表日期</Property>
+    </PropertyDef>
+    <PropertyDef name="closeDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">关闭日期</Property>
+    </PropertyDef>
+    <PropertyDef name="currentQty">
+      <Property name="dataType">int</Property>
+      <Property name="label">当前吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property name="label">备注</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayReplaceWaterMeterHistory">
+    <Property name="matchType">com.pay.pojo.PayReplaceWaterMeterHistory</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">int</Property>
+      <Property name="label">ID</Property>
+    </PropertyDef>
+    <PropertyDef name="buildingCode">
+      <Property></Property>
+      <Property name="label">楼宇编号</Property>
+    </PropertyDef>
+    <PropertyDef name="roomNo">
+      <Property></Property>
+      <Property name="label">房间号</Property>
+    </PropertyDef>
+    <PropertyDef name="oldWaterMeterCode">
+      <Property></Property>
+      <Property name="label">更换前编号</Property>
+    </PropertyDef>
+    <PropertyDef name="qty">
+      <Property name="label">换表时吨数</Property>
+      <Property name="dataType">BigDecimal</Property>
+    </PropertyDef>
+    <PropertyDef name="newWaterMeterCode">
+      <Property></Property>
+      <Property name="label">更换后编号</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayWaterMeterInputHeader">
+    <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInputHeader</Property>
+    <PropertyDef name="code">
+      <Property></Property>
+      <Property name="label">编号</Property>
+    </PropertyDef>
+    <PropertyDef name="monthlyCycle">
+      <Property name="dataType">int</Property>
+      <Property name="label">月度</Property>
+    </PropertyDef>
+    <PropertyDef name="beginDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">开始日期</Property>
+    </PropertyDef>
+    <PropertyDef name="endDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">结束日期</Property>
+    </PropertyDef>
+    <PropertyDef name="beforeQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">上次吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="currentQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">当前吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayWaterMeterInputDetail">
+    <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInputDetail</Property>
+    <PropertyDef name="code">
+      <Property></Property>
+      <Property name="label">编码</Property>
+    </PropertyDef>
+    <PropertyDef name="buildingCode">
+      <Property></Property>
+      <Property name="label">楼宇编号</Property>
+    </PropertyDef>
+    <PropertyDef name="roomNo">
+      <Property></Property>
+      <Property name="label">房间号</Property>
+    </PropertyDef>
+    <PropertyDef name="waterMeterCode">
+      <Property></Property>
+      <Property name="label">水表号</Property>
+    </PropertyDef>
+    <PropertyDef name="beforeQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">上次吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="currentQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">当前吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="garbagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">垃圾费</Property>
+    </PropertyDef>
+    <PropertyDef name="networkPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">网管费</Property>
+    </PropertyDef>
+    <PropertyDef name="sewagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">排污费</Property>
+    </PropertyDef>
+    <PropertyDef name="otherPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">其它费用</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+    <PropertyDef name="monthlyCycle">
+      <Property name="dataType">int</Property>
+      <Property name="label">monthly_cycle</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayWaterMeterInputBuilding">
+    <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInputBuilding</Property>
+    <PropertyDef name="code">
+      <Property></Property>
+      <Property name="label">编码</Property>
+    </PropertyDef>
+    <PropertyDef name="monthlyCycle">
+      <Property name="dataType">int</Property>
+      <Property name="label">月度</Property>
+    </PropertyDef>
+    <PropertyDef name="buildingCode">
+      <Property></Property>
+      <Property name="label">楼宇编码</Property>
+    </PropertyDef>
+    <PropertyDef name="beforeQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">上次吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="currentQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">当前吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayOrderInfo">
+    <Property name="matchType">com.pay.pojo.waterpay.PayOrderInfo</Property>
+    <PropertyDef name="orderCode">
+      <Property></Property>
+      <Property name="label">编号</Property>
+    </PropertyDef>
+    <PropertyDef name="buildingCode">
+      <Property></Property>
+      <Property name="label">楼宇编号</Property>
+    </PropertyDef>
+    <PropertyDef name="roomNo">
+      <Property></Property>
+      <Property name="label">房间号</Property>
+    </PropertyDef>
+    <PropertyDef name="monthlyCycle">
+      <Property name="dataType">int</Property>
+      <Property name="label">月度</Property>
+    </PropertyDef>
+    <PropertyDef name="waterBeforeQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">上次吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="waterCurrentQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">当前吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="actualQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">实际吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="waterApportionQty">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">分摊吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="price">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">单价</Property>
+    </PropertyDef>
+    <PropertyDef name="waterPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">水费金额</Property>
+    </PropertyDef>
+    <PropertyDef name="garbagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">垃圾费</Property>
+    </PropertyDef>
+    <PropertyDef name="apportionPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">分摊金额</Property>
+    </PropertyDef>
+    <PropertyDef name="lateFee">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">滞纳金</Property>
+    </PropertyDef>
+    <PropertyDef name="networkPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">网管费</Property>
+    </PropertyDef>
+    <PropertyDef name="sewagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">排污费</Property>
+    </PropertyDef>
+    <PropertyDef name="otherPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">其它费用</Property>
+    </PropertyDef>
+    <PropertyDef name="totalPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">总计</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="payDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">缴费日期</Property>
+    </PropertyDef>
+    <PropertyDef name="tollCollector">
+      <Property></Property>
+      <Property name="label">收费员</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayRoomGroup">
+    <Property name="matchType">com.pay.pojo.PayRoomGroup</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">int</Property>
+      <Property name="label">ID</Property>
+    </PropertyDef>
+    <PropertyDef name="name">
+      <Property></Property>
+      <Property name="label">组名</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">描述</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">int</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+  </DataType>
+</Model>

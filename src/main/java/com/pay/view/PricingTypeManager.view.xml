@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayPricingType" parent="global:PayPricingType"/>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonAdd">
+        <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        <Property name="caption">新增</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEdit">
+        <Property name="caption">编辑</Property>
+        <Property name="action">updateActionSave</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDel">
+        <Property name="caption">删除并保存</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">400,*,*</Property>
+      <Property name="labelSeparator">:</Property>
+      <AutoFormElement>
+        <Property name="name">name</Property>
+        <Property name="label">计价名称</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetPricingType">
+      <Property name="dataType">[PayPricingType]</Property>
+      <Property name="dataProvider">pricingTypeService#queryForCondition</Property>
+      <Property name="loadMode">lazy</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="datapilotPricingType">
+        <Property name="itemCodes">pages,pageSize</Property>
+        <Property name="dataSet">dataSetPricingType</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="datagridPricingType">
+      <Property name="dataSet">dataSetPricingType</Property>
+      <Property name="height">400</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="pricingName">
+        <Property name="property">pricingName</Property>
+      </DataColumn>
+      <DataColumn name="pricingDesc">
+        <Property name="property">pricingDesc</Property>
+      </DataColumn>
+      <DataColumn name="price">
+        <Property name="property">price</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionSave">
+      <Property name="successMessage">保存成功！</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="confirmMessage">是否确认保存？</Property>
+      <Property name="hotkey">ctrl+s</Property>
+      <Property name="dataResolver">pricingTypeService#saveAll</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetPricingType</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogEdit">
+      <Property name="width">650</Property>
+      <Property name="height">500</Property>
+      <Property name="caption">计价信息</Property>
+      <Buttons>
+        <Button id="buttonSave">
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">保存</Property>
+        </Button>
+        <Button id="buttonCancel">
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormPricingType">
+          <Property name="dataSet">dataSetPricingType</Property>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">pricingName</Property>
+            <Property name="property">pricingName</Property>
+            <Property name="label">计价名称</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">pricingDesc</Property>
+            <Property name="property">pricingDesc</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">price</Property>
+            <Property name="property">price</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

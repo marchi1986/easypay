@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="Condition">
+      <PropertyDef name="payDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">缴费日期</Property>
+      </PropertyDef>
+      <PropertyDef name="summaryType"/>
+    </DataType>
+    <DataType name="PayOrderInfo" parent="global:PayOrderInfo"/>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="caption">查询</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataType">Condition</Property>
+      <Property name="createPrivateDataSet">true</Property>
+      <AutoFormElement>
+        <Property name="name">payDate</Property>
+        <Property name="property">payDate</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetSummary">
+      <Property name="dataProvider">orderInfoService#querySummaryForCondition</Property>
+      <Property name="dataType">[PayOrderInfo]</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataGrid id="dataGridSummary">
+      <Property name="dataSet">dataSetSummary</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="payDate">
+        <Property name="property">payDate</Property>
+      </DataColumn>
+      <DataColumn name="waterBeforeQty">
+        <Property name="property">waterBeforeQty</Property>
+      </DataColumn>
+      <DataColumn name="waterCurrentQty">
+        <Property name="property">waterCurrentQty</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">actualQty</Property>
+        <Property name="property">actualQty</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn name="waterApportionQty">
+        <Property name="property">waterApportionQty</Property>
+      </DataColumn>
+      <DataColumn name="waterPrice">
+        <Property name="property">waterPrice</Property>
+      </DataColumn>
+      <DataColumn name="garbagePrice">
+        <Property name="property">garbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="apportionPrice">
+        <Property name="property">apportionPrice</Property>
+      </DataColumn>
+      <DataColumn name="lateFee">
+        <Property name="property">lateFee</Property>
+      </DataColumn>
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
+      <DataColumn name="sewagePrice">
+        <Property name="property">sewagePrice</Property>
+      </DataColumn>
+      <DataColumn name="otherPrice">
+        <Property name="property">otherPrice</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">totalPrice</Property>
+        <Property name="property">totalPrice</Property>
+        <Editor/>
+      </DataColumn>
+    </DataGrid>
+  </View>
+</ViewConfig>

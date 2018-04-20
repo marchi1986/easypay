@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayApportionType" parent="global:PayApportionType"/>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonAdd">
+        <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        <Property name="caption">新增</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEdit">
+        <Property name="caption">编辑</Property>
+        <Property name="action">updateActionSave</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDel">
+        <Property name="caption">删除并保存</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonRefreshCache">
+        <Property name="icon">url(>skin>common/icons.gif) -40px -240px</Property>
+        <Property name="action">ajaxActionRefreshCache</Property>
+        <Property name="caption">刷新缓存</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">400,*,*</Property>
+      <Property name="labelSeparator">:</Property>
+      <AutoFormElement>
+        <Property name="name">name</Property>
+        <Property name="label">分摊名称</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetApportionType">
+      <Property name="dataType">[PayApportionType]</Property>
+      <Property name="dataProvider">apportionTypeService#queryForCondition</Property>
+      <Property name="loadMode">lazy</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="datapilotApportionType">
+        <Property name="itemCodes">pages,pageSize</Property>
+        <Property name="dataSet">dataSetApportionType</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="datagridApportionType">
+      <Property name="dataSet">dataSetApportionType</Property>
+      <Property name="height">400</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="apportionName">
+        <Property name="property">apportionName</Property>
+      </DataColumn>
+      <DataColumn name="percent">
+        <Property name="property">percent</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionSave">
+      <Property name="successMessage">保存成功！</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="confirmMessage">是否确认保存？</Property>
+      <Property name="hotkey">ctrl+s</Property>
+      <Property name="dataResolver">apportionTypeService#saveAll</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetApportionType</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogEdit">
+      <Property name="width">650</Property>
+      <Property name="height">500</Property>
+      <Property name="caption">分摊信息</Property>
+      <Buttons>
+        <Button id="buttonSave">
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">保存</Property>
+        </Button>
+        <Button id="buttonCancel">
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormApportionType">
+          <Property name="dataSet">dataSetApportionType</Property>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">apportionName</Property>
+            <Property name="property">apportionName</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">percent</Property>
+            <Property name="property">percent</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="ajaxActionRefreshCache">
+      <Property name="confirmMessage">是否刷新缓存</Property>
+      <Property name="executingMessage">刷新中...</Property>
+      <Property name="successMessage">刷新成功！</Property>
+      <Property name="service">apportionTypeService#refreshCache</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

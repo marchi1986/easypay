@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="rxtx">
+      <PropertyDef name="port">
+        <Property name="label">端口名称</Property>
+      </PropertyDef>
+      <PropertyDef name="baudRate">
+        <Property name="label">串行口波特率</Property>
+      </PropertyDef>
+      <PropertyDef name="displayRate">
+        <Property name="label">显示屏波特率</Property>
+      </PropertyDef>
+      <PropertyDef name="state">
+        <Property name="label">内容</Property>
+      </PropertyDef>
+      <PropertyDef name="data">
+        <Property name="label">数据</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="port">
+      <Property name="creationType">com.common.rxtx.RxtxPortModel</Property>
+      <PropertyDef name="portName">
+        <Property name="label">串口名称</Property>
+      </PropertyDef>
+      <PropertyDef name="currentOwner">
+        <Property></Property>
+      </PropertyDef>
+      <PropertyDef name="portType">
+        <Property name="dataType">Integer</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonSave">
+        <Property name="caption">保存设置</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonTest">
+        <Property name="caption">测试</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormRxtx">
+      <Property name="cols">*</Property>
+      <Property name="dataType">rxtx</Property>
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="height">300</Property>
+      <Property name="width">800</Property>
+      <Property name="labelWidth">100</Property>
+      <AutoFormElement>
+        <Property name="name">port</Property>
+        <Property name="property">port</Property>
+        <Property name="trigger">dataSetDropDownPort</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">baudRate</Property>
+        <Property name="property">baudRate</Property>
+        <Property name="trigger">listDropDownBaudRate</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">displayRate</Property>
+        <Property name="property">displayRate</Property>
+        <Property name="trigger">listDropDownDisplayRate</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">state</Property>
+        <Property name="property">state</Property>
+        <Property name="trigger">listDropDownState</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">data</Property>
+        <Property name="property">data</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <Label>
+      <Property name="text">串行口波特率与显示屏波特率对应关系（2400：0，9600：2）</Property>
+    </Label>
+    <DataSet id="dataSetRxtx">
+      <Property name="dataType">rxtx</Property>
+    </DataSet>
+    <ListDropDown id="listDropDownBaudRate">
+      <Property name="items">
+        <Collection>
+          <Entity>
+            <Property name="key">2400</Property>
+            <Property name="value">2400</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">9600</Property>
+            <Property name="value">9600</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="displayProperty">key</Property>
+      <Property name="property">value</Property>
+    </ListDropDown>
+    <DataSetDropDown id="dataSetDropDownPort">
+      <Property name="dataSet">dataSetPort</Property>
+      <Property name="displayProperty">portName</Property>
+      <Property name="property">portName</Property>
+    </DataSetDropDown>
+    <DataSet id="dataSetPort">
+      <Property name="dataType">[port]</Property>
+      <Property name="dataProvider">rxtxService#listAvailableCommPorts</Property>
+      <Property name="loadMode">onReady</Property>
+    </DataSet>
+    <ListDropDown id="listDropDownDisplayRate">
+      <Property name="items">
+        <Collection>
+          <Entity>
+            <Property name="key">0</Property>
+            <Property name="value">0</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">1</Property>
+            <Property name="value">1</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">2</Property>
+            <Property name="value">2</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="displayProperty">key</Property>
+      <Property name="property">value</Property>
+    </ListDropDown>
+    <ListDropDown id="listDropDownState">
+      <Property name="items">
+        <Collection>
+          <Entity>
+            <Property name="key">全暗</Property>
+            <Property name="value">0</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">单价</Property>
+            <Property name="value">1</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">总计</Property>
+            <Property name="value">2</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">收款</Property>
+            <Property name="value">3</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">找零</Property>
+            <Property name="value">4</Property>
+          </Entity>
+        </Collection>
+      </Property>
+      <Property name="displayProperty">key</Property>
+      <Property name="property">value</Property>
+    </ListDropDown>
+    <AjaxAction id="ajaxActionSendDisplay">
+      <Property name="service">rxtxService#sendDisplayTest</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionSave">
+      <Property name="service">rxtxService#save</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

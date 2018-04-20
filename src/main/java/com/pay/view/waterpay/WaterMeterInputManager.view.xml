@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayWaterMeterInputHeader" parent="global:PayWaterMeterInputHeader">
+      <PropertyDef name="status">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;waterMeterInputHeaderService#getStatusDesc&quot;).getResult()}</Property>
+        </Property>
+        <Property name="label">状态</Property>
+      </PropertyDef>
+      <PropertyDef name="inputPercent">
+        <Property name="label">录入比</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="Condition">
+      <PropertyDef name="monthlyCycle">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">YM</Property>
+        <Property name="label">月度</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetCondition">
+      <Property name="dataType">Condition</Property>
+    </DataSet>
+    <DataSet id="dataSetInputHeader">
+      <Property name="dataType">[PayWaterMeterInputHeader]</Property>
+      <Property name="dataProvider">waterMeterInputHeaderService#queryPageForCondition</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonConfirm">
+        <Property name="caption">确认（开始收费）</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDelete">
+        <Property name="caption">删除</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataSet">dataSetCondition</Property>
+      <AutoFormElement>
+        <Property name="name">monthlyCycle</Property>
+        <Property name="property">monthlyCycle</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <ToolBar>
+      <DataPilot id="dataPilotInputHeader">
+        <Property name="dataSet">dataSetInputHeader</Property>
+        <Property name="itemCodes">pages,pageSize</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="dataGridInputHeader">
+      <Property name="dataSet">dataSetInputHeader</Property>
+      <Property name="readOnly">true</Property>
+      <Property name="highlightCurrentRow">true</Property>
+      <DataColumn name="code">
+        <Property name="property">code</Property>
+      </DataColumn>
+      <DataColumn name="monthlyCycle">
+        <Property name="property">monthlyCycle</Property>
+      </DataColumn>
+      <DataColumn name="beginDate">
+        <Property name="property">beginDate</Property>
+      </DataColumn>
+      <DataColumn name="endDate">
+        <Property name="property">endDate</Property>
+      </DataColumn>
+      <DataColumn name="status">
+        <Property name="property">status</Property>
+      </DataColumn>
+      <DataColumn name="inputPercent">
+        <Property name="property">inputPercent</Property>
+        <Property name="align">right</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+      <DataColumn name="createUser">
+        <Property name="property">createUser</Property>
+      </DataColumn>
+      <DataColumn name="createTime">
+        <Property name="property">createTime</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionConfirm">
+      <Property name="dataResolver">waterMeterInputHeaderService#confirm</Property>
+      <Property name="confirmMessage">是否确认？</Property>
+      <Property name="executingMessage">确认中...</Property>
+      <Property name="successMessage">确认成功！</Property>
+    </UpdateAction>
+    <UpdateAction id="updateActionDelete">
+      <Property name="executingMessage">删除中...</Property>
+      <Property name="successMessage">删除成功！</Property>
+      <Property name="dataResolver">waterMeterInputHeaderService#delete</Property>
+    </UpdateAction>
+  </View>
+</ViewConfig>

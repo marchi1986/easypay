@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayRoomGroup" parent="global:PayRoomGroup">
+      <Reference name="buildingDetail">
+        <Property name="dataProvider">buildingDetailService#queryForCondition</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="groupId">$${this.id}</Property>
+          </Entity>
+        </Property>
+        <Property name="dataType">[PayBuildingDetail]</Property>
+      </Reference>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetGroup">
+      <Property name="pageSize">20</Property>
+      <Property name="dataProvider">roomGroupService#queryPageForCondition</Property>
+      <Property name="dataType">[PayRoomGroup]</Property>
+    </DataSet>
+    <Container layoutConstraint="left">
+      <Property name="width">400</Property>
+      <ToolBar>
+        <ToolBarButton id="buttonAddGroup">
+          <Property name="caption">新增</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="buttonEditGroup">
+          <Property name="caption">编辑</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+        </ToolBarButton>
+        <ToolBarButton id="buttonDelGroup">
+          <Property name="caption">删除</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+        </ToolBarButton>
+      </ToolBar>
+      <ToolBar>
+        <DataPilot id="dataPilotGroup">
+          <Property name="dataSet">dataSetGroup</Property>
+          <Property name="itemCodes">pages</Property>
+        </DataPilot>
+      </ToolBar>
+      <DataGrid id="dataGridGroup">
+        <Property name="dataSet">dataSetGroup</Property>
+        <Property name="showFilterBar">true</Property>
+        <Property name="readOnly">true</Property>
+        <DataColumn name="name">
+          <Property name="property">name</Property>
+        </DataColumn>
+        <DataColumn name="remark">
+          <Property name="property">remark</Property>
+        </DataColumn>
+      </DataGrid>
+      <Dialog id="dialogEdit">
+        <Property name="width">400</Property>
+        <Property name="height">300</Property>
+        <Buttons>
+          <Button id="buttonSaveGroup">
+            <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+            <Property name="caption">保存</Property>
+          </Button>
+          <Button id="buttonCancelGroup">
+            <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+            <Property name="caption">取消</Property>
+          </Button>
+        </Buttons>
+        <Children>
+          <AutoForm id="autoFormGroup">
+            <Property name="dataSet">dataSetGroup</Property>
+            <Property name="cols">*</Property>
+            <AutoFormElement>
+              <Property name="name">name</Property>
+              <Property name="property">name</Property>
+              <Editor/>
+            </AutoFormElement>
+            <AutoFormElement>
+              <Property name="name">remark</Property>
+              <Property name="property">remark</Property>
+              <Property name="editorType">TextArea</Property>
+              <Editor/>
+            </AutoFormElement>
+          </AutoForm>
+          <UpdateAction id="updateActionSave">
+            <Property name="dataResolver">roomGroupService#saveAll</Property>
+            <UpdateItem>
+              <Property name="dataSet">dataSetGroup</Property>
+            </UpdateItem>
+          </UpdateAction>
+        </Children>
+        <Tools/>
+      </Dialog>
+    </Container>
+    <TabControl layoutConstraint="center">
+      <ControlTab>
+        <Property name="caption">用户</Property>
+        <Container>
+          <ToolBar>
+            <DataPilot id="dataPilotRoom">
+              <ClientEvent name="onSubControlAction">&#xD;
+</ClientEvent>
+              <Property name="itemCodes">pages,+,-</Property>
+              <Property name="dataSet">dataSetGroup</Property>
+              <Property name="dataPath">#.buildingDetail</Property>
+            </DataPilot>
+          </ToolBar>
+          <DataGrid>
+            <Property name="dataSet">dataSetGroup</Property>
+            <Property name="dataPath">#.buildingDetail</Property>
+            <Property name="readOnly">true</Property>
+            <DataColumn name="code">
+              <Property name="property">code</Property>
+            </DataColumn>
+            <DataColumn name="roomNo">
+              <Property name="property">roomNo</Property>
+            </DataColumn>
+            <DataColumn name="waterMeterCode">
+              <Property name="property">waterMeterCode</Property>
+            </DataColumn>
+          </DataGrid>
+          <Import src="com.pay.view.global.RoomSelect#roomSelect"/>
+        </Container>
+      </ControlTab>
+    </TabControl>
+    <AjaxAction id="ajaxActionUpdateGroup">
+      <Property name="service">roomGroupService#updateGroup</Property>
+      <Property name="successMessage">操作成功</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionDeleteGroup">
+      <Property name="service">roomGroupService#deleteGroup</Property>
+      <Property name="successMessage">操作成功</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

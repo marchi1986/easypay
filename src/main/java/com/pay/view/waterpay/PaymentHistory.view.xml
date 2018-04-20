@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayOrderInfo" parent="global:PayOrderInfo"/>
+    <DataType name="Condition">
+      <PropertyDef name="monthlyCycle">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">YM</Property>
+        <Property name="label">月度</Property>
+      </PropertyDef>
+      <PropertyDef name="buildingCode">
+        <Property name="label">楼宇编号</Property>
+      </PropertyDef>
+      <PropertyDef name="roomNo">
+        <Property name="label">房间编号</Property>
+      </PropertyDef>
+      <PropertyDef name="status"/>
+    </DataType>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataType">Condition</Property>
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">*,*,*</Property>
+      <AutoFormElement>
+        <Property name="name">monthlyCycle</Property>
+        <Property name="property">monthlyCycle</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">buildingCode</Property>
+        <Property name="property">buildingCode</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">roomNo</Property>
+        <Property name="property">roomNo</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetOrderInfo">
+      <Property name="dataType">[PayOrderInfo]</Property>
+      <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="pageSize">100</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="dataPilotOrderInfo">
+        <Property name="dataSet">dataSetOrderInfo</Property>
+        <Property name="itemCodes">pages,pageSize</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="dataGridOrderInfo">
+      <Property name="dataSet">dataSetOrderInfo</Property>
+      <Property name="readOnly">true</Property>
+      <Property name="highlightCurrentRow">true</Property>
+      <Property name="selectionMode">multiRows</Property>
+      <Property name="stretchColumnsMode">stretchableColumns</Property>
+      <RowSelectorColumn/>
+      <DataColumn name="monthlyCycle">
+        <Property name="property">monthlyCycle</Property>
+      </DataColumn>
+      <DataColumn name="buildingCode">
+        <Property name="property">buildingCode</Property>
+      </DataColumn>
+      <DataColumn name="roomNo">
+        <Property name="property">roomNo</Property>
+      </DataColumn>
+      <DataColumn name="waterBeforeQty">
+        <Property name="property">waterBeforeQty</Property>
+      </DataColumn>
+      <DataColumn name="waterCurrentQty">
+        <Property name="property">waterCurrentQty</Property>
+      </DataColumn>
+      <DataColumn name="waterApportionQty">
+        <Property name="property">waterApportionQty</Property>
+      </DataColumn>
+      <DataColumn name="price">
+        <Property name="property">price</Property>
+      </DataColumn>
+      <DataColumn name="waterPrice">
+        <Property name="property">waterPrice</Property>
+      </DataColumn>
+      <DataColumn name="apportionPrice">
+        <Property name="property">apportionPrice</Property>
+      </DataColumn>
+      <DataColumn name="lateFee">
+        <Property name="property">lateFee</Property>
+      </DataColumn>
+      <DataColumn name="garbagePrice">
+        <Property name="property">garbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
+      <DataColumn name="sewagePrice">
+        <Property name="property">sewagePrice</Property>
+      </DataColumn>
+      <DataColumn name="otherPrice">
+        <Property name="property">otherPrice</Property>
+      </DataColumn>
+      <DataColumn name="totalPrice">
+        <Property name="property">totalPrice</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionPrint">
+      <Property name="confirmMessage">是否打印？</Property>
+      <Property name="executingMessage">打印中...</Property>
+      <Property name="successMessage">打印成功！</Property>
+      <Property name="dataResolver">orderInfoService#updatePaymentInfo</Property>
+      <Property name="alwaysExecute">false</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetOrderInfo</Property>
+        <Property name="dataPath">!DIRTY_TREE</Property>
+      </UpdateItem>
+    </UpdateAction>
+  </View>
+</ViewConfig>

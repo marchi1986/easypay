@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayReplaceWaterMeterHistory" parent="global:PayReplaceWaterMeterHistory"/>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">400,*,*</Property>
+      <Property name="labelSeparator">:</Property>
+      <AutoFormElement>
+        <Property name="name">buildingCode</Property>
+        <Property name="label">楼宇名称</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">roomNo</Property>
+        <Property name="label">房间号</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetReplaceHistory">
+      <Property name="dataType">[PayReplaceWaterMeterHistory]</Property>
+      <Property name="dataProvider">replaceWaterMeterHistoryService#queryForCondition</Property>
+      <Property name="loadMode">lazy</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="datapilotReplaceHistory">
+        <Property name="itemCodes">pages,pageSize</Property>
+        <Property name="dataSet">dataSetReplaceHistory</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="datagridReplaceHistory">
+      <Property name="dataSet">dataSetReplaceHistory</Property>
+      <Property name="height">400</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="buildingCode">
+        <Property name="property">buildingCode</Property>
+      </DataColumn>
+      <DataColumn name="roomNo">
+        <Property name="property">roomNo</Property>
+      </DataColumn>
+      <DataColumn name="oldWaterMeterCode">
+        <Property name="property">oldWaterMeterCode</Property>
+      </DataColumn>
+      <DataColumn name="newWaterMeterCode">
+        <Property name="property">newWaterMeterCode</Property>
+      </DataColumn>
+      <DataColumn name="qty">
+        <Property name="property">qty</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+      <DataColumn name="createUser">
+        <Property name="property">createUser</Property>
+        <Property name="caption">操作人</Property>
+      </DataColumn>
+      <DataColumn name="createTime">
+        <Property name="property">createTime</Property>
+        <Property name="caption">操作时间</Property>
+      </DataColumn>
+    </DataGrid>
+  </View>
+</ViewConfig>

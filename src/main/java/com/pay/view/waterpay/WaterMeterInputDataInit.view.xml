@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayWaterMeterInputHeader" parent="global:PayWaterMeterInputHeader">
+      <PropertyDef name="monthly">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">YM</Property>
+        <Property name="label">月度</Property>
+        <Validator name="validator1" type="required"/>
+      </PropertyDef>
+      <PropertyDef name="beginDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">计费开始日期</Property>
+        <Validator name="validator1" type="required"/>
+        <Validator name="validator2" type="custom">
+          <ClientEvent name="onValidate">var monthly = arg.entity.get(&quot;monthly&quot;);&#xD;
+if (monthly > arg.data) {&#xD;
+	throw new dorado.Exception(&quot;开始日期不能小于月度！&quot;);&#xD;
+}</ClientEvent>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">计费结束日期</Property>
+        <Validator name="validator1" type="required"/>
+        <Validator name="validator2" type="custom">
+          <ClientEvent name="onValidate">var monthly = arg.entity.get(&quot;monthly&quot;);&#xD;
+if (monthly > arg.data) {&#xD;
+	throw new dorado.Exception(&quot;结束日期不能小于月度！&quot;);&#xD;
+}</ClientEvent>
+        </Validator>
+      </PropertyDef>
+    </DataType>
+    <DataType name="Condition">
+      <PropertyDef name="monthly">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">YM</Property>
+        <Property name="label">月度</Property>
+      </PropertyDef>
+      <PropertyDef name="buildCode">
+        <Property name="label">楼宇编号</Property>
+      </PropertyDef>
+      <PropertyDef name="beginDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">计费开始日期</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">计费结束日期</Property>
+      </PropertyDef>
+      <PropertyDef name="remark">
+        <Property name="label">备注</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="dataSetInputHeader">
+      <ClientEvent name="onReady">self.insert();&#xD;
+</ClientEvent>
+      <Property name="dataType">PayWaterMeterInputHeader</Property>
+    </DataSet>
+    <DataSet id="dataSetCondition">
+      <ClientEvent name="onReady">&#xD;
+</ClientEvent>
+      <Property name="dataType">Condition</Property>
+      <Property name="ignored">false</Property>
+    </DataSet>
+    <ToolBar>
+      <ToolBarButton id="buttonCreate">
+        <Property name="caption">初始化录入资料</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印抄表纸</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataSet">dataSetCondition</Property>
+      <Property name="cols">*</Property>
+      <AutoFormElement>
+        <Property name="name">monthly</Property>
+        <Property name="property">monthly</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
+        <Property name="labelWidth">120</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">beginDate</Property>
+        <Property name="property">beginDate</Property>
+        <Property name="labelWidth">120</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">endDate</Property>
+        <Property name="property">endDate</Property>
+        <Property name="labelWidth">120</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="property">buildCode</Property>
+        <Property name="name">buildCode</Property>
+        <Property name="labelWidth">120</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement layoutConstraint="colSpan:3">
+        <Property name="name">remark</Property>
+        <Property name="property">remark</Property>
+        <Property name="editorType">TextArea</Property>
+        <Property name="labelWidth">120</Property>
+        <Property name="width">500</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <UpdateAction id="updateActionCreate">
+      <Property name="confirmMessage">是否生成？</Property>
+      <Property name="executingMessage">生成中...</Property>
+      <Property name="successMessage">生成完成！</Property>
+      <Property name="dataResolver">waterMeterInputHeaderService#create</Property>
+    </UpdateAction>
+    <UpdateAction id="updateActionPrint">
+      <Property name="confirmMessage">是否打印？</Property>
+      <Property name="successMessage">打印完成！</Property>
+      <Property name="dataResolver">waterMeterInputHeaderService#print</Property>
+    </UpdateAction>
+  </View>
+</ViewConfig>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <HtmlContainer>
+      <Property name="style">
+        <Property name="background-image"></Property>
+        <Property name="background-repeat"> no-repeat</Property>
+        <Property name="background-color">${configure.getString(&quot;bdf2.mainFrameBackgroundColor&quot;)}</Property>
+      </Property>
+      <Property name="height">${configure.getString(&quot;bdf2.mainFrameBannerHeight&quot;)}</Property>
+      <Property name="width">100%</Property>
+      <Container layout="hbox align:bottom" listener="spring:bdf2.frameTopListener#onInit" layoutConstraint="right">
+        <Property name="contentOverflow">hidden</Property>
+        <Property name="width">300px</Property>
+      </Container>
+    </HtmlContainer>
+    <HtmlContainer>
+      <Container layout="hbox align:bottom" layoutConstraint="left">
+        <Property name="contentOverflow">hidden</Property>
+        <Label>
+          <Property name="text">白水塘实业有限公司收费系统</Property>
+          <Property name="style">
+            <Property name="font-size">22px</Property>
+            <Property name="text-shadow">#f3f3f3 1px 1px 0px, #b2b2b2 1px 2px 0</Property>
+            <Property name="overflow">visible</Property>
+            <Property name="display">block</Property>
+          </Property>
+        </Label>
+      </Container>
+    </HtmlContainer>
+    <HtmlContainer>
+      <Container layout="hbox align:top" layoutConstraint="right">
+        <Property name="contentOverflow">hidden</Property>
+        <Label>
+          <Property name="text">Ver 1.0.0      </Property>
+        </Label>
+      </Container>
+    </HtmlContainer>
+  </View>
+</ViewConfig>
