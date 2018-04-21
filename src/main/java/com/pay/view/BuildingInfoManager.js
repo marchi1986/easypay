@@ -41,7 +41,7 @@ var change="";
 //@Bind #buttonAdd.onClick
 !function(self,arg,dialogEdit,dataSetBuildingInfo,autoFormBuildingInfo){
 	
-	dataSetBuildingInfo.insert();
+	dataSetBuildingInfo.insert({"status":1});
 	
 	
 	dialogEdit.show();
@@ -58,7 +58,7 @@ var change="";
 //@Bind #buttonAddDetail.onClick
 !function(self,arg,dataSetBuildingInfo,dataSetBuildingDetail,dialogDetailEdit,autoFormDetail){
 	
-	dataSetBuildingDetail.insert({code:dataSetBuildingInfo.get("data:#").get("code"),"pricingTypeId":1,"apportionTypeId":1});
+	dataSetBuildingDetail.insert({code:dataSetBuildingInfo.get("data:#").get("code"),"pricingTypeId":1,"apportionTypeId":1,"status":1});
 	autoFormDetail.get("#waterMeterCode").set("readOnly",false);
 	dialogDetailEdit.show();
 	setFocus(autoFormDetail.getElement("roomNo").getDom());
@@ -71,8 +71,9 @@ var change="";
 }
 
 //@Bind #buttonEditDetail.onClick
-!function(self,arg,dialogDetailEdit,autoFormDetail){
+!function(self,arg,dialogDetailEdit,autoFormDetail,dataSetBuildingInfo){
 	autoFormDetail.get("#waterMeterCode").set("readOnly",true);
+	
 	dialogDetailEdit.show();
 }
 

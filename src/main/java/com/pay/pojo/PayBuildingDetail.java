@@ -45,13 +45,13 @@ public class PayBuildingDetail implements Serializable {
 	 * apportion_type_id:
 	 */
 	@PropertyDef(label = "apportion_type_id", description = "apportion_type_id:")
-	private int apportionTypeId;
+	private Integer apportionTypeId;
 
 	/**
 	 * pricing_type_id:
 	 */
 	@PropertyDef(label = "pricing_type_id", description = "pricing_type_id:")
-	private int pricingTypeId;
+	private Integer pricingTypeId;
 
 	/**
 	 * contractor_id:
@@ -63,7 +63,7 @@ public class PayBuildingDetail implements Serializable {
 	 * status:
 	 */
 	@PropertyDef(label = "status", description = "status:")
-	private int status;
+	private Integer status;
 
 	/**
 	 * remark:
@@ -75,7 +75,7 @@ public class PayBuildingDetail implements Serializable {
 	 * group_id:
 	 */
 	@PropertyDef(label = "group_id", description = "group_id:")
-	private int groupId;
+	private Integer groupId;
 
 	/**
 	 * create_user:
@@ -114,8 +114,8 @@ public class PayBuildingDetail implements Serializable {
 	
 
 
-	public PayBuildingDetail(String code, String roomNo, String userName, String waterMeterCode, int apportionTypeId,
-			int pricingTypeId, String contractorName, int status, String remark, int groupId, String createUser,
+	public PayBuildingDetail(String code, String roomNo, String userName, String waterMeterCode, Integer apportionTypeId,
+			Integer pricingTypeId, String contractorName, Integer status, String remark, Integer groupId, String createUser,
 			Date createTime, String lastModifyUser, Date lastModifyTime,BigDecimal monthlyQty) {
 		super();
 		this.code = code;
@@ -176,21 +176,21 @@ public class PayBuildingDetail implements Serializable {
 		return waterMeterCode;
 	}
 
-	public void setApportionTypeId(int apportionTypeId) {
+	public void setApportionTypeId(Integer apportionTypeId) {
 		this.apportionTypeId = apportionTypeId;
 	}
 
 	@Column(name = "apportion_type_id")
-	public int getApportionTypeId() {
+	public Integer getApportionTypeId() {
 		return apportionTypeId;
 	}
 
-	public void setPricingTypeId(int pricingTypeId) {
+	public void setPricingTypeId(Integer pricingTypeId) {
 		this.pricingTypeId = pricingTypeId;
 	}
 
 	@Column(name = "pricing_type_id")
-	public int getPricingTypeId() {
+	public Integer getPricingTypeId() {
 		return pricingTypeId;
 	}
 
@@ -203,12 +203,12 @@ public class PayBuildingDetail implements Serializable {
 		return contractorName;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
 	@Column(name = "status")
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
@@ -288,12 +288,12 @@ public class PayBuildingDetail implements Serializable {
 		this.monthlyQty = monthlyQty;
 	}
 	
-	public void setGroupId(int groupId) {
+	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
 	}
 
 	@Column(name = "group_id")
-	public int getGroupId() {
+	public Integer getGroupId() {
 		return groupId;
 	}
 

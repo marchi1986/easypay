@@ -27,6 +27,39 @@
         <Property name="dataType">String</Property>
       </PropertyDef>
     </DataType>
+    <DataType name="PayInfo">
+      <PropertyDef name="totalAmount">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">总金额</Property>
+      </PropertyDef>
+      <PropertyDef name="waterPayAmount">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">水费金额</Property>
+      </PropertyDef>
+      <PropertyDef name="garbagePayAmount">
+        <Property name="label">垃圾费金额</Property>
+      </PropertyDef>
+      <PropertyDef name="networkPayAmount">
+        <Property name="label">网费金额</Property>
+      </PropertyDef>
+      <PropertyDef name="sewagePayAmount">
+        <Property name="label">排污费金额</Property>
+      </PropertyDef>
+      <PropertyDef name="otherPayAmount">
+        <Property name="label">其它费用金额</Property>
+      </PropertyDef>
+      <PropertyDef name="lateFeeAmount">
+        <Property name="label">滞纳金</Property>
+        <Property name="dataType">BigDecimal</Property>
+      </PropertyDef>
+      <PropertyDef name="actualAmount">
+        <Property name="label">实收金额</Property>
+      </PropertyDef>
+      <PropertyDef name="giveChange">
+        <Property name="dataType">BigDecimal</Property>
+        <Property name="label">找零</Property>
+      </PropertyDef>
+    </DataType>
   </Model>
   <View>
     <ToolBar>
@@ -44,12 +77,6 @@
       <Property name="createPrivateDataSet">true</Property>
       <Property name="cols">*,*,*</Property>
       <AutoFormElement>
-        <Property name="name">monthlyCycle</Property>
-        <Property name="property">monthlyCycle</Property>
-        <Property name="trigger">defaultYearMonthDropDown</Property>
-        <Editor/>
-      </AutoFormElement>
-      <AutoFormElement>
         <Property name="name">buildingCode</Property>
         <Property name="property">buildingCode</Property>
         <Editor/>
@@ -57,6 +84,12 @@
       <AutoFormElement>
         <Property name="name">roomNo</Property>
         <Property name="property">roomNo</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">monthlyCycle</Property>
+        <Property name="property">monthlyCycle</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
         <Editor/>
       </AutoFormElement>
       <AutoFormElement>
@@ -162,57 +195,66 @@
         </Button>
       </Buttons>
       <Children>
-        <Container>
-          <Property name="height">70px</Property>
-          <Property name="width">400px</Property>
+        <AutoForm id="autoFormPay">
+          <Property name="dataSet">dataSetPay</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelWidth">150</Property>
+          <Property name="rowHeight">40</Property>
           <Property name="style">
-            <Property name="bordor">1px</Property>
+            <Property name="font-size">20px</Property>
           </Property>
-          <Label id="lblTitle" layoutConstraint="padding:20">
-            <Property name="text">应收金额：</Property>
-            <Property name="style">
-              <Property name="font-size">50px</Property>
-            </Property>
-          </Label>
-        </Container>
-        <Container>
-          <Property name="height">70px</Property>
-          <Property name="width">400px</Property>
-          <Label id="lblTotal" layoutConstraint="padding:20">
-            <Property name="style">
-              <Property name="font-size">50px</Property>
-            </Property>
-          </Label>
-        </Container>
-        <Container>
-          <Property name="width">400px</Property>
-          <Property name="height">70px</Property>
-          <Label id="lblActualAmount" layoutConstraint="padding:20">
-            <Property name="style">
-              <Property name="font-size">50px</Property>
-            </Property>
-            <Property name="text">实收金额：</Property>
-          </Label>
-        </Container>
-        <Container layoutConstraint="padding:15px">
-          <Property name="height">40px</Property>
-          <TextEditor id="editorAcutalAmount">
-            <Property name="width">200px</Property>
-            <Property name="style">
-              <Property name="padding-left">10px</Property>
-            </Property>
-            <Property name="dataType">BigDecimal</Property>
-          </TextEditor>
-        </Container>
-        <Container>
-          <Property name="height">70px</Property>
-          <Property name="width">550px</Property>
-          <Label id="lblSurplus" layoutConstraint="padding:20">
-            <Property name="style">
-              <Property name="font-size">50px</Property>
-            </Property>
-          </Label>
-        </Container>
+          <AutoFormElement>
+            <Property name="name">waterPayAmount</Property>
+            <Property name="property">waterPayAmount</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="garbagePayAmount">
+            <Property name="name">garbagePayAmount</Property>
+            <Property name="property">garbagePayAmount</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="networkPayAmount">
+            <Property name="name">networkPayAmount</Property>
+            <Property name="property">networkPayAmount</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="sewagePayAmount">
+            <Property name="name">sewagePayAmount</Property>
+            <Property name="property">sewagePayAmount</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="otherPayAmount">
+            <Property name="name">otherPayAmount</Property>
+            <Property name="property">otherPayAmount</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="lateFeeAmount">
+            <Property name="name">lateFeeAmount</Property>
+            <Property name="property">lateFeeAmount</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">totalAmount</Property>
+            <Property name="property">totalAmount</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="actualAmount">
+            <Property name="name">actualAmount</Property>
+            <Property name="property">actualAmount</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="giveChange">
+            <Property name="name">giveChange</Property>
+            <Property name="property">giveChange</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+        <DataSet id="dataSetPay">
+          <Property name="dataType">PayInfo</Property>
+        </DataSet>
       </Children>
       <Tools/>
     </Dialog>

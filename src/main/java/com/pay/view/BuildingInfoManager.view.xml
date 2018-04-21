@@ -69,6 +69,7 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
       <ToolBarButton id="buttonPrint">
         <Property name="caption">打印</Property>
         <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+        <Property name="visible">false</Property>
       </ToolBarButton>
     </ToolBar>
     <AutoForm id="autoFormCondition">

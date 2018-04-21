@@ -1,5 +1,6 @@
 package com.pay.service.impl.waterpay;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,12 @@ public class ReplaceWaterMeterHistoryServiceImpl implements ReplaceWaterMeterHis
 		buildingDetail.setWaterMeterCode(payReplaceWaterMeterHistory.getNewWaterMeterCode());
 		buildingDetail.setLastModifyUser(ContextHolder.getLoginUserName());
 		buildingDetail.setLastModifyTime(new Date());
-		buildingDetail.setMonthlyQty(buildingDetail.getMonthlyQty().subtract(payReplaceWaterMeterHistory.getQty()));
+		if(buildingDetail.getMonthlyQty()==null){
+			buildingDetail.setMonthlyQty(new BigDecimal(0));
+		}else{
+			buildingDetail.setMonthlyQty(buildingDetail.getMonthlyQty().subtract(payReplaceWaterMeterHistory.getQty()));
+		}
+		
 		buildingDetail.setRemark("水表号由'"+payReplaceWaterMeterHistory.getOldWaterMeterCode()+"'更改为'"+payReplaceWaterMeterHistory.getNewWaterMeterCode()+"'");
 		buildingDetailDao.update(buildingDetail);
 		

@@ -5,6 +5,7 @@
   <Model>
     <DataType name="PayWaterMeterInputDetail" parent="global:PayWaterMeterInputDetail">
       <PropertyDef name="currentQty">
+        <Property name="dataType">Integer</Property>
         <Validator name="validator1" type="custom">
           <ClientEvent name="onValidate">var beforeQty = arg.entity.get(&quot;beforeQty&quot;);&#xD;
 if (beforeQty > arg.data) {&#xD;

@@ -250,12 +250,12 @@ public class ClientDisplay {
      */  
     public static void output(String portName, int rate, String displayRate,  
             String data, String state) throws Exception {
-    	logger.info("output start...");
-    	logger.info("portName:"+portName);
-    	logger.info("rate:"+rate);
-    	logger.info("displayRate:"+displayRate);
-    	logger.info("state:"+state);
-    	logger.info("data:"+data);
+//    	logger.info("output start...");
+//    	logger.info("portName:"+portName);
+//    	logger.info("rate:"+rate);
+//    	logger.info("displayRate:"+displayRate);
+//    	logger.info("state:"+state);
+//    	logger.info("data:"+data);
         CommPort open = null;  
         try {  
             open = openConnection(portName, rate);  
@@ -268,16 +268,12 @@ public class ClientDisplay {
             os.flush();  
             os.close();  
         } catch (Exception e) {  
-            System.out.println(e.getMessage() + "====\n\n\n\n====");  
-            e.printStackTrace();  
-            if (e instanceof IOException  
-                && e.getMessage()  
-                        .startsWith("Resource temporarily unavailable")) {  
-  
-            } else {  
-                throw e;  
-            }  
-        } finally {  
+            throw e;
+        }catch(NoClassDefFoundError error){
+        	throw new Exception(error.getMessage());
+        }catch(UnsatisfiedLinkError error){
+        	throw new Exception(error.getMessage());
+        }finally {  
             if (open != null) {  
                 open.close();  
             }  
