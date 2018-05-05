@@ -1,5 +1,6 @@
 //@Bind #dataSetCondition.onReady
 !function(self,arg){
+	
 	var d = new Date();
 	self.insert({"monthlyCycle":d});
 }

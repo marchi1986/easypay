@@ -95,6 +95,8 @@ public class BuildingInfoServiceImpl implements BuildingInfoService {
 				buildingInfo.setStatus(PayConstants.ENABLED_STATUS);
 				buildingInfo.setCreateUser(user.getUsername());
 				buildingInfo.setCreateTime(new Date());
+				buildingInfo.setLastModifyUser(user.getUsername());
+				buildingInfo.setLastModifyTime(new Date());
 				buildingInfoDao.save(buildingInfo);
 			}else if(EntityState.MODIFIED.equals(state)){
 				buildingInfo.setLastModifyUser(user.getUsername());

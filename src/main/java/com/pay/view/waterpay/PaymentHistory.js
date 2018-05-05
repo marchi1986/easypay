@@ -9,6 +9,27 @@
 
 }
 
+//@Bind #buttonPrint.onClick
+!function(self,arg,updateActionPrint,dataGridOrderInfo,dataSetSelected){
+
+	var selectedData = dataGridOrderInfo.get("selection");
+	
+	if(selectedData.length==0){
+		dorado.MessageBox.alert("请至少选择一个套间！");
+		return;
+	}
+	
+	dataSetSelected.clear();
+	selectedData.each(function(data){
+		dataSetSelected.insert(data);
+		
+	});
+	
+	
+	updateActionPrint.execute();
+
+}
+
 
 //@Bind #updateActionPay.onGetUpdateData
 !function(self,arg,dialogPay,dataGridOrderInfo){

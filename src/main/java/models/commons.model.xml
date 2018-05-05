@@ -94,7 +94,15 @@
     </PropertyDef>
     <PropertyDef name="price">
       <Property name="dataType">BigDecimal</Property>
-      <Property name="label">单价</Property>
+      <Property name="label">水费单价</Property>
+    </PropertyDef>
+    <PropertyDef name="garbagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">垃圾费</Property>
+    </PropertyDef>
+    <PropertyDef name="networkPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">网管费</Property>
     </PropertyDef>
     <PropertyDef name="createUser">
       <Property></Property>
@@ -585,6 +593,14 @@
       <Property name="dataType">Date</Property>
       <Property name="label">最后修改时间</Property>
     </PropertyDef>
+    <PropertyDef name="payCode">
+      <Property></Property>
+      <Property name="label">支付编号</Property>
+    </PropertyDef>
+    <PropertyDef name="lastPayDate">
+      <Property name="label">最后支付日期</Property>
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayRoomGroup">
     <Property name="matchType">com.pay.pojo.PayRoomGroup</Property>
@@ -611,6 +627,85 @@
     <PropertyDef name="createTime">
       <Property name="dataType">Date</Property>
       <Property name="label">创建时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayInfo">
+    <Property name="matchType">com.pay.pojo.waterpay.PayInfo</Property>
+    <PropertyDef name="payCode">
+      <Property></Property>
+      <Property name="label">支付编码</Property>
+    </PropertyDef>
+    <PropertyDef name="waterPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">水费金额</Property>
+    </PropertyDef>
+    <PropertyDef name="garbagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">垃圾费</Property>
+    </PropertyDef>
+    <PropertyDef name="actualGarbagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">实收垃圾费</Property>
+    </PropertyDef>
+    <PropertyDef name="networkPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">网管费</Property>
+    </PropertyDef>
+    <PropertyDef name="actualNetworkPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">实收网管费</Property>
+    </PropertyDef>
+    <PropertyDef name="sewagePrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">排污费</Property>
+    </PropertyDef>
+    <PropertyDef name="otherPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">其它费用</Property>
+    </PropertyDef>
+    <PropertyDef name="lateFee">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">滞纳金</Property>
+    </PropertyDef>
+    <PropertyDef name="totalPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">总金额</Property>
+    </PropertyDef>
+    <PropertyDef name="actualTotalPrice">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">实收金额</Property>
+    </PropertyDef>
+    <PropertyDef name="status">
+      <Property name="dataType">Integer</Property>
+      <Property name="label">状态</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property></Property>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="payDate">
+      <Property name="dataType">Date</Property>
+      <Property name="label">支付日期</Property>
+    </PropertyDef>
+    <PropertyDef name="tollCollector">
+      <Property></Property>
+      <Property name="label">收款人</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property></Property>
+      <Property name="label">创建人</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyUser">
+      <Property></Property>
+      <Property name="label">最后修改人</Property>
+    </PropertyDef>
+    <PropertyDef name="lastModifyTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">最后修改时间</Property>
     </PropertyDef>
   </DataType>
 </Model>

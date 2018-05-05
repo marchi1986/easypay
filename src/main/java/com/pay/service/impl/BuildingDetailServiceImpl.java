@@ -1,5 +1,6 @@
 package com.pay.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +79,9 @@ public class BuildingDetailServiceImpl implements BuildingDetailService{
 			if(EntityState.NEW.equals(state)){
 				buildingDetail.setStatus(1);
 				buildingDetail.setGroupId(0);
+				buildingDetail.setMonthlyQty(new BigDecimal(0));
+				buildingDetail.setLastModifyUser(user.getUsername());
+				buildingDetail.setLastModifyTime(new Date());
 				buildingDetail.setCreateUser(user.getUsername());
 				buildingDetail.setCreateTime(new Date());
 				buildingDetailDao.save(buildingDetail);

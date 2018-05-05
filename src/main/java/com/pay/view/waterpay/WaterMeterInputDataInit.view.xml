@@ -3,43 +3,13 @@
   <Arguments/>
   <Context/>
   <Model>
-    <DataType name="PayWaterMeterInputHeader" parent="global:PayWaterMeterInputHeader">
-      <PropertyDef name="monthly">
-        <Property name="dataType">Date</Property>
-        <Property name="displayFormat">YM</Property>
-        <Property name="label">月度</Property>
-        <Validator name="validator1" type="required"/>
-      </PropertyDef>
-      <PropertyDef name="beginDate">
-        <Property name="dataType">Date</Property>
-        <Property name="label">计费开始日期</Property>
-        <Validator name="validator1" type="required"/>
-        <Validator name="validator2" type="custom">
-          <ClientEvent name="onValidate">var monthly = arg.entity.get(&quot;monthly&quot;);&#xD;
-if (monthly > arg.data) {&#xD;
-	throw new dorado.Exception(&quot;开始日期不能小于月度！&quot;);&#xD;
-}</ClientEvent>
-        </Validator>
-      </PropertyDef>
-      <PropertyDef name="endDate">
-        <Property name="dataType">Date</Property>
-        <Property name="label">计费结束日期</Property>
-        <Validator name="validator1" type="required"/>
-        <Validator name="validator2" type="custom">
-          <ClientEvent name="onValidate">var monthly = arg.entity.get(&quot;monthly&quot;);&#xD;
-if (monthly > arg.data) {&#xD;
-	throw new dorado.Exception(&quot;结束日期不能小于月度！&quot;);&#xD;
-}</ClientEvent>
-        </Validator>
-      </PropertyDef>
-    </DataType>
     <DataType name="Condition">
       <PropertyDef name="monthly">
         <Property name="dataType">Date</Property>
         <Property name="displayFormat">YM</Property>
         <Property name="label">月度</Property>
       </PropertyDef>
-      <PropertyDef name="buildCode">
+      <PropertyDef name="buildingCode">
         <Property name="label">楼宇编号</Property>
       </PropertyDef>
       <PropertyDef name="beginDate">
@@ -56,26 +26,21 @@ if (monthly > arg.data) {&#xD;
     </DataType>
   </Model>
   <View>
-    <DataSet id="dataSetInputHeader">
-      <ClientEvent name="onReady">self.insert();&#xD;
-</ClientEvent>
-      <Property name="dataType">PayWaterMeterInputHeader</Property>
-    </DataSet>
     <DataSet id="dataSetCondition">
-      <ClientEvent name="onReady">&#xD;
-</ClientEvent>
       <Property name="dataType">Condition</Property>
       <Property name="ignored">false</Property>
     </DataSet>
+    <DataSet id="dataSetConditionForBuilding">
+      <Property name="dataType">Condition</Property>
+    </DataSet>
     <ToolBar>
+      <ToolBarLabel>
+        <Property name="text">按全部</Property>
+      </ToolBarLabel>
+      <Separator/>
       <ToolBarButton id="buttonCreate">
         <Property name="caption">初始化录入资料</Property>
         <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
-      </ToolBarButton>
-      <Separator/>
-      <ToolBarButton id="buttonPrint">
-        <Property name="caption">打印抄表纸</Property>
-        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
       </ToolBarButton>
     </ToolBar>
     <AutoForm id="autoFormCondition">
@@ -103,13 +68,6 @@ if (monthly > arg.data) {&#xD;
         <Property name="width">300</Property>
         <Editor/>
       </AutoFormElement>
-      <AutoFormElement>
-        <Property name="property">buildCode</Property>
-        <Property name="name">buildCode</Property>
-        <Property name="labelWidth">120</Property>
-        <Property name="width">300</Property>
-        <Editor/>
-      </AutoFormElement>
       <AutoFormElement layoutConstraint="colSpan:3">
         <Property name="name">remark</Property>
         <Property name="property">remark</Property>
@@ -125,10 +83,38 @@ if (monthly > arg.data) {&#xD;
       <Property name="successMessage">生成完成！</Property>
       <Property name="dataResolver">waterMeterInputHeaderService#create</Property>
     </UpdateAction>
-    <UpdateAction id="updateActionPrint">
-      <Property name="confirmMessage">是否打印？</Property>
-      <Property name="successMessage">打印完成！</Property>
-      <Property name="dataResolver">waterMeterInputHeaderService#print</Property>
+    <ToolBar>
+      <ToolBarLabel>
+        <Property name="text">按楼宇编号初始化</Property>
+      </ToolBarLabel>
+      <Separator/>
+      <ToolBarButton id="buttonCreateForBuilding">
+        <Property name="caption">初始化录入资料</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -20px -0px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormConditionForBuilding">
+      <Property name="dataSet">dataSetConditionForBuilding</Property>
+      <Property name="cols">*</Property>
+      <Property name="labelWidth">120</Property>
+      <Property name="width">300</Property>
+      <AutoFormElement>
+        <Property name="name">monthly</Property>
+        <Property name="property">monthly</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">buildingCode</Property>
+        <Property name="property">buildingCode</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <UpdateAction id="updateActionCreateForBuilding">
+      <Property name="confirmMessage">是否生成？</Property>
+      <Property name="executingMessage">生成中...</Property>
+      <Property name="successMessage">生成完成！</Property>
+      <Property name="dataResolver">waterMeterInputHeaderService#createForBuildingCode</Property>
     </UpdateAction>
   </View>
 </ViewConfig>

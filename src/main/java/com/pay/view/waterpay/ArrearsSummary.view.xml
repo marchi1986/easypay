@@ -3,28 +3,7 @@
   <Arguments/>
   <Context/>
   <Model>
-    <DataType name="PayOrderInfo" parent="global:PayOrderInfo">
-      <Reference name="buildingInfo">
-        <Property name="dataType">PayBuildingInfo</Property>
-        <Property name="dataProvider">buildingInfoService#get</Property>
-        <Property name="parameter">$${this.buildingCode}</Property>
-      </Reference>
-      <Reference name="buildingDetail">
-        <Property name="dataType">PayBuildingDetail</Property>
-        <Property name="dataProvider">buildingDetailService#getForCondition</Property>
-        <Property name="parameter">
-          <Entity>
-            <Property name="buildingCode">$${this.buildingCode}</Property>
-            <Property name="roomNo">$${this.roomNo}</Property>
-          </Entity>
-        </Property>
-      </Reference>
-      <Reference name="user">
-        <Property name="dataType">PayUser</Property>
-        <Property name="dataProvider">userService#get</Property>
-        <Property name="parameter">$${this.buildingDetail.userId}</Property>
-      </Reference>
-    </DataType>
+    <DataType name="PayOrderInfo" parent="global:PayOrderInfo"/>
     <DataType name="Condition">
       <PropertyDef name="monthlyCycle">
         <Property name="dataType">Date</Property>
@@ -70,7 +49,7 @@
     </AutoForm>
     <DataSet id="dataSetOrderInfo">
       <Property name="dataType">[PayOrderInfo]</Property>
-      <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
+      <Property name="dataProvider">orderInfoService#queryPageArrearsForCondition</Property>
       <Property name="loadMode">manual</Property>
       <Property name="pageSize">100</Property>
     </DataSet>
@@ -86,38 +65,62 @@
       <Property name="highlightCurrentRow">true</Property>
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
-      <DataColumn name="monthlyCycle">
-        <Property name="property">monthlyCycle</Property>
-      </DataColumn>
       <DataColumn name="buildingCode">
         <Property name="property">buildingCode</Property>
-      </DataColumn>
-      <DataColumn>
-        <Property name="name">buildingName</Property>
-        <Property name="property">buildingInfo.name</Property>
-        <Editor/>
-      </DataColumn>
-      <DataColumn>
-        <Property name="name">doorplate</Property>
-        <Property name="property">buildingInfo.doorplate</Property>
-        <Editor/>
       </DataColumn>
       <DataColumn name="roomNo">
         <Property name="property">roomNo</Property>
       </DataColumn>
-      <DataColumn>
-        <Property name="name">waterMeterCode</Property>
-        <Property name="property">buildingDetail.waterMeterCode</Property>
-        <Editor/>
+      <DataColumn name="monthlyCycle">
+        <Property name="property">monthlyCycle</Property>
       </DataColumn>
-      <DataColumn>
-        <Property name="name">username</Property>
-        <Property name="property">user.userName</Property>
-        <Editor/>
+      <DataColumn name="waterBeforeQty">
+        <Property name="property">waterBeforeQty</Property>
+      </DataColumn>
+      <DataColumn name="waterCurrentQty">
+        <Property name="property">waterCurrentQty</Property>
+      </DataColumn>
+      <DataColumn name="actualQty">
+        <Property name="property">actualQty</Property>
+      </DataColumn>
+      <DataColumn name="waterApportionQty">
+        <Property name="property">waterApportionQty</Property>
+      </DataColumn>
+      <DataColumn name="price">
+        <Property name="property">price</Property>
+      </DataColumn>
+      <DataColumn name="waterPrice">
+        <Property name="property">waterPrice</Property>
+      </DataColumn>
+      <DataColumn name="garbagePrice">
+        <Property name="property">garbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="apportionPrice">
+        <Property name="property">apportionPrice</Property>
+      </DataColumn>
+      <DataColumn name="lateFee">
+        <Property name="property">lateFee</Property>
+      </DataColumn>
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
+      <DataColumn name="sewagePrice">
+        <Property name="property">sewagePrice</Property>
+      </DataColumn>
+      <DataColumn name="otherPrice">
+        <Property name="property">otherPrice</Property>
       </DataColumn>
       <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>
-        <Property name="caption">欠费金额</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+      <DataColumn name="tollCollector">
+        <Property name="property">tollCollector</Property>
+      </DataColumn>
+      <DataColumn name="lastPayDate">
+        <Property name="property">lastPayDate</Property>
       </DataColumn>
     </DataGrid>
   </View>

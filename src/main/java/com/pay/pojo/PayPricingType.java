@@ -61,6 +61,10 @@ public class PayPricingType implements Serializable {
 	 */
 	@PropertyDef(label = "last_modify_time", description = "last_modify_time:")
 	private Date lastModifyTime;
+	
+	private BigDecimal garbagePrice;
+	
+	private BigDecimal networkPrice;
 
 	public PayPricingType() {
 		super();
@@ -68,7 +72,7 @@ public class PayPricingType implements Serializable {
 
 	public PayPricingType(int id, String pricingName, String pricingDesc,
 			BigDecimal price, String createUser, Date createTime,
-			String lastModifyUser, Date lastModifyTime) {
+			String lastModifyUser, Date lastModifyTime,BigDecimal garbagePrice,BigDecimal networkPrice) {
 		super();
 		this.id = id;
 		this.pricingName = pricingName;
@@ -78,6 +82,8 @@ public class PayPricingType implements Serializable {
 		this.createTime = createTime;
 		this.lastModifyUser = lastModifyUser;
 		this.lastModifyTime = lastModifyTime;
+		this.garbagePrice=garbagePrice;
+		this.networkPrice=networkPrice;
 	}
 
 	public void setId(int id) {
@@ -113,7 +119,7 @@ public class PayPricingType implements Serializable {
 		this.price = price;
 	}
 
-	@Column(name = "price")
+	@Column(name = "water_unit_price")
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -155,13 +161,30 @@ public class PayPricingType implements Serializable {
 	public Date getLastModifyTime() {
 		return lastModifyTime;
 	}
+	
+	@Column(name = "garbage_price")
+	public BigDecimal getGarbagePrice() {
+		return garbagePrice;
+	}
+
+	public void setGarbagePrice(BigDecimal garbagePrice) {
+		this.garbagePrice = garbagePrice;
+	}
+	@Column(name = "network_price")
+	public BigDecimal getNetworkPrice() {
+		return networkPrice;
+	}
+
+	public void setNetworkPrice(BigDecimal networkPrice) {
+		this.networkPrice = networkPrice;
+	}
 
 	public String toString() {
 		return "PayPricingType [id=" + id + ",pricingName=" + pricingName
 				+ ",pricingDesc=" + pricingDesc + ",price=" + price
 				+ ",createUser=" + createUser + ",createTime=" + createTime
 				+ ",lastModifyUser=" + lastModifyUser + ",lastModifyTime="
-				+ lastModifyTime + "]";
+				+ lastModifyTime + garbagePrice +",networkPrice=" + networkPrice+"]";
 	}
 
 }

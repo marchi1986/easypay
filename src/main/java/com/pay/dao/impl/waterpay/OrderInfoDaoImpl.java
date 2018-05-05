@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,6 +15,7 @@ import org.hibernate.annotations.common.util.StringHelper;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 import com.bstek.dorado.data.provider.Page;
+import com.pay.common.DateUtils;
 import com.pay.common.PayConstants;
 import com.pay.common.hibernate.BaseHibernateDAO;
 import com.pay.dao.waterpay.OrderInfoDao;
@@ -35,12 +37,15 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		 Integer monthlyCycle=null;
 		 Integer status=null;
 		 String groupId=null;
+		 //是否查询欠费
+		 Boolean isQueryArrears=false;
 	     if(MapUtils.isNotEmpty(params)){
 	    	 buildingCode = (String)params.get("buildingCode");
 	    	 roomNo = (String)params.get("roomNo");
 	    	 monthlyCycle = (Integer)params.get("monthly");
 	    	 status = (Integer)params.get("status");
 	    	 groupId=(String)params.get("groupId");
+	    	 isQueryArrears=(Boolean)params.get("isQueryArrears");
 	     }
 	     
 	     StringBuffer hql=new StringBuffer();
@@ -67,9 +72,15 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	    	 hql.append(" AND a.status=").append(status);
 	     }
 	     
+	     if(isQueryArrears!=null&&isQueryArrears){
+	    	 
+	    	 hql.append(" AND a.lastPayDate<'").append(DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")).append("'");
+	     }
+	     
 	     if (StringUtils.isNotEmpty(groupId)) {
 	    	 hql.append(" AND b.groupId=").append(groupId);
 	     }
+	     hql.append(" order by a.monthlyCycle ");
 	     
 	     StringBuffer queryHql=new StringBuffer();
 	     StringBuffer queryCountHql=new StringBuffer();
@@ -161,5 +172,12 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		return orderInfos;
 		
 		
+	}
+	
+	public List<PayOrderInfo> findByPayCode(String payCode){
+		String hql="from PayOrderInfo where payCode=:payCode ";
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("payCode", payCode);
+		return this.list(hql, params);
 	}
 }

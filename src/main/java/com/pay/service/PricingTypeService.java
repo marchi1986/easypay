@@ -14,6 +14,8 @@ public interface PricingTypeService {
 	
 	public List<PayPricingType> queryAll(); 
 	
+	public Map<Integer,PayPricingType>  queryApportionTypeForMap();
+	
 	public Map<Integer, String> getPricingTypeDesc() ;
 	
     public void saveAll(List<PayPricingType> pricingTypes);

@@ -27,7 +27,6 @@
 	
 }
 
-
 //@Bind #dataSetCondition.onReady
 !function(self,arg){
 	var d = new Date();
@@ -36,39 +35,18 @@
 	self.insert({"monthly":d,"beginDate":first,"endDate":end});
 }
 
+//@Bind #dataSetConditionForBuilding.onReady
+!function(self,arg){
+	var d = new Date();
 
-
-//@Bind #buttonQuery.onClick
-!function(self,arg,autoFormCondition,dataSetPaymentOrder){
-
-	//获取autoformCondition绑定的实体对象
-	var entity = autoFormCondition.get("entity");
-
-	if(entity.monthlyCycle==undefined||entity.monthlyCycle==null){
-		dorado.MessageBox.alert("请选择月度周期！");
-		return;
-	}
-
-	//将实体对象作为参数传入，并异步刷新
-	dataSetPaymentOrder.set("parameter",entity).flushAsync(function(result){
-		if(result.isEmpty()){
-			dorado.MessageBox.alert("未生成该月度记录或已打印！");
-		}
-	});
-
+	self.insert({"monthly":d});
 }
 
-//@Bind #buttonPrint.onClick
-!function(self,arg,updateActionPrint,autoFormCondition){
-	var entity = autoFormCondition.get("entity");
-
-	var monthly=entity.get("monthly");
-	var buildCode=entity.get("buildCode");
-	if(isNotNull(monthly)){
-		updateActionPrint.set("parameter",{"monthly":monthly,"buildCode":buildCode}).execute();
-	}else{
-		dorado.MessageBox.alert("月度不能为空！");
-	}
+//@Bind #buttonCreateForBuilding.onClick
+!function(self,arg,updateActionCreateForBuilding,autoFormConditionForBuilding){
+	var entity = autoFormConditionForBuilding.get("entity");
+	
+	updateActionCreateForBuilding.set("parameter",entity).execute();
+	
 	
 }
-

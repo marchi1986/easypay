@@ -6,18 +6,17 @@ import java.awt.print.Paper;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.bstek.bdf2.core.context.ContextHolder;
 import com.bstek.dorado.annotation.DataProvider;
 import com.bstek.dorado.annotation.DataResolver;
@@ -29,13 +28,13 @@ import com.pay.common.PayConstants;
 import com.pay.common.print.PaymentReceiptForPrint;
 import com.pay.dao.BuildingDetailDao;
 import com.pay.dao.BuildingInfoDao;
-import com.pay.dao.UserDao;
 import com.pay.dao.waterpay.OrderInfoDao;
+import com.pay.dao.waterpay.PayInfoDao;
 import com.pay.dao.waterpay.WaterMeterInputHeaderDao;
 import com.pay.pojo.PayBuildingDetail;
 import com.pay.pojo.PayBuildingDetailPK;
 import com.pay.pojo.PayBuildingInfo;
-import com.pay.pojo.PayUser;
+import com.pay.pojo.waterpay.PayInfo;
 import com.pay.pojo.waterpay.PayOrderInfo;
 import com.pay.pojo.waterpay.PayWaterMeterInputHeader;
 import com.pay.service.waterpay.OrderInfoService;
@@ -55,7 +54,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	private BuildingInfoDao buildingInfoDao;
 	
 	@Autowired
-	private UserDao userDao;
+	private PayInfoDao payInfoDao;
+
 	
 	@Autowired
 	private WaterMeterInputHeaderDao waterMeterInputHeaderDao;
@@ -78,26 +78,95 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			
 		}
 		
+
+		
+		orderInfoDao.queryPageForCondition(page, parameter);
+		
+		Integer yearMonth=null;
+		PayWaterMeterInputHeader inputHeader=null;
+		for(PayOrderInfo orderInfo:page.getEntities()){
+			Integer currentOrderMonthlyCycle=orderInfo.getMonthlyCycle();
+			if(yearMonth==null||currentOrderMonthlyCycle!=yearMonth){
+				inputHeader=waterMeterInputHeaderDao.getByMonthly(orderInfo.getMonthlyCycle());
+			}
+			Date now=new Date();
+			//缴费日期大于收费结束日期，需要交纳滞纳金
+			if(now.compareTo(inputHeader.getEndDate())>0){
+				
+				int delayDay= (int)((now.getTime()-inputHeader.getEndDate().getTime())/1000/3600/24);
+				BigDecimal lateFeeForDay=orderInfo.getTotalPrice().multiply(new BigDecimal(0.0005));
+				BigDecimal lateFee=new BigDecimal(delayDay).multiply(lateFeeForDay).setScale(2,RoundingMode.HALF_UP);
+				orderInfo.setLateFee(lateFee);
+				orderInfo.setTotalPrice(orderInfo.getTotalPrice().add(orderInfo.getLateFee()));
+			}
+			 
+			yearMonth=currentOrderMonthlyCycle;
+		}
+	
+	}
+	
+	/**
+	 * 根据条件分页查询
+	 * @author marchi.ma
+	 * @param page,parameter
+	 */
+	@DataProvider
+	public void queryPageArrearsForCondition(Page<PayOrderInfo> page,Map<String, Object> parameter) {
+			
+		if(MapUtils.isNotEmpty(parameter)){
+			if(parameter.get("monthlyCycle")!=null){
+				Date monthly=(Date)parameter.get("monthlyCycle");
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+				String dateFormat= sdf.format(monthly);
+				parameter.put("monthly", Integer.parseInt(dateFormat));
+			}
+			
+		}
+		parameter.put("isQueryArrears", true);
+		
+		
 		orderInfoDao.queryPageForCondition(page, parameter);
 
-		
-
-		
+	
 	}
+	
+	
 	
 	/**
 	 * 缴费
 	 * @param orderInfos
 	 */
 	@DataResolver
-	public void updatePaymentInfo(List<PayOrderInfo> orderInfos){
-		if(CollectionUtils.isNotEmpty(orderInfos)){
+	public void updatePaymentInfo(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos){
+		
+		
+
+		
+		if(CollectionUtils.isNotEmpty(paymentInfos)&& CollectionUtils.isNotEmpty(orderInfos)){
+
+			PayInfo payInfo=paymentInfos.get(0);
+			
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
+			String payCode= "WP"+sdf.format(new Date());
+			payInfo.setPayCode(payCode);
+			payInfo.setPayDate(new Date());
+			payInfo.setStatus(0);
+			payInfo.setTollCollector(ContextHolder.getLoginUserName());
+			payInfo.setCreateUser(ContextHolder.getLoginUserName());
+			payInfo.setCreateTime(new Date());
+			payInfo.setLastModifyUser(ContextHolder.getLoginUserName());
+			payInfo.setLastModifyTime(new Date());
+
+			
+			payInfoDao.save(payInfo);
+			
 			for(PayOrderInfo orderInfo:orderInfos){
 				orderInfo.setPayDate(new Date());
 				orderInfo.setTollCollector(ContextHolder.getLoginUserName());
 				orderInfo.setStatus(PayConstants.ORDER_STATUS_PAY);
 				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
 				orderInfo.setLastModifyTime(new Date());
+				orderInfo.setPayCode(payCode);
 				orderInfoDao.update(orderInfo);
 				print(orderInfo);
 			}
@@ -120,6 +189,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		
 		List<PayOrderInfo> result= orderInfoDao.querySummaryForCondition(parameter);
 		return result;
+	}
+	
+	@DataResolver
+	public void printList(List<PayOrderInfo> orderInfos){
+		for(PayOrderInfo orderInfo:orderInfos){
+			print(orderInfo);
+		}
 	}
 	
 	/**
@@ -204,5 +280,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		} catch (PrinterException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@DataProvider
+	public List<PayOrderInfo> findByPayCode(Map<String,Object> params){
+		
+		if(MapUtils.isNotEmpty(params)){
+			String payCode=(String)params.get("payCode");
+			return orderInfoDao.findByPayCode(payCode);
+		}else{
+			return null;
+		}
+		
+		
+	}
+	
+	public static void main(String[] args){
+		
 	}
 }

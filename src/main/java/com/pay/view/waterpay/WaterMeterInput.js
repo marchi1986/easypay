@@ -1,7 +1,7 @@
 //@Bind #dataSetCondition.onReady
 !function(self,arg){
 	var d = new Date();
-	self.insert({"monthlyCycle":d});
+	self.insert({"monthlyCycle":d}); 
 }
 
 //@Bind #buttonImport.onClick

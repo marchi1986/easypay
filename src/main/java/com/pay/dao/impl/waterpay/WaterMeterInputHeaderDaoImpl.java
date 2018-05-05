@@ -77,15 +77,32 @@ public class WaterMeterInputHeaderDaoImpl extends BaseHibernateDAO<PayWaterMeter
 	
 	/**
 	 * 按条件查询
-	 * @param parameter
+	 * @param monthly
+	 * @param status
 	 * @return
 	 */
-	public PayWaterMeterInputHeader getForMonthlyAndStatus(Integer monthly,Integer status){
+	public PayWaterMeterInputHeader getByMonthlyAndStatus(Integer monthly,Integer status){
 		String hql="from PayWaterMeterInputHeader where monthlyCycle=:monthly and status=:status ";
 		
 		Map<String,Object> params=new HashMap<String, Object>();
 		params.put("monthly", monthly);
 		params.put("status", status);
+		
+		PayWaterMeterInputHeader payWaterMeterInputHeader=this.aggregate(hql, params);
+		
+		return payWaterMeterInputHeader;
+	}
+	
+	/**
+	 * 按条件查询
+	 * @param monthly
+	 * @return
+	 */
+	public PayWaterMeterInputHeader getByMonthly(Integer monthly){
+		String hql="from PayWaterMeterInputHeader where monthlyCycle=:monthly ";
+		
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("monthly", monthly);
 		
 		PayWaterMeterInputHeader payWaterMeterInputHeader=this.aggregate(hql, params);
 		

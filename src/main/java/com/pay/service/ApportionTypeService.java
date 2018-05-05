@@ -13,6 +13,7 @@ public interface ApportionTypeService {
 	
 	public List<PayApportionType> queryAll() ;
 	
+	
 	public Map<Integer, String> getApportionTypeDesc() ;
 	
     public void saveAll(List<PayApportionType> apportionTypes);

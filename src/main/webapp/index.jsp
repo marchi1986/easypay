@@ -5,6 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script language="javascript" type="text/javascript">
+// 以下方式直接跳转
+window.location.href='com.pay.view.Login.d';
+</script>
 <title>Welcome</title>
 </head>
 <body>

@@ -61,6 +61,8 @@ public class PayApportionType implements Serializable {
 	 */
 	@PropertyDef(label = "last_modify_time", description = "last_modify_time:")
 	private Date lastModifyTime;
+	
+	
 
 	public PayApportionType() {
 		super();
@@ -78,6 +80,7 @@ public class PayApportionType implements Serializable {
 		this.createTime = createTime;
 		this.lastModifyUser = lastModifyUser;
 		this.lastModifyTime = lastModifyTime;
+		
 	}
 
 	public void setId(int id) {
@@ -155,12 +158,17 @@ public class PayApportionType implements Serializable {
 	public Date getLastModifyTime() {
 		return lastModifyTime;
 	}
+	
+	
+
+
 
 	public String toString() {
 		return "PayApportionType [id=" + id + ",apportionName=" + apportionName
 				+ ",percent=" + percent + ",remark=" + remark + ",createUser="
 				+ createUser + ",createTime=" + createTime + ",lastModifyUser="
-				+ lastModifyUser + ",lastModifyTime=" + lastModifyTime + "]";
+				+ lastModifyUser + ",lastModifyTime=" + lastModifyTime 
+				+",garbagePrice=" + "]";
 	}
 
 }

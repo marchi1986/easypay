@@ -27,37 +27,21 @@
         <Property name="dataType">String</Property>
       </PropertyDef>
     </DataType>
-    <DataType name="PayInfo">
-      <PropertyDef name="totalAmount">
-        <Property name="dataType">BigDecimal</Property>
-        <Property name="label">总金额</Property>
-      </PropertyDef>
-      <PropertyDef name="waterPayAmount">
-        <Property name="dataType">BigDecimal</Property>
-        <Property name="label">水费金额</Property>
-      </PropertyDef>
-      <PropertyDef name="garbagePayAmount">
-        <Property name="label">垃圾费金额</Property>
-      </PropertyDef>
-      <PropertyDef name="networkPayAmount">
-        <Property name="label">网费金额</Property>
-      </PropertyDef>
-      <PropertyDef name="sewagePayAmount">
-        <Property name="label">排污费金额</Property>
-      </PropertyDef>
-      <PropertyDef name="otherPayAmount">
-        <Property name="label">其它费用金额</Property>
-      </PropertyDef>
-      <PropertyDef name="lateFeeAmount">
-        <Property name="label">滞纳金</Property>
-        <Property name="dataType">BigDecimal</Property>
-      </PropertyDef>
-      <PropertyDef name="actualAmount">
-        <Property name="label">实收金额</Property>
-      </PropertyDef>
+    <DataType name="PayInfo" parent="global:PayInfo">
       <PropertyDef name="giveChange">
-        <Property name="dataType">BigDecimal</Property>
         <Property name="label">找零</Property>
+      </PropertyDef>
+      <PropertyDef name="currentGive">
+        <Property name="label">现收</Property>
+        <Property name="dataType">String</Property>
+      </PropertyDef>
+      <PropertyDef name="actualGarbagePrice">
+        <Property name="dataType">String</Property>
+        <Property name="label">实收垃圾费</Property>
+      </PropertyDef>
+      <PropertyDef name="actualNetworkPrice">
+        <Property name="dataType">String</Property>
+        <Property name="label">实收网管费</Property>
       </PropertyDef>
     </DataType>
   </Model>
@@ -70,6 +54,18 @@
       <ToolBarButton id="buttonCharge">
         <Property name="caption">收费</Property>
         <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton>
+        <ClientEvent name="onClick" signature="self,arg,swfViewer,dialogSwfViewer">swfViewer.set(&quot;handlerName&quot;,&quot;test.pdf2swfHandler&quot;);&#xD;
+swfViewer.set(&quot;parameter&quot;,{&#xD;
+ testParameter1:&quot;test1&quot;,&#xD;
+ testParameter1:&quot;test2&quot;&#xD;
+});&#xD;
+swfViewer.refreshSwf();&#xD;
+dialogSwfViewer.show();&#xD;
+</ClientEvent>
+        <Property name="caption">TestSwfViewer</Property>
+        <Property name="visible">false</Property>
       </ToolBarButton>
     </ToolBar>
     <AutoForm id="autoFormCondition">
@@ -109,13 +105,15 @@
     </AutoForm>
     <DataSet id="dataSetOrderInfo">
       <Property name="dataType">[PayOrderInfo]</Property>
-      <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
-      <Property name="loadMode">manual</Property>
       <Property name="pageSize">100</Property>
-    </DataSet>
-    <DataSet id="dataSetSelect">
-      <Property name="dataType">[PayOrderInfo]</Property>
       <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
+    </DataSet>
+    <DataSet id="dataSetPay">
+      <Property name="dataType">[PayInfo]</Property>
+    </DataSet>
+    <DataSet id="dataSetSelected">
+      <Property name="dataType">[PayOrderInfo]</Property>
     </DataSet>
     <ToolBar>
       <DataPilot id="dataPilotOrderInfo">
@@ -183,7 +181,7 @@
     </DataGrid>
     <Dialog id="dialogPay">
       <Property name="width">600</Property>
-      <Property name="height">550</Property>
+      <Property name="height">750</Property>
       <Buttons>
         <Button id="buttonConfirmPay">
           <Property name="caption">确认</Property>
@@ -204,71 +202,79 @@
             <Property name="font-size">20px</Property>
           </Property>
           <AutoFormElement>
-            <Property name="name">waterPayAmount</Property>
-            <Property name="property">waterPayAmount</Property>
-            <Property name="readOnly">true</Property>
-            <Editor/>
-          </AutoFormElement>
-          <AutoFormElement id="garbagePayAmount">
-            <Property name="name">garbagePayAmount</Property>
-            <Property name="property">garbagePayAmount</Property>
-            <Editor/>
-          </AutoFormElement>
-          <AutoFormElement id="networkPayAmount">
-            <Property name="name">networkPayAmount</Property>
-            <Property name="property">networkPayAmount</Property>
-            <Editor/>
-          </AutoFormElement>
-          <AutoFormElement id="sewagePayAmount">
-            <Property name="name">sewagePayAmount</Property>
-            <Property name="property">sewagePayAmount</Property>
-            <Editor/>
-          </AutoFormElement>
-          <AutoFormElement id="otherPayAmount">
-            <Property name="name">otherPayAmount</Property>
-            <Property name="property">otherPayAmount</Property>
-            <Editor/>
-          </AutoFormElement>
-          <AutoFormElement id="lateFeeAmount">
-            <Property name="name">lateFeeAmount</Property>
-            <Property name="property">lateFeeAmount</Property>
+            <Property name="name">waterPrice</Property>
+            <Property name="property">waterPrice</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
-            <Property name="name">totalAmount</Property>
-            <Property name="property">totalAmount</Property>
+            <Property name="name">garbagePrice</Property>
+            <Property name="property">garbagePrice</Property>
             <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement id="actualAmount">
-            <Property name="name">actualAmount</Property>
-            <Property name="property">actualAmount</Property>
+          <AutoFormElement id="actualGarbagePrice">
+            <Property name="name">actualGarbagePrice</Property>
+            <Property name="property">actualGarbagePrice</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement id="giveChange">
+          <AutoFormElement>
+            <Property name="name">networkPrice</Property>
+            <Property name="property">networkPrice</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="actualNetworkPrice">
+            <Property name="name">actualNetworkPrice</Property>
+            <Property name="property">actualNetworkPrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">sewagePrice</Property>
+            <Property name="property">sewagePrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">otherPrice</Property>
+            <Property name="property">otherPrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">lateFee</Property>
+            <Property name="property">lateFee</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">totalPrice</Property>
+            <Property name="property">totalPrice</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="actualTotalPrice">
+            <Property name="name">actualTotalPrice</Property>
+            <Property name="property">actualTotalPrice</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="currentGive">
+            <Property name="name">currentGive</Property>
+            <Property name="property">currentGive</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
             <Property name="name">giveChange</Property>
             <Property name="property">giveChange</Property>
             <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
         </AutoForm>
-        <DataSet id="dataSetPay">
-          <Property name="dataType">PayInfo</Property>
-        </DataSet>
       </Children>
       <Tools/>
     </Dialog>
-    <UpdateAction id="updateActionPay">
-      <Property name="confirmMessage">是否确认？</Property>
-      <Property name="executingMessage">确认中...</Property>
-      <Property name="successMessage">确认成功！</Property>
-      <Property name="dataResolver">orderInfoService#updatePaymentInfo</Property>
-      <Property name="alwaysExecute">false</Property>
-      <UpdateItem>
-        <Property name="dataSet">dataSetOrderInfo</Property>
-        <Property name="dataPath">!DIRTY_TREE</Property>
-      </UpdateItem>
-    </UpdateAction>
     <DataSetDropDown id="dataSetDropDownGroup">
       <Property name="dataSet">dataSetGroup</Property>
       <Property name="displayProperty">name</Property>
@@ -283,5 +289,27 @@
     <AjaxAction id="ajaxActionRxtx">
       <Property name="service">rxtxService#sendDisplay</Property>
     </AjaxAction>
+    <UpdateAction id="updateActionPaymen">
+      <Property name="dataResolver">orderInfoService#updatePaymentInfo</Property>
+      <Property name="successMessage">确认成功！</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetPay</Property>
+      </UpdateItem>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSelected</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogSwfViewer">
+      <Property name="width">800</Property>
+      <Property name="height">600</Property>
+      <Buttons/>
+      <Children>
+        <SwfViewer id="swfViewer">
+          <Property name="width">800</Property>
+          <Property name="height">600</Property>
+        </SwfViewer>
+      </Children>
+      <Tools/>
+    </Dialog>
   </View>
 </ViewConfig>

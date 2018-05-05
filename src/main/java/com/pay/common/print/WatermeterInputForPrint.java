@@ -147,12 +147,12 @@ public class WatermeterInputForPrint implements Printable {
 		g2.drawString(companyName+"水费抄表单", (float) leftPointX + 160, (float) y + titleFontHeight + 10);
 		g2.setFont(gridTitleFont); // 设置字体  
 		g2.drawString("楼宇编号:", (float) leftPointX + 5, (float) y + titleFontHeight*4 + 10);
-		g2.drawString("楼宇地址:", (float) leftPointX + 85, (float) y + titleFontHeight*4 + 10);
+		g2.drawString("楼宇地址:", (float) leftPointX + 100, (float) y + titleFontHeight*4 + 10);
 		g2.drawString("户主:", (float) leftPointX + 300, (float) y + titleFontHeight*4 + 10);
 		g2.drawString("No:", (float) leftPointX + 410, (float) y );
 		g2.setFont(gridFont); // 设置字体  
 		g2.drawString(this.buildingCode, (float) leftPointX + 60, (float) y + titleFontHeight*4 + 10);
-		g2.drawString(this.addr, (float) leftPointX + 145, (float) y + titleFontHeight*4 + 10);
+		g2.drawString(this.addr, (float) leftPointX + 160, (float) y + titleFontHeight*4 + 10);
 		g2.drawString(this.houseMaster, (float) leftPointX + 330, (float) y + titleFontHeight*4 + 10);
 		g2.drawString(this.orderNo, (float) leftPointX + 430, (float) y );
 
@@ -195,7 +195,7 @@ public class WatermeterInputForPrint implements Printable {
 				return str1.compareTo(str2);
 			}
 		});
-		System.out.println("keyList = " + keyList.toString());
+		//System.out.println("keyList = " + keyList.toString());
 	
 		for(String room : keyList){
 			g2.setFont(gridFont); // 设置字体
@@ -214,7 +214,7 @@ public class WatermeterInputForPrint implements Printable {
 				PayWaterMeterInputDetail detail = detailList.get(j-1);
 				
 				g2.setFont(gridTitleFont); // 设置字体  
-				if(detail == null){
+				if(detail == null || detail.getCurrentQty().compareTo(new BigDecimal(0))==0){
 					g2.drawString("", (float)(leftPointX + lineSpace*(j+1) - titleLineSpace), (float) line + gridTitleFontHeight);
 				}else{
 					g2.drawString(String.valueOf(new DecimalFormat("#.####").format(detail.getCurrentQty())), (float)(leftPointX + lineSpace*(j+1) - titleLineSpace), (float) line + gridTitleFontHeight);

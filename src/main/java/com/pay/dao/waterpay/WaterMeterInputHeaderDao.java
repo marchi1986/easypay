@@ -22,7 +22,14 @@ public interface WaterMeterInputHeaderDao extends IBaseDao<PayWaterMeterInputHea
 	 * @param parameter
 	 * @return
 	 */
-	public PayWaterMeterInputHeader getForMonthlyAndStatus(Integer monthly,Integer status);
+	public PayWaterMeterInputHeader getByMonthlyAndStatus(Integer monthly,Integer status);
+	
+	/**
+	 * 按条件查询
+	 * @param monthly
+	 * @return
+	 */
+	public PayWaterMeterInputHeader getByMonthly(Integer monthly);
 	
 	/**
 	 * 按条件分页查询

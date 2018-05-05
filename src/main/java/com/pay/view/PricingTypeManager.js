@@ -24,6 +24,8 @@
 
 //@Bind #buttonAdd.onClick
 !function(self,arg,dialogEdit,dataSetPricingType){
+	
+	alert(1);
 	dataSetPricingType.insert();
 	dialogEdit.show();
 }

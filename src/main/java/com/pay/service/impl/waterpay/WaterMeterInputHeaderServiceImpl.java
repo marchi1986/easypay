@@ -43,6 +43,7 @@ import com.pay.pojo.waterpay.PayOrderInfo;
 import com.pay.pojo.waterpay.PayWaterMeterInputBuilding;
 import com.pay.pojo.waterpay.PayWaterMeterInputDetail;
 import com.pay.pojo.waterpay.PayWaterMeterInputHeader;
+import com.pay.service.PricingTypeService;
 import com.pay.service.waterpay.WaterMeterInputHeaderService;
 
 @Service("waterMeterInputHeaderService")
@@ -70,6 +71,9 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 	
 	@Autowired
 	private PricingTypeDao pricingTypeDao;
+	
+	@Autowired
+	private PricingTypeService pricingTypeService;
 	
 	@Autowired
 	private OrderInfoDao orderInfoDao;
@@ -149,7 +153,6 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSSSS");
 		String orderNo=sdf.format(new Date());
-		
 		//获取抄表单号
 		print.setOrderNo(orderNo);
 		//获取楼宇ID和地址
@@ -257,7 +260,6 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			Date monthly=(Date)params.get("monthly");
 			Date beginDate=(Date)params.get("beginDate");
 			Date endDate=(Date)params.get("endDate");
-			String bulidCode=(String)params.get("bulidCode");
 			String remark=(String)params.get("remark");
 			
 			if(beginDate.after(endDate)){
@@ -269,57 +271,90 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
 			Integer monthly2Int=Integer.parseInt(sdf.format(monthly));
-
-			//查看该月度是否已初始化数据
-			PayWaterMeterInputHeader waterMeterInputHeaderConfirm=waterMeterInputHeaderDao.getForMonthlyAndStatus(monthly2Int, PayConstants.INPUT_DATA_STATUS_CONFIRM);	
-			if(waterMeterInputHeaderConfirm!=null){
-				throw new BusinessException("该批次已确认开始收费！");
-			}
 			
 			//查看该月度是否已初始化数据
-			PayWaterMeterInputHeader waterMeterInputHeaderNew=waterMeterInputHeaderDao.getForMonthlyAndStatus(monthly2Int, PayConstants.INPUT_DATA_STATUS_NEW);	
-			if(waterMeterInputHeaderNew!=null){
-				if(StringUtils.isNotEmpty(bulidCode)){
-					//查询该批次是否存在该楼宇录入记录
-					PayWaterMeterInputBuilding waterMeterInputBuilding=waterMeterInputBuildingDao.getByCodeAndBuildCode(waterMeterInputHeaderNew.getCode(), bulidCode);
-					//存在则抛出异常
-					if(waterMeterInputBuilding!=null){
-						throw new BusinessException("该批次已存在该楼宇信息！");
-					}else{
-						Map<String,Object> buildParamsMap=new HashMap<String, Object>();
-						buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
-						buildParamsMap.put("code", bulidCode);
-						List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
-						createDetail(waterMeterInputHeaderNew.getCode(),waterMeterInputHeaderNew.getMonthlyCycle(),buildingInfos);
-					}
-				}else{
-					throw new BusinessException("已存在该批次，请先作废再重生生成！");
-				}
-				
-			}else{
-				PayWaterMeterInputHeader header=new PayWaterMeterInputHeader();
-				SimpleDateFormat sdf1=new SimpleDateFormat("yyyyMMddHHmmssSSS");
-				String inputHeaderCode=sdf1.format(monthly);
-				header.setCode(inputHeaderCode);
-				header.setBeginDate(beginDate);
-				header.setEndDate(endDate);
-				header.setMonthlyCycle(monthly2Int);
-				header.setStatus(PayConstants.INPUT_DATA_STATUS_NEW);
-				header.setCreateUser(ContextHolder.getLoginUserName());
-				header.setCreateTime(new Date());
-				header.setLastModifyUser(ContextHolder.getLoginUserName());
-				header.setLastModifyTime(new Date());
-				header.setRemark(remark);
-				
-				Map<String,Object> buildParamsMap=new HashMap<String, Object>();
-				buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
-				buildParamsMap.put("code", bulidCode);
-				List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
-				createDetail(header.getCode(),header.getMonthlyCycle(),buildingInfos);
-				
-				
-				waterMeterInputHeaderDao.save(header);
+			PayWaterMeterInputHeader waterMeterInputHeader=waterMeterInputHeaderDao.getByMonthly(monthly2Int);
+			
+			if(waterMeterInputHeader!=null){
+				throw new BusinessException("已存在该批次，请先作废再重生生成！");
 			}
+			
+			PayWaterMeterInputHeader header=new PayWaterMeterInputHeader();
+			SimpleDateFormat sdf1=new SimpleDateFormat("yyyyMMddHHmmssSSS");
+			String inputHeaderCode="WI"+sdf1.format(monthly);
+			header.setCode(inputHeaderCode);
+			header.setBeginDate(beginDate);
+			header.setEndDate(endDate);
+			header.setMonthlyCycle(monthly2Int);
+			header.setStatus(PayConstants.INPUT_DATA_STATUS_NEW);
+			header.setCreateUser(ContextHolder.getLoginUserName());
+			header.setCreateTime(new Date());
+			header.setLastModifyUser(ContextHolder.getLoginUserName());
+			header.setLastModifyTime(new Date());
+			header.setRemark(remark);
+			
+			Map<String,Object> buildParamsMap=new HashMap<String, Object>();
+			buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
+			List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
+			createDetail(header.getCode(),header.getMonthlyCycle(),buildingInfos);
+			
+			waterMeterInputHeaderDao.save(header);
+				
+		}
+		
+	}
+	
+	/**
+	 * 创建水费录入记录For楼宇编号
+	 * @param params
+	 */
+	@DataResolver
+	public void createForBuildingCode(Map<String,Object> params){
+		
+		if(MapUtils.isNotEmpty(params)){
+			Date monthly=(Date)params.get("monthly");
+
+			String buildingCode=(String)params.get("buildingCode");
+
+			
+			
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+			Integer monthly2Int=Integer.parseInt(sdf.format(monthly));
+			
+			
+			//查看该月度是否已初始化数据
+			PayWaterMeterInputHeader waterMeterInputHeader=waterMeterInputHeaderDao.getByMonthly(monthly2Int);
+			
+			if(waterMeterInputHeader!=null){
+				if(PayConstants.INPUT_DATA_STATUS_CONFIRM==waterMeterInputHeader.getMonthlyCycle()){
+					throw new BusinessException("该批次已确认开始收费！");
+				}else{
+					if(StringUtils.isNotEmpty(buildingCode)){
+						//查询该批次是否存在该楼宇录入记录
+						PayWaterMeterInputBuilding waterMeterInputBuilding=waterMeterInputBuildingDao.getByCodeAndBuildCode(waterMeterInputHeader.getCode(), buildingCode);
+						//存在则抛出异常
+						if(waterMeterInputBuilding!=null){
+							
+							throw new BusinessException("该批次已存在该楼宇信息！");
+						}else{
+							Map<String,Object> buildParamsMap=new HashMap<String, Object>();
+							buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
+							buildParamsMap.put("code", buildingCode);
+							List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
+							if(CollectionUtils.isEmpty(buildingInfos)){
+								throw new BusinessException("该楼宇不存在！");
+							}
+							createDetail(waterMeterInputHeader.getCode(),waterMeterInputHeader.getMonthlyCycle(),buildingInfos);
+						}
+					}else{
+						throw new BusinessException("楼宇编号不能为空！");
+					}
+				}
+			}else{
+				throw new BusinessException("该批次不存在,不能追加楼宇信息!");
+			}
+
+			
 			
 			
 			
@@ -360,6 +395,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			//-------------------水费录入楼宇明细信息--------------------
 			if(CollectionUtils.isNotEmpty(buildingDetails)){
 				List<PayWaterMeterInputDetail> waterMeterInputDetails=new ArrayList<PayWaterMeterInputDetail>();
+				Map<Integer,PayPricingType> pricingTypeMap=pricingTypeService.queryApportionTypeForMap();
 				for(PayBuildingDetail buildingDetail:buildingDetails){
 					PayWaterMeterInputDetail waterMeterInputDetail=new PayWaterMeterInputDetail();
 					waterMeterInputDetail.setCode(code);
@@ -369,8 +405,8 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 					waterMeterInputDetail.setWaterMeterCode(buildingDetail.getWaterMeterCode());
 					waterMeterInputDetail.setBeforeQty(buildingDetail.getMonthlyQty()==null?new BigDecimal(0):buildingDetail.getMonthlyQty());
 					waterMeterInputDetail.setCurrentQty(new BigDecimal(0));
-					waterMeterInputDetail.setGarbagePrice(new BigDecimal(0));
-					waterMeterInputDetail.setNetworkPrice(new BigDecimal(0));
+					waterMeterInputDetail.setGarbagePrice(pricingTypeMap.get(buildingDetail.getPricingTypeId()).getGarbagePrice());
+					waterMeterInputDetail.setNetworkPrice(pricingTypeMap.get(buildingDetail.getPricingTypeId()).getNetworkPrice());
 					waterMeterInputDetail.setSewagePrice(new BigDecimal(0));
 					waterMeterInputDetail.setOtherPrice(new BigDecimal(0));
 					waterMeterInputDetail.setStatus(PayConstants.INPUT_DATA_STATUS_NEW);
@@ -417,7 +453,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			orderInfo.setMonthlyCycle(waterMeterInputDetail.getMonthlyCycle());
 			orderInfo.setWaterBeforeQty(waterMeterInputDetail.getBeforeQty());
 			orderInfo.setWaterCurrentQty(waterMeterInputDetail.getCurrentQty());
-			
+			orderInfo.setLastPayDate(new Date(header.getEndDate().getTime()+(1000*60*60*24)));
 			PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
 			buildingDetailPK.setCode(waterMeterInputDetail.getBuildingCode());
 			buildingDetailPK.setRoomNo(waterMeterInputDetail.getRoomNo());
@@ -450,20 +486,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			//计算分摊费
 			BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 			orderInfo.setApportionPrice(apportionPrice);
-			//滞纳金
-//			if((new Date()).after(header.getEndDate())){
-//				Long day=com.pay.common.DateUtils.getDaySub(header.getEndDate(), new Date());
-//				BigDecimal waterTotalPrice=waterPrice.add(apportionPrice);
-//				BigDecimal lateFeeForDay=waterTotalPrice.multiply(new BigDecimal(0.0005));
-//				BigDecimal lateFee=new BigDecimal(day.intValue()).multiply(lateFeeForDay);
-//				//滞纳金不能大于本金
-//				if(lateFee.compareTo(waterTotalPrice)>1){
-//					lateFee=waterTotalPrice;
-//				}
-//				orderInfo.setLateFee(lateFee);
-//			}else{
-//				orderInfo.setLateFee(new BigDecimal(0));
-//			}
+
 			orderInfo.setLateFee(new BigDecimal(0));
 			orderInfo.setGarbagePrice(waterMeterInputDetail.getGarbagePrice());
 			orderInfo.setNetworkPrice(waterMeterInputDetail.getNetworkPrice());
@@ -477,7 +500,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 					.add(orderInfo.getNetworkPrice())
 					.add(orderInfo.getSewagePrice())
 					.add(orderInfo.getOtherPrice());
-			orderInfo.setTotalPrice(totalPrice);
+			orderInfo.setTotalPrice(formatPrice(totalPrice));
 			orderInfo.setStatus(PayConstants.ORDER_STATUS_UNPAY);
 			orderInfo.setCreateUser(ContextHolder.getLoginUserName());
 			orderInfo.setCreateTime(new Date());
@@ -495,6 +518,25 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 		waterMeterInputHeaderDao.update(header);
 
 		
+	}
+	
+	/*
+	 * 检查是否有小数，有小数默认进一位
+	 */
+	private BigDecimal formatPrice(BigDecimal price){
+		String formatPrice=price.toString();
+		String[] ary=formatPrice.split("\\.");
+		
+		if(ary.length>0){
+			
+			Integer before=Integer.parseInt(ary[0]);
+			Integer after=Integer.parseInt(ary[1]);
+			
+			if(after>0){
+				return new BigDecimal(before+1); 
+			}
+		}
+		return price;
 	}
 	
 	/**

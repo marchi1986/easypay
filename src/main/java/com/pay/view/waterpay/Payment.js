@@ -10,7 +10,7 @@
 }
 
 //@Bind #buttonCharge.onClick
-!function(self,arg,dialogPay,dataSetSelect,dataGridOrderInfo,ajaxActionRxtx,dataSetPay,autoFormPay){
+!function(self,arg,dialogPay,dataGridOrderInfo,ajaxActionRxtx,dataSetPay,autoFormPay,dataSetSelected){
 	
 	var selectedData = dataGridOrderInfo.get("selection");
 	
@@ -27,7 +27,9 @@
 	var sumSewagePayAmount=0;
 	var sumOtherPayAmount=0;
 	var sumLateFeeAmount=0;
+	dataSetSelected.clear();
 	selectedData.each(function(data){
+		dataSetSelected.insert(data);
 		sum=sum+data.get("totalPrice");
 		sumWaterPayAmount=sumWaterPayAmount+ data.get("waterPrice");
 		sumGarbagePayAmount=sumGarbagePayAmount+ data.get("garbagePrice");
@@ -36,93 +38,63 @@
 		sumSewagePayAmount=sumSewagePayAmount+ data.get("sewagePrice");
 		sumOtherPayAmount=sumOtherPayAmount+ data.get("otherPrice");
 		sumLateFeeAmount=sumLateFeeAmount+ data.get("lateFee");
+		
 	});
 	dataSetPay.clear();
+	var totalPrice=formatAmount(sum);
 
-	var totalAmount=formatAmount(sum);
-
+	dataSetPay.insert({"waterPrice":formatAmount(sumWaterPayAmount+sumApportionPayAmount),
+		"garbagePrice":sumGarbagePayAmount,"actualGarbagePrice":sumGarbagePayAmount,
+		"networkPrice":sumNetworkPayAmount,"actualNetworkPrice":sumNetworkPayAmount,
+		"sewagePrice":sumSewagePayAmount,"otherPrice":sumOtherPayAmount,
+		"lateFee":sumLateFeeAmount,"totalPrice":totalPrice,"actualTotalPrice":totalPrice});
 	
-	dataSetPay.insert({"waterPayAmount":sumWaterPayAmount+sumApportionPayAmount,
-		"garbagePayAmount":sumGarbagePayAmount,"networkPayAmount":sumNetworkPayAmount,"sewagePayAmount":sumSewagePayAmount,
-		"otherPayAmount":sumOtherPayAmount,"lateFeeAmount":sumLateFeeAmount,"totalAmount":totalAmount});
 	
-	
-	setFocus(autoFormPay.getElement("actualAmount").getDom());
+	setFocus(autoFormPay.getElement("currentGive").getDom());
 	
 	dialogPay.show();
 	
-	ajaxActionRxtx.set("parameter",{"state":"2","data":totalAmount+""}).execute();
+	ajaxActionRxtx.set("parameter",{"state":"2","data":totalPrice+""}).execute();
 
 }
 
-//@Bind #garbagePayAmount.onKeyPress
+//@Bind #actualGarbagePrice.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
 
 	if(arg.keyCode==13){
-		
-		var data=dataSetPay.get("data:#");
-		
-		var totalAmount= sumAmount(data)
-		
-		dataSetPay.get("data:#").set("totalAmount",totalAmount);
-		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"2","data":totalAmount+""}).execute(); }, 3000);
+		paymentForKeyPress(dataSetPay,ajaxActionRxtx,"2");
 	}
 }
 
-//@Bind #networkPayAmount.onKeyPress
+//@Bind #actualNetworkPrice.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
-
 	if(arg.keyCode==13){
-		
-		var data=dataSetPay.get("data:#");
-		
-		var totalAmount= sumAmount(data)
-		
-		dataSetPay.get("data:#").set("totalAmount",totalAmount);
-		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"2","data":totalAmount+""}).execute(); }, 3000);
+		paymentForKeyPress(dataSetPay,ajaxActionRxtx,"2");
 	}
 }
 
-//@Bind #sewagePayAmount.onKeyPress
+//@Bind #sewagePrice.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
 
 	if(arg.keyCode==13){
-		
-		var data=dataSetPay.get("data:#");
-		
-		var totalAmount= sumAmount(data)
-		
-		dataSetPay.get("data:#").set("totalAmount",totalAmount);
-		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"2","data":totalAmount+""}).execute(); }, 3000);
+		paymentForKeyPress(dataSetPay,ajaxActionRxtx,"2");
 	}
 }
 
-//@Bind #otherPayAmount.onKeyPress
+//@Bind #otherPrice.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
 
 	if(arg.keyCode==13){
-		
-		var data=dataSetPay.get("data:#");
-		
-		var totalAmount= sumAmount(data)
-		
-		dataSetPay.get("data:#").set("totalAmount",totalAmount);
-		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"2","data":totalAmount+""}).execute(); }, 3000);
+		paymentForKeyPress(dataSetPay,ajaxActionRxtx,"2");
 	}
 }
 
-//@Bind #actualAmount.onKeyPress
+//@Bind #currentGive.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
-
 	if(arg.keyCode==13){
-		
 		var data=dataSetPay.get("data:#");
 		
-		var giveChange=data.get("actualAmount")-data.get("totalAmount");
+		var giveChange=data.get("currentGive")-data.get("actualTotalPrice");
 		
 		dataSetPay.get("data:#").set("giveChange",giveChange);
 		
@@ -130,15 +102,30 @@
 	}
 }
 
+function paymentForKeyPress(dataSetPay,ajaxActionRxtx,state){
+	
+		
+		var data=dataSetPay.get("data:#");
+		
+		var totalAmount= sumAmount(data)
+		
+		dataSetPay.get("data:#").set("actualTotalPrice",totalAmount);
+		
+		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":state,"data":totalAmount+""}).execute(); }, 3000);
+	
+}
+
+
+
 
 
 function sumAmount(data){
-	var sumWaterPayAmount=parseInt(data.get("waterPayAmount"));
-	var sumGarbagePayAmount=parseInt(data.get("garbagePayAmount"));
-	var sumNetworkPayAmount=parseInt(data.get("networkPayAmount"));
-	var sumSewagePayAmount=parseInt(data.get("sewagePayAmount"));
-	var sumOtherPayAmount=parseInt(data.get("otherPayAmount"));
-	var sumLateFeeAmount=parseInt(data.get("lateFeeAmount"));
+	var sumWaterPayAmount=parseInt(data.get("waterPrice"));
+	var sumGarbagePayAmount=parseInt(data.get("actualGarbagePrice"));
+	var sumNetworkPayAmount=parseInt(data.get("actualNetworkPrice"));
+	var sumSewagePayAmount=parseInt(data.get("sewagePrice"));
+	var sumOtherPayAmount=parseInt(data.get("otherPrice"));
+	var sumLateFeeAmount=parseInt(data.get("lateFee"));
 	
 	var sum=sumWaterPayAmount+sumGarbagePayAmount+sumNetworkPayAmount+sumSewagePayAmount+sumOtherPayAmount+sumLateFeeAmount;
 	
@@ -164,15 +151,25 @@ function formatAmount(amount){
 
 
 //@Bind #buttonConfirmPay.onClick
-!function(self,arg,dialogPay,updateActionPay,autoFormCondition,dataSetOrderInfo){
+!function(self,arg,dialogPay,updateActionPaymen,autoFormCondition,dataSetPay,dataSetOrderInfo){
 	
-	updateActionPay.execute(function(result){
+	var data=dataSetPay.get("data:#");
+	if(!isNotNull(data.get("actualTotalPrice"))){
+		dorado.MessageBox.alert("请输入实际收款金额!");
+		return;
+	}
+	
+	
+	updateActionPaymen.execute(function(result){
+
 		//获取autoformCondition绑定的实体对象
-		var entity = autoFormCondition.get("entity");
-		entity.set("status",0);
+		var entityCondition = autoFormCondition.get("entity");
+
 		//将实体对象作为参数传入，并异步刷新
-		dataSetOrderInfo.set("parameter",entity).flushAsync();
+		dataSetOrderInfo.set("parameter",entityCondition).flushAsync();
+
 	});
+	
 	
 	dialogPay.hide();
 
@@ -198,5 +195,6 @@ function formatAmount(amount){
 !function(arg) {
 	//arg.dom.style.background = (arg.data.get("status") ==0) ? "#d3d3d3" : "";
 	arg.dom.style.color = (arg.data.get("status") ==0) ? "green" : "";
+	//防止系统自动的添加一行
 	arg.processDefault = true;
 }

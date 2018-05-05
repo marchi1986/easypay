@@ -1,6 +1,7 @@
 package com.pay.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.bstek.dorado.data.entity.EntityState;
 import com.bstek.dorado.data.entity.EntityUtils;
 import com.bstek.dorado.data.provider.Page;
 import com.pay.dao.PricingTypeDao;
+import com.pay.pojo.PayApportionType;
 import com.pay.pojo.PayPricingType;
 import com.pay.service.PricingTypeService;
 
@@ -82,6 +84,15 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 		
 		return list;
 		
+	}
+	
+	public Map<Integer,PayPricingType>  queryApportionTypeForMap(){
+		List<PayPricingType> list=queryAll();
+		Map<Integer,PayPricingType> map=new HashMap<Integer, PayPricingType>();
+		for(PayPricingType apportionType:list){
+			map.put(apportionType.getId(), apportionType);
+		}
+		return map;
 	}
 	
 	/**

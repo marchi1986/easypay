@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="Condition">
+      <PropertyDef name="buildCode">
+        <Property name="label">楼宇编号</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ToolBar>
+      <Separator/>
+      <ToolBarButton id="buttonPrint">
+        <Property name="caption">打印抄表纸</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataSet">dataSetCondition</Property>
+      <Property name="cols">*</Property>
+      <AutoFormElement>
+        <Property name="property">buildCode</Property>
+        <Property name="name">buildCode</Property>
+        <Property name="labelWidth">120</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetCondition">
+      <Property name="dataType">Condition</Property>
+    </DataSet>
+    <UpdateAction id="updateActionPrint">
+      <Property name="confirmMessage">是否打印？</Property>
+      <Property name="successMessage">打印完成！</Property>
+      <Property name="dataResolver">waterMeterInputHeaderService#print</Property>
+    </UpdateAction>
+    <Label>
+      <Property name="text">不填楼宇编号默认全部楼宇打印</Property>
+      <Property name="style">
+        <Property name="color">red</Property>
+      </Property>
+    </Label>
+  </View>
+</ViewConfig>

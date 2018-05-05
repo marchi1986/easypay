@@ -128,6 +128,9 @@ public class PayOrderInfo implements Serializable {
 	@PropertyDef(label = "pay_date", description = "pay_date:")
 	private Date payDate;
 	
+	@PropertyDef(label = "last_pay_date", description = "last_pay_date:")
+	private Date lastPayDate;
+	
 	@PropertyDef(label = "toll_collector", description = "toll_collector:")
 	private String tollCollector;
 
@@ -154,20 +157,21 @@ public class PayOrderInfo implements Serializable {
 	 */
 	@PropertyDef(label = "last_modify_time", description = "last_modify_time:")
 	private Date lastModifyTime;
+	
+	private String payCode;
 
 	public PayOrderInfo() {
 		super();
 	}
 
-	public PayOrderInfo(String orderCode, String buildingCode, String roomNo,
-			int monthlyCycle, BigDecimal waterBeforeQty,
-			BigDecimal waterCurrentQty, BigDecimal waterApportionQty,
-			BigDecimal waterPrice, BigDecimal garbagePrice,
-			BigDecimal apportionPrice, BigDecimal lateFee,
-			BigDecimal networkPrice, BigDecimal sewagePrice,
-			BigDecimal otherPrice, BigDecimal totalPrice, int status,
-			String remark, String createUser, Date createTime,
-			String lastModifyUser, Date lastModifyTime,BigDecimal price,Date payDate,String tollCollector) {
+	
+
+	public PayOrderInfo(String orderCode, String buildingCode, String roomNo, int monthlyCycle,
+			BigDecimal waterBeforeQty, BigDecimal waterCurrentQty, BigDecimal actualQty, BigDecimal waterApportionQty,
+			BigDecimal price, BigDecimal waterPrice, BigDecimal garbagePrice, BigDecimal apportionPrice,
+			BigDecimal lateFee, BigDecimal networkPrice, BigDecimal sewagePrice, BigDecimal otherPrice,
+			BigDecimal totalPrice, int status, String remark, Date payDate, Date lastPayDate, String tollCollector,
+			String createUser, Date createTime, String lastModifyUser, Date lastModifyTime, String payCode) {
 		super();
 		this.orderCode = orderCode;
 		this.buildingCode = buildingCode;
@@ -175,7 +179,9 @@ public class PayOrderInfo implements Serializable {
 		this.monthlyCycle = monthlyCycle;
 		this.waterBeforeQty = waterBeforeQty;
 		this.waterCurrentQty = waterCurrentQty;
+		this.actualQty = actualQty;
 		this.waterApportionQty = waterApportionQty;
+		this.price = price;
 		this.waterPrice = waterPrice;
 		this.garbagePrice = garbagePrice;
 		this.apportionPrice = apportionPrice;
@@ -186,14 +192,17 @@ public class PayOrderInfo implements Serializable {
 		this.totalPrice = totalPrice;
 		this.status = status;
 		this.remark = remark;
+		this.payDate = payDate;
+		this.lastPayDate = lastPayDate;
+		this.tollCollector = tollCollector;
 		this.createUser = createUser;
 		this.createTime = createTime;
 		this.lastModifyUser = lastModifyUser;
 		this.lastModifyTime = lastModifyTime;
-		this.price = price;
-		this.payDate=payDate;
-		this.tollCollector=tollCollector;
+		this.payCode = payCode;
 	}
+
+
 
 	public void setOrderCode(String orderCode) {
 		this.orderCode = orderCode;
@@ -419,6 +428,16 @@ public class PayOrderInfo implements Serializable {
 	public void setPayDate(Date payDate) {
 		this.payDate = payDate;
 	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "last_pay_date")
+	public Date getLastPayDate() {
+		return lastPayDate;
+	}
+
+	public void setLastPayDate(Date lastPayDate) {
+		this.lastPayDate = lastPayDate;
+	}
 
 	@Column(name = "toll_collector")
 	public String getTollCollector() {
@@ -428,21 +447,31 @@ public class PayOrderInfo implements Serializable {
 	public void setTollCollector(String tollCollector) {
 		this.tollCollector = tollCollector;
 	}
-
-	public String toString() {
-		return "PayOrderInfo [orderCode=" + orderCode + ",buildingCode="
-				+ buildingCode + ",roomNo=" + roomNo + ",monthlyCycle="
-				+ monthlyCycle + ",waterBeforeQty=" + waterBeforeQty
-				+ ",waterCurrentQty=" + waterCurrentQty + ",waterApportionQty="
-				+ waterApportionQty + ",waterPrice=" + waterPrice
-				+ ",garbagePrice=" + garbagePrice + ",apportionPrice="
-				+ apportionPrice + ",lateFee=" + lateFee + ",networkPrice="
-				+ networkPrice + ",sewagePrice=" + sewagePrice + ",otherPrice="
-				+ otherPrice + ",totalPrice=" + totalPrice + ",status="
-				+ status + ",remark=" + remark + ",createUser=" + createUser
-				+ ",createTime=" + createTime + ",lastModifyUser="
-				+ lastModifyUser + ",lastModifyTime=" + lastModifyTime  
-				+ ",price=" + price + ",payDate=" + payDate + ",tollCollector=" + tollCollector +"]";
+	
+	@Column(name = "pay_code")
+	public String getPayCode() {
+		return payCode;
 	}
+
+	public void setPayCode(String payCode) {
+		this.payCode = payCode;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "PayOrderInfo [orderCode=" + orderCode + ", buildingCode=" + buildingCode + ", roomNo=" + roomNo
+				+ ", monthlyCycle=" + monthlyCycle + ", waterBeforeQty=" + waterBeforeQty + ", waterCurrentQty="
+				+ waterCurrentQty + ", actualQty=" + actualQty + ", waterApportionQty=" + waterApportionQty + ", price="
+				+ price + ", waterPrice=" + waterPrice + ", garbagePrice=" + garbagePrice + ", apportionPrice="
+				+ apportionPrice + ", lateFee=" + lateFee + ", networkPrice=" + networkPrice + ", sewagePrice="
+				+ sewagePrice + ", otherPrice=" + otherPrice + ", totalPrice=" + totalPrice + ", status=" + status
+				+ ", remark=" + remark + ", payDate=" + payDate + ", lastPayDate=" + lastPayDate + ", tollCollector="
+				+ tollCollector + ", createUser=" + createUser + ", createTime=" + createTime + ", lastModifyUser="
+				+ lastModifyUser + ", lastModifyTime=" + lastModifyTime + ", payCode=" + payCode + "]";
+	}
+
+	
 
 }

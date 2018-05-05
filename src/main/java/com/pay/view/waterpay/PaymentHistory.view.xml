@@ -35,12 +35,6 @@
       <Property name="createPrivateDataSet">true</Property>
       <Property name="cols">*,*,*</Property>
       <AutoFormElement>
-        <Property name="name">monthlyCycle</Property>
-        <Property name="property">monthlyCycle</Property>
-        <Property name="trigger">defaultYearMonthDropDown</Property>
-        <Editor/>
-      </AutoFormElement>
-      <AutoFormElement>
         <Property name="name">buildingCode</Property>
         <Property name="property">buildingCode</Property>
         <Editor/>
@@ -50,12 +44,21 @@
         <Property name="property">roomNo</Property>
         <Editor/>
       </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">monthlyCycle</Property>
+        <Property name="property">monthlyCycle</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
+        <Editor/>
+      </AutoFormElement>
     </AutoForm>
     <DataSet id="dataSetOrderInfo">
       <Property name="dataType">[PayOrderInfo]</Property>
       <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
       <Property name="loadMode">manual</Property>
       <Property name="pageSize">100</Property>
+    </DataSet>
+    <DataSet id="dataSetSelected">
+      <Property name="dataType">[PayOrderInfo]</Property>
     </DataSet>
     <ToolBar>
       <DataPilot id="dataPilotOrderInfo">
@@ -70,6 +73,11 @@
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
       <RowSelectorColumn/>
+      <DataColumn>
+        <Property name="property">payCode</Property>
+        <Property name="width">200</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
       </DataColumn>
@@ -120,10 +128,10 @@
       <Property name="confirmMessage">是否打印？</Property>
       <Property name="executingMessage">打印中...</Property>
       <Property name="successMessage">打印成功！</Property>
-      <Property name="dataResolver">orderInfoService#updatePaymentInfo</Property>
+      <Property name="dataResolver">orderInfoService#printList</Property>
       <Property name="alwaysExecute">false</Property>
       <UpdateItem>
-        <Property name="dataSet">dataSetOrderInfo</Property>
+        <Property name="dataSet">dataSetSelected</Property>
         <Property name="dataPath">!DIRTY_TREE</Property>
       </UpdateItem>
     </UpdateAction>

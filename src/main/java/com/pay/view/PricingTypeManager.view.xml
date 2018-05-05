@@ -67,6 +67,12 @@
       <DataColumn name="price">
         <Property name="property">price</Property>
       </DataColumn>
+      <DataColumn name="garbagePrice">
+        <Property name="property">garbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
     </DataGrid>
     <UpdateAction id="updateActionSave">
       <Property name="successMessage">保存成功！</Property>
@@ -95,6 +101,7 @@
       <Children>
         <AutoForm id="autoFormPricingType">
           <Property name="dataSet">dataSetPricingType</Property>
+          <Property name="cols">*</Property>
           <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">pricingName</Property>
             <Property name="property">pricingName</Property>
@@ -109,6 +116,16 @@
           <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">price</Property>
             <Property name="property">price</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">garbagePrice</Property>
+            <Property name="property">garbagePrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">networkPrice</Property>
+            <Property name="property">networkPrice</Property>
             <Editor/>
           </AutoFormElement>
         </AutoForm>

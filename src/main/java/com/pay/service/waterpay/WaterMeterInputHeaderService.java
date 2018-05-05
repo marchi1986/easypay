@@ -13,6 +13,8 @@ public interface WaterMeterInputHeaderService {
 	 */
 	public void create(Map<String,Object> params);
 	
+	public void createForBuildingCode(Map<String,Object> params);
+	
 	public void queryPageForCondition(Page<PayWaterMeterInputHeader> page,Map<String, Object> parameter);
 	
 	public Map<String, String> getStatusDesc() ;
