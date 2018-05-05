@@ -98,7 +98,7 @@
 		
 		dataSetPay.get("data:#").set("giveChange",giveChange);
 		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"4","data":giveChange+""}).execute(); }, 3000);
+		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"4","data":giveChange+""}).execute(); }, 2000);
 	}
 }
 
@@ -111,7 +111,7 @@ function paymentForKeyPress(dataSetPay,ajaxActionRxtx,state){
 		
 		dataSetPay.get("data:#").set("actualTotalPrice",totalAmount);
 		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":state,"data":totalAmount+""}).execute(); }, 3000);
+		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":state,"data":totalAmount+""}).execute(); }, 2000);
 	
 }
 

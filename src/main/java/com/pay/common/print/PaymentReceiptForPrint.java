@@ -405,7 +405,7 @@ public class PaymentReceiptForPrint implements Printable {
 				case 8:
 					g2.setFont(gridFont); // 设置字体
 					g2.drawString("注意事项：", (float)leftPointX + 5, (float) line + gridFontHeight);
-					g2.drawString("1、用户煤气凭用户编号直接到我收费处缴清水费；", (float) leftPointX + 50, (float) line + gridFontHeight);
+					g2.drawString("1、用户凭用户编号直接到我收费处缴清水费；", (float) leftPointX + 50, (float) line + gridFontHeight);
 					
 					g2.drawString("合计：", (float) leftPointX + 415, (float) line + gridFontHeight);
 					g2.drawString(String.valueOf(this.totalAmountFoot), (float) leftPointX + 500, (float) line + gridFontHeight);

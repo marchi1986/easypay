@@ -218,7 +218,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		PayBuildingDetail buildingDetail=buildingDetailDao.get(buildingDetailPK);
 		
 		PaymentReceiptForPrint paymentReceiptForPrint = new PaymentReceiptForPrint();
-		paymentReceiptForPrint.setOrderNo(orderInfo.getOrderCode());
+		paymentReceiptForPrint.setOrderNo(orderInfo.getOrderCode().substring(0,10)+orderInfo.getBuildingCode()+orderInfo.getRoomNo());
 		paymentReceiptForPrint.setWaterMeterCode(buildingDetail.getWaterMeterCode());
 		PayWaterMeterInputHeader inputHeader= waterMeterInputHeaderDao.get(orderInfo.getOrderCode());
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");	
