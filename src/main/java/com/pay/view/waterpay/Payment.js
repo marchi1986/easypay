@@ -30,9 +30,8 @@
 	selectedData.each(function(data){
 		dataSetSelected.insert(data);
 		sum=sum+data.get("totalPrice");
-		sumWaterPayAmount=sumWaterPayAmount+ data.get("waterPrice");
+		sumWaterPayAmount=sumWaterPayAmount+ (data.get("waterPrice"));
 		sumGarbagePayAmount=sumGarbagePayAmount+ data.get("garbagePrice");
-		sumApportionPayAmount=sumApportionPayAmount+ data.get("apportionPrice");
 		sumNetworkPayAmount=sumNetworkPayAmount+ data.get("networkPrice");
 		sumSewagePayAmount=sumSewagePayAmount+ data.get("sewagePrice");
 		sumOtherPayAmount=sumOtherPayAmount+ data.get("otherPrice");
@@ -41,9 +40,10 @@
 	});
 	
 	dataSetPay.clear();
-	var totalPrice=formatAmount(sum);
+	var totalWaterPrice=sumWaterPayAmount;
+	var totalPrice=sum;
 
-	dataSetPay.insert({"waterPrice":formatAmount(sumWaterPayAmount+sumApportionPayAmount),
+	dataSetPay.insert({"waterPrice":totalWaterPrice,
 		"garbagePrice":sumGarbagePayAmount,"actualGarbagePrice":sumGarbagePayAmount,
 		"networkPrice":sumNetworkPayAmount,"actualNetworkPrice":sumNetworkPayAmount,
 		"sewagePrice":sumSewagePayAmount,"otherPrice":sumOtherPayAmount,

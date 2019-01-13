@@ -36,8 +36,17 @@
 
 }
 //@Bind #buttonDetail.onClick
-!function(self,arg,autoFormCondition,dataSetInputBuilding,dataSetInputDetail,dialogDetail){
-var record=dataSetInputBuilding.getData("#");
+!function(self,arg,dataSetInputBuilding,dataSetInputDetail,dialogDetail){
+	loadDetail(dataSetInputBuilding,dataSetInputDetail,dialogDetail);
+}
+
+//@Bind #dataGridInputBuilding.onDoubleClick
+!function(self,arg,dataSetInputBuilding,dataSetInputDetail,dialogDetail){
+	loadDetail(dataSetInputBuilding,dataSetInputDetail,dialogDetail);
+}
+
+function loadDetail(dataSetInputBuilding,dataSetInputDetail,dialogDetail){
+	var record=dataSetInputBuilding.getData("#");
 	
 	var code=record.get("code");
 	var monthlyCycle=record.get("monthlyCycle");
@@ -50,14 +59,12 @@ var record=dataSetInputBuilding.getData("#");
 	}else{
 		dataSetInputDetail.set("readOnly",false);
 	}
-	
-	//将实体对象作为参数传入，并异步刷新
+		
+		//将实体对象作为参数传入，并异步刷新
 	dataSetInputDetail.set("parameter",entity).flushAsync();
-	
-	
-	dialogDetail.show();
-
-	
+		
+		
+	dialogDetail.show();	
 }
 
 //@Bind #buttonCancelDetail.onClick

@@ -102,9 +102,6 @@
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
       </DataColumn>
-      <DataColumn name="apportionPrice">
-        <Property name="property">apportionPrice</Property>
-      </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
       </DataColumn>

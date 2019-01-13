@@ -37,6 +37,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		 Integer monthlyCycle=null;
 		 Integer status=null;
 		 String groupId=null;
+		 String userCode="";
 		 //是否查询欠费
 		 Boolean isQueryArrears=false;
 	     if(MapUtils.isNotEmpty(params)){
@@ -46,6 +47,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	    	 status = (Integer)params.get("status");
 	    	 groupId=(String)params.get("groupId");
 	    	 isQueryArrears=(Boolean)params.get("isQueryArrears");
+	    	 userCode=(String)params.get("userCode");
 	     }
 	     
 	     StringBuffer hql=new StringBuffer();
@@ -65,6 +67,10 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     if (StringHelper.isNotEmpty(roomNo)) {
 
 	    	 hql.append(" AND a.roomNo='").append(roomNo).append("'");
+	     }
+	     
+	     if (StringHelper.isNotEmpty(userCode)) {
+	    	 hql.append(" AND a.userCode like '").append(userCode).append("%'");
 	     }
 	     
 	     if (status!=null) {
@@ -158,7 +164,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 				orderInfo.setWaterApportionQty((BigDecimal)map.get("waterApportionQty"));
 				orderInfo.setWaterPrice((BigDecimal)map.get("waterPrice"));
 				orderInfo.setGarbagePrice((BigDecimal)map.get("garbagePrice"));
-				orderInfo.setApportionPrice((BigDecimal)map.get("apportionPrice"));
+				//orderInfo.setApportionPrice((BigDecimal)map.get("apportionPrice"));
 				orderInfo.setLateFee((BigDecimal)map.get("lateFee"));
 				orderInfo.setNetworkPrice((BigDecimal)map.get("networkPrice"));
 				orderInfo.setSewagePrice((BigDecimal)map.get("sewagePrice"));

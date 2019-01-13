@@ -77,11 +77,6 @@ public class PayOrderInfo implements Serializable {
 	@PropertyDef(label = "garbage_price", description = "garbage_price:")
 	private BigDecimal garbagePrice;
 
-	/**
-	 * apportion_price:
-	 */
-	@PropertyDef(label = "apportion_price", description = "apportion_price:")
-	private BigDecimal apportionPrice;
 
 	/**
 	 * late_fee:
@@ -159,6 +154,10 @@ public class PayOrderInfo implements Serializable {
 	private Date lastModifyTime;
 	
 	private String payCode;
+	
+	private String userCode;
+	
+	private String userName;
 
 	public PayOrderInfo() {
 		super();
@@ -168,7 +167,7 @@ public class PayOrderInfo implements Serializable {
 
 	public PayOrderInfo(String orderCode, String buildingCode, String roomNo, int monthlyCycle,
 			BigDecimal waterBeforeQty, BigDecimal waterCurrentQty, BigDecimal actualQty, BigDecimal waterApportionQty,
-			BigDecimal price, BigDecimal waterPrice, BigDecimal garbagePrice, BigDecimal apportionPrice,
+			BigDecimal price, BigDecimal waterPrice, BigDecimal garbagePrice,
 			BigDecimal lateFee, BigDecimal networkPrice, BigDecimal sewagePrice, BigDecimal otherPrice,
 			BigDecimal totalPrice, int status, String remark, Date payDate, Date lastPayDate, String tollCollector,
 			String createUser, Date createTime, String lastModifyUser, Date lastModifyTime, String payCode) {
@@ -184,7 +183,6 @@ public class PayOrderInfo implements Serializable {
 		this.price = price;
 		this.waterPrice = waterPrice;
 		this.garbagePrice = garbagePrice;
-		this.apportionPrice = apportionPrice;
 		this.lateFee = lateFee;
 		this.networkPrice = networkPrice;
 		this.sewagePrice = sewagePrice;
@@ -299,14 +297,6 @@ public class PayOrderInfo implements Serializable {
 		return garbagePrice;
 	}
 
-	public void setApportionPrice(BigDecimal apportionPrice) {
-		this.apportionPrice = apportionPrice;
-	}
-
-	@Column(name = "apportion_price")
-	public BigDecimal getApportionPrice() {
-		return apportionPrice;
-	}
 
 	public void setLateFee(BigDecimal lateFee) {
 		this.lateFee = lateFee;
@@ -456,6 +446,34 @@ public class PayOrderInfo implements Serializable {
 	public void setPayCode(String payCode) {
 		this.payCode = payCode;
 	}
+	
+	
+
+
+	@Column(name = "user_code")
+	public String getUserCode() {
+		return userCode;
+	}
+
+
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+	
+	
+
+
+	@Column(name = "user_name")
+	public String getUserName() {
+		return userName;
+	}
+
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 
 
@@ -464,13 +482,21 @@ public class PayOrderInfo implements Serializable {
 		return "PayOrderInfo [orderCode=" + orderCode + ", buildingCode=" + buildingCode + ", roomNo=" + roomNo
 				+ ", monthlyCycle=" + monthlyCycle + ", waterBeforeQty=" + waterBeforeQty + ", waterCurrentQty="
 				+ waterCurrentQty + ", actualQty=" + actualQty + ", waterApportionQty=" + waterApportionQty + ", price="
-				+ price + ", waterPrice=" + waterPrice + ", garbagePrice=" + garbagePrice + ", apportionPrice="
-				+ apportionPrice + ", lateFee=" + lateFee + ", networkPrice=" + networkPrice + ", sewagePrice="
-				+ sewagePrice + ", otherPrice=" + otherPrice + ", totalPrice=" + totalPrice + ", status=" + status
-				+ ", remark=" + remark + ", payDate=" + payDate + ", lastPayDate=" + lastPayDate + ", tollCollector="
-				+ tollCollector + ", createUser=" + createUser + ", createTime=" + createTime + ", lastModifyUser="
-				+ lastModifyUser + ", lastModifyTime=" + lastModifyTime + ", payCode=" + payCode + "]";
+				+ price + ", waterPrice=" + waterPrice + ", garbagePrice=" + garbagePrice + ", lateFee=" + lateFee
+				+ ", networkPrice=" + networkPrice + ", sewagePrice=" + sewagePrice + ", otherPrice=" + otherPrice
+				+ ", totalPrice=" + totalPrice + ", status=" + status + ", remark=" + remark + ", payDate=" + payDate
+				+ ", lastPayDate=" + lastPayDate + ", tollCollector=" + tollCollector + ", createUser=" + createUser
+				+ ", createTime=" + createTime + ", lastModifyUser=" + lastModifyUser + ", lastModifyTime="
+				+ lastModifyTime + ", payCode=" + payCode + ", userCode=" + userCode + ", userName=" + userName + "]";
 	}
+
+
+
+
+
+
+
+
 
 	
 

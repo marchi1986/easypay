@@ -91,7 +91,7 @@ public class DESUtils {
 	// 单元测试
 	public static void main(String[] args) {
 		// 需要加密的字符串
-		String email = "erpDB123***";
+		String email = "sa11111";
 		// 加密
 		String encrypted = DESUtils.encode(email);
 		// 解密

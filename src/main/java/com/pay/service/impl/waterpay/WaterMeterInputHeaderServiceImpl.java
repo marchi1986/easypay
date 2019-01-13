@@ -454,11 +454,14 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			orderInfo.setWaterBeforeQty(waterMeterInputDetail.getBeforeQty());
 			orderInfo.setWaterCurrentQty(waterMeterInputDetail.getCurrentQty());
 			orderInfo.setLastPayDate(new Date(header.getEndDate().getTime()+(1000*60*60*24)));
+			orderInfo.setUserCode(waterMeterInputDetail.getBuildingCode()+waterMeterInputDetail.getRoomNo());
+			
 			PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
 			buildingDetailPK.setCode(waterMeterInputDetail.getBuildingCode());
 			buildingDetailPK.setRoomNo(waterMeterInputDetail.getRoomNo());
 			//获取楼宇明细
 			PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
+			orderInfo.setUserName(buildingDetail.getUserName());
 			//记录该房间月度吨数
 			buildingDetail.setMonthlyQty(waterMeterInputDetail.getCurrentQty());
 			buildingDetailDao.update(buildingDetail);
@@ -481,11 +484,11 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			orderInfo.setPrice(price);
 			
 			//计算水费
-			BigDecimal waterPrice=((auctalQty).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-			orderInfo.setWaterPrice(waterPrice);
+			BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+			int i = (int)Math.ceil(waterPrice.doubleValue());
+			orderInfo.setWaterPrice(new BigDecimal(i));
 			//计算分摊费
-			BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-			orderInfo.setApportionPrice(apportionPrice);
+			//BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 
 			orderInfo.setLateFee(new BigDecimal(0));
 			orderInfo.setGarbagePrice(waterMeterInputDetail.getGarbagePrice());
@@ -494,7 +497,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			orderInfo.setOtherPrice(waterMeterInputDetail.getOtherPrice());
 			//计算总价
 			BigDecimal totalPrice=waterPrice
-					.add(apportionPrice)
+					//.add(apportionPrice)
 					.add(orderInfo.getLateFee())
 					.add(orderInfo.getGarbagePrice())
 					.add(orderInfo.getNetworkPrice())

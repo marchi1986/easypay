@@ -529,7 +529,7 @@
     </PropertyDef>
     <PropertyDef name="waterApportionQty">
       <Property name="dataType">BigDecimal</Property>
-      <Property name="label">分摊吨数</Property>
+      <Property name="label">损耗数量</Property>
     </PropertyDef>
     <PropertyDef name="price">
       <Property name="dataType">BigDecimal</Property>
@@ -542,10 +542,6 @@
     <PropertyDef name="garbagePrice">
       <Property name="dataType">BigDecimal</Property>
       <Property name="label">垃圾费</Property>
-    </PropertyDef>
-    <PropertyDef name="apportionPrice">
-      <Property name="dataType">BigDecimal</Property>
-      <Property name="label">分摊金额</Property>
     </PropertyDef>
     <PropertyDef name="lateFee">
       <Property name="dataType">BigDecimal</Property>
@@ -606,6 +602,12 @@
     <PropertyDef name="lastPayDate">
       <Property name="label">最后支付日期</Property>
       <Property name="dataType">Date</Property>
+    </PropertyDef>
+    <PropertyDef name="userCode">
+      <Property name="label">用户编码</Property>
+    </PropertyDef>
+    <PropertyDef name="userName">
+      <Property name="label">用户名称</Property>
     </PropertyDef>
   </DataType>
   <DataType name="PayRoomGroup">

@@ -255,7 +255,7 @@ public class PaymentReceiptForPrint implements Printable {
 		
 		int lineSpace = 68;	//间距
 		
-		for(int i = 1; i < 14; i++){
+		for(int i = 1; i < 15; i++){
 			// 设置打印颜色为黑色  
 			g2.setColor(Color.black);  
 			g2.setFont(gridFont); // 设置字体
@@ -279,7 +279,7 @@ public class PaymentReceiptForPrint implements Printable {
 				//第1行
 				case 1:
 					g2.setFont(gridTitleFont); // 设置字体  
-					g2.drawString("水表编号", (float)leftPointX + 13, (float) line + gridTitleFontHeight);
+					g2.drawString("用户编号", (float)leftPointX + 13, (float) line + gridTitleFontHeight);
 					g2.drawString("计费时段", (float) leftPointX + 255, (float) line + gridTitleFontHeight);
 					
 					g2.setFont(gridFont); // 设置字体  
@@ -314,7 +314,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawString("上次行度", (float)leftPointX + 80, (float) line + gridTitleFontHeight);
 					g2.drawString("本次行度", (float)leftPointX + 150, (float) line + gridTitleFontHeight);
 					g2.drawString("实际用水量", (float)leftPointX + 212, (float) line + gridTitleFontHeight);
-					g2.drawString("分摊", (float)leftPointX + 282, (float) line + gridTitleFontHeight);
+					g2.drawString("损耗量", (float)leftPointX + 282, (float) line + gridTitleFontHeight);
 					g2.drawString("合计(t)", (float)leftPointX + 355, (float) line + gridTitleFontHeight);
 					g2.drawString("单价(元)", (float)leftPointX + 420, (float) line + gridTitleFontHeight);
 					g2.drawString("金额(元)", (float)leftPointX + 490, (float) line + gridTitleFontHeight);
@@ -401,44 +401,48 @@ public class PaymentReceiptForPrint implements Printable {
 					
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight*1.7)); //中竖线
 					break;
-				//第8行
 				case 8:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("注意事项：", (float)leftPointX + 5, (float) line + gridFontHeight);
-					g2.drawString("1、用户凭用户编号直接到我收费处缴清水费；", (float) leftPointX + 50, (float) line + gridFontHeight);
-					
 					g2.drawString("合计：", (float) leftPointX + 415, (float) line + gridFontHeight);
 					g2.drawString(String.valueOf(this.totalAmountFoot), (float) leftPointX + 500, (float) line + gridFontHeight);
+					break;
+				//第8行
+				case 9:
+					g2.setFont(gridFont); // 设置字体
+					g2.drawString("注意事项：", (float)leftPointX + 5, (float) line + gridFontHeight);
+					g2.drawString("1、用户凭用户编号直接到我收费处缴清水费、卫生费。涂改或未盖收费章的收据均属无效；", (float) leftPointX + 50, (float) line + gridFontHeight);
+					
+					
 					
 					break;
 				//第9行
-				case 9:
+				case 10:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("2、收费周期为两月一次，每逢双月的20日-25日为收费日（上午9:00-12:00，下午2:30-5:00，节假日不办公），逾期将按", (float) leftPointX + 50, (float) line + gridFontHeight);
+					g2.drawString("2、收费周期为两月一次，每逢单月的15日-25日为收费日（上午9:00-12:00，下午2:30-4:30，节假日不办公），逾期将按", (float) leftPointX + 50, (float) line + gridFontHeight);
 					
 					break;
 				//第10行
-				case 10:
+				case 11:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("10%/期计收滞纳金；", (float) leftPointX + 64, (float) line + gridFontHeight);
+					g2.drawString("每日水费千分之五加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
 					
 					break;
 				//第11行
-				case 11:
+				case 12:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("3、收费处联系电话：020-37358291", (float) leftPointX + 50, (float) line + gridFontHeight);
+					g2.drawString("3、收费处联系电话：020-37376948", (float) leftPointX + 50, (float) line + gridFontHeight);
 					
 					break;
 				//第12行
-				case 12:
+				case 13:
 					g2.setFont(gridFootFont); // 设置字体
 					g2.drawString(companyName, (float) leftPointX + 400, (float) line + gridFontHeight);
 					
 					break;
 				//第13行
-				case 13:
+				case 14:
 					g2.setFont(gridFootFont); // 设置字体
-					g2.drawString(this.year+" 年 "+this.month+" 月 "+this.day+" 日", (float) leftPointX + 420, (float) line + gridFontHeight);
+					g2.drawString(this.year+" 年 "+this.month+1+" 月 "+this.day+" 日", (float) leftPointX + 420, (float) line + gridFontHeight);
 					
 					break;
 			}
