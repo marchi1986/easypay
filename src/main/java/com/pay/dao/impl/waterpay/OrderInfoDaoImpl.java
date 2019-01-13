@@ -59,7 +59,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     }
 	             
 	     if (StringHelper.isNotEmpty(buildingCode)) {
-	    	 hql.append(" AND a.buildingCode='").append(monthlyCycle).append("'");
+	    	 hql.append(" AND a.buildingCode='").append(buildingCode).append("'");
 	     }
 	     
 	     if (StringHelper.isNotEmpty(roomNo)) {

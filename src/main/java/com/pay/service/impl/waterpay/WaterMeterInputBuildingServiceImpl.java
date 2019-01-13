@@ -61,7 +61,7 @@ public class WaterMeterInputBuildingServiceImpl implements
 				Long inputCount=waterMeterInputDetailDao.getCountForCondition(params);
 				
 				if(totalCount!=0){
-					BigDecimal percent=new BigDecimal(inputCount).divide(new BigDecimal(totalCount)).setScale(2).multiply(new BigDecimal(100));
+					BigDecimal percent=new BigDecimal(inputCount).divide(new BigDecimal(totalCount),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
 					waterMeterInputBuilding.setInputPercent(percent.toString()+"%");
 				}else{
 					waterMeterInputBuilding.setInputPercent("0%");

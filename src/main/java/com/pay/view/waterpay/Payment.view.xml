@@ -31,10 +31,6 @@
       <PropertyDef name="giveChange">
         <Property name="label">找零</Property>
       </PropertyDef>
-      <PropertyDef name="currentGive">
-        <Property name="label">现收</Property>
-        <Property name="dataType">String</Property>
-      </PropertyDef>
       <PropertyDef name="actualGarbagePrice">
         <Property name="dataType">String</Property>
         <Property name="label">实收垃圾费</Property>
@@ -42,6 +38,12 @@
       <PropertyDef name="actualNetworkPrice">
         <Property name="dataType">String</Property>
         <Property name="label">实收网管费</Property>
+      </PropertyDef>
+      <PropertyDef name="shouldTotalPrice">
+        <Property name="label">应收金额</Property>
+      </PropertyDef>
+      <PropertyDef name="actualPrice">
+        <Property name="label">实收金额</Property>
       </PropertyDef>
     </DataType>
   </Model>
@@ -249,15 +251,16 @@ dialogSwfViewer.show();&#xD;
             <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement id="actualTotalPrice">
-            <Property name="name">actualTotalPrice</Property>
-            <Property name="property">actualTotalPrice</Property>
+          <AutoFormElement id="shouldTotalPrice">
+            <Property name="name">shouldTotalPrice</Property>
+            <Property name="property">shouldTotalPrice</Property>
             <Property name="readOnly">true</Property>
+            <Property name="label">应收金额</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement id="currentGive">
-            <Property name="name">currentGive</Property>
-            <Property name="property">currentGive</Property>
+          <AutoFormElement id="actualPrice">
+            <Property name="name">actualPrice</Property>
+            <Property name="property">actualPrice</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>

@@ -240,7 +240,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				Long inputCount=waterMeterInputDetailDao.getCountForCondition(params);
 				BigDecimal percent=new BigDecimal(0);
 				if(totalCount!=0){
-					percent=new BigDecimal(inputCount).divide(new BigDecimal(totalCount)).setScale(2).multiply(new BigDecimal(100));
+					percent=new BigDecimal(inputCount).divide(new BigDecimal(totalCount),2,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
 				}
 				
 				waterMeterInputHeader.setInputPercent(percent.toString());

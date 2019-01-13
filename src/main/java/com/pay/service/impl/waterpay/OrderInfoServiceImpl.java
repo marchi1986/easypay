@@ -219,12 +219,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		
 		PaymentReceiptForPrint paymentReceiptForPrint = new PaymentReceiptForPrint();
 		paymentReceiptForPrint.setOrderNo(orderInfo.getOrderCode().substring(0,10)+orderInfo.getBuildingCode()+orderInfo.getRoomNo());
-		paymentReceiptForPrint.setWaterMeterCode(buildingDetail.getWaterMeterCode());
+		paymentReceiptForPrint.setWaterMeterCode(buildingDetail.getCode()+buildingDetail.getRoomNo());
 		PayWaterMeterInputHeader inputHeader= waterMeterInputHeaderDao.get(orderInfo.getOrderCode());
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");	
 		paymentReceiptForPrint.setBillingPeriod(sdf.format(inputHeader.getBeginDate()) +"至" +sdf.format(inputHeader.getEndDate()));
-		PayBuildingInfo buildingInfo=buildingInfoDao.get(orderInfo.getBuildingCode());
-		paymentReceiptForPrint.setAddr(buildingInfo.getAddr()+"("+buildingDetail.getRoomNo()+")");
+		//PayBuildingInfo buildingInfo=buildingInfoDao.get(orderInfo.getBuildingCode());
+		paymentReceiptForPrint.setAddr(buildingDetail.getAddr());
 		paymentReceiptForPrint.setUserName(buildingDetail.getUserName());
 		paymentReceiptForPrint.setBeforeQty(orderInfo.getWaterBeforeQty());
 		paymentReceiptForPrint.setCurrentQty(orderInfo.getWaterCurrentQty());

@@ -22,4 +22,9 @@ public interface PayInfoDao extends IBaseDao<PayInfo, String> {
 	public void queryPageForCondition(Page<PayInfo> page, Map<String, Object> params) ;
 	
 	public List<PayInfo> querySummaryForCondition(Map<String, Object> params) ;
+	
+	/**
+	 * 按每人每日收费汇总
+	 */
+	public List<PayInfo> querySummaryForDateAndTollCollector(Map<String, Object> params) ;
 }

@@ -104,6 +104,10 @@ public class PayBuildingDetail implements Serializable {
 	private String name;
 	private String addr;
 	
+	private String mobile;
+	
+	
+	
 	@PropertyDef(label = "monthly_qty", description = "monthly_qty:")
 	private BigDecimal monthlyQty;
 
@@ -269,7 +273,7 @@ public class PayBuildingDetail implements Serializable {
 		this.name = name;
 	}
 
-	@Transient
+	@Column(name = "addr")
 	public String getAddr() {
 		return addr;
 	}
@@ -296,6 +300,22 @@ public class PayBuildingDetail implements Serializable {
 	public Integer getGroupId() {
 		return groupId;
 	}
+	
+	
+	@Column(name = "mobile")
+	public String getMobile() {
+		return mobile;
+	}
+
+
+
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+
+
 
 	public String toString() {
 		return "PayBuildingDetail [code=" + code + ",roomNo=" + roomNo

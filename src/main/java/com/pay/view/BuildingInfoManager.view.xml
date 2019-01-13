@@ -240,6 +240,18 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
             <Editor/>
           </DataColumn>
           <DataColumn>
+            <Property name="name">mobile</Property>
+            <Property name="property">mobile</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn>
+            <Property name="name">addr</Property>
+            <Property name="property">addr</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </DataColumn>
+          <DataColumn>
             <Property name="name">contractorName</Property>
             <Property name="property">contractorName</Property>
             <Property name="caption">承包者</Property>
@@ -307,8 +319,9 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
                 <Editor/>
               </AutoFormElement>
               <AutoFormElement>
-                <Property name="name">contractorName</Property>
-                <Property name="label">承包者名称</Property>
+                <Property name="name">mobile</Property>
+                <Property name="property">mobile</Property>
+                <Property name="label">联系电话</Property>
                 <Editor/>
               </AutoFormElement>
               <AutoFormElement>
@@ -325,10 +338,21 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
                 <Property name="editable">false</Property>
                 <Editor/>
               </AutoFormElement>
-              <AutoFormElement layoutConstraint="colSpan:2">
+              <AutoFormElement>
                 <Property name="name">status</Property>
                 <Property name="property">status</Property>
                 <Property name="editorWidth">180</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">contractorName</Property>
+                <Property name="label">承包者名称</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement layoutConstraint="colSpan:2">
+                <Property name="name">addr</Property>
+                <Property name="property">addr</Property>
+                <Property name="editorType">TextArea</Property>
                 <Editor/>
               </AutoFormElement>
               <AutoFormElement layoutConstraint="colSpan:2">

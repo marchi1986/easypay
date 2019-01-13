@@ -49,8 +49,8 @@ function showTime(){&#xD;
 function layoutLoginContainer(){&#xD;
 	var height=$(window).height();&#xD;
 	var width=$(window).width();&#xD;
-	//var bgImgFolder=&quot;${configure.getString(&quot;bdf2.login.backgroundImageFolder&quot;)}&quot;;&#xD;
-	var bgImgFolder='images';&#xD;
+	var bgImgFolder=&quot;${configure.getString(&quot;bdf2.login.backgroundImageFolder&quot;)}&quot;;&#xD;
+	//var bgImgFolder='images';&#xD;
 	//var bgImg=&quot;background.jpg&quot;;&#xD;
 	//alert(bgImgFolder);&#xD;
 	var bgHeight=800;&#xD;
@@ -176,7 +176,7 @@ $(document).ready(function(){&#xD;
 	&lt;/div>&#xD;
 	&#xD;
 &lt;/div>&#xD;
-&lt;div style=&quot;font-size:14px;font-weight:bold ;width:600px;position: absolute;bottom: 50px;left:5px &quot;>此收费系统技术一切归赖儒所有，只提供白水塘村实用，私自转载追究一切法律责任 &lt;/div></Property>
+&lt;div style=&quot;font-size:14px;font-weight:bold ;width:600px;position: absolute;bottom: 50px;left:5px &quot;>Ver 1.0&lt;/div></Property>
     </HtmlContainer>
   </View>
 </ViewConfig>

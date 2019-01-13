@@ -11,7 +11,6 @@
 
 //@Bind #buttonCharge.onClick
 !function(self,arg,dialogPay,dataGridOrderInfo,ajaxActionRxtx,dataSetPay,autoFormPay,dataSetSelected){
-	
 	var selectedData = dataGridOrderInfo.get("selection");
 	
 	if(selectedData.length==0){
@@ -40,6 +39,7 @@
 		sumLateFeeAmount=sumLateFeeAmount+ data.get("lateFee");
 		
 	});
+	
 	dataSetPay.clear();
 	var totalPrice=formatAmount(sum);
 
@@ -47,14 +47,17 @@
 		"garbagePrice":sumGarbagePayAmount,"actualGarbagePrice":sumGarbagePayAmount,
 		"networkPrice":sumNetworkPayAmount,"actualNetworkPrice":sumNetworkPayAmount,
 		"sewagePrice":sumSewagePayAmount,"otherPrice":sumOtherPayAmount,
-		"lateFee":sumLateFeeAmount,"totalPrice":totalPrice,"actualTotalPrice":totalPrice});
+		"lateFee":sumLateFeeAmount,"totalPrice":totalPrice,"shouldTotalPrice":totalPrice});
 	
 	
-	setFocus(autoFormPay.getElement("currentGive").getDom());
-	
+
 	dialogPay.show();
 	
+	
+	
 	ajaxActionRxtx.set("parameter",{"state":"2","data":totalPrice+""}).execute();
+	
+	setFocus(autoFormPay.getElement("actualPrice").getDom());
 
 }
 
@@ -89,13 +92,16 @@
 	}
 }
 
-//@Bind #currentGive.onKeyPress
+//@Bind #actualPrice.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
+
 	if(arg.keyCode==13){
+
 		var data=dataSetPay.get("data:#");
 		
-		var giveChange=data.get("currentGive")-data.get("actualTotalPrice");
-		
+		var giveChange=data.get("actualPrice")-data.get("shouldTotalPrice");
+
+		dataSetPay.get("data:#").set("actualTotalPrice",data.get("shouldTotalPrice"));
 		dataSetPay.get("data:#").set("giveChange",giveChange);
 		
 		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"4","data":giveChange+""}).execute(); }, 2000);
@@ -109,9 +115,20 @@ function paymentForKeyPress(dataSetPay,ajaxActionRxtx,state){
 		
 		var totalAmount= sumAmount(data)
 		
-		dataSetPay.get("data:#").set("actualTotalPrice",totalAmount);
+		dataSetPay.get("data:#").set("shouldTotalPrice",totalAmount);
+		dataSetPay.get("data:#").set("actualPrice","0");
+		dataSetPay.get("data:#").set("giveChange","0");
 		
-		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":state,"data":totalAmount+""}).execute(); }, 2000);
+		setTimeout(function(){ 
+			ajaxActionRxtx.set("parameter",{"state":state,"data":totalAmount+""}).execute(); 
+			
+		}, 2000);
+		
+		setTimeout(function(){ 
+			setFocus(autoFormPay.getElement("actualPrice").getDom());
+		}, 2000);
+		
+		
 	
 }
 
@@ -134,15 +151,15 @@ function sumAmount(data){
 }
 
 function formatAmount(amount){
-
+	//alert(amount);
 	var sum=amount;
 	
 	var sum2str=sum+"";
 
 	var sum2split=sum2str.split(".");
 
-
-	if(sum2split.length>0){
+	//alert(sum2split.length);
+	if(sum2split.length>1){
 		sum=parseInt(sum2split[0])+1;
 	}
 

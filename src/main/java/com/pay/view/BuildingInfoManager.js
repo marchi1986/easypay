@@ -102,6 +102,16 @@ var change="";
 	}
 }
 
+//@Bind #datagridBuilding.onDoubleClick
+!function(self,arg,dataSetBuildingInfo,dialogDetail,dataSetBuildingDetail){
+	var entity={"code":dataSetBuildingInfo.get("data:#").get("code")};
+	//将实体对象作为参数传入，并异步刷新
+	dataSetBuildingDetail.set("parameter",entity).flushAsync();
+	
+	dialogDetail.show();
+
+}
+
 //@Bind #buttonDetail.onClick
 !function(self,arg,dialogDetail,dataSetBuildingInfo,dataSetBuildingDetail){
 	var entity={"code":dataSetBuildingInfo.get("data:#").get("code")};
@@ -130,6 +140,10 @@ var change="";
 	});
 
 }
+
+
+
+
 
 //@Bind #datagridUser.onDoubleClick
 !function(self,arg,dataSetBuildingDetail,dialogUserCode){

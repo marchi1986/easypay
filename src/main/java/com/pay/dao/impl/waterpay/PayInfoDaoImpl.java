@@ -74,4 +74,33 @@ public class PayInfoDaoImpl extends BaseHibernateDAO<PayInfo, String> implements
 	     
 	     
 	 }
+	
+	/**
+	 * 按每人每日收费汇总
+	 */
+	public List<PayInfo> querySummaryForDateAndTollCollector(Map<String, Object> params) {
+
+	     
+	     StringBuffer sql=new StringBuffer();
+
+	     sql.append("select   ");
+	     sql.append("pay_date as payDate,toll_collector as tollCollector,sum(water_price) as waterPrice,sum(garbage_price) as garbagePrice,sum(total_price)as totalPrice,sum(actual_total_price) as actualTotalPrice, ");
+	     sql.append("sum(actual_garbage_price) as actualGarbagePrice,sum(network_price) as networkPrice,sum(actual_network_price) as actualNetworkPrice ,sum(sewage_price) as sewagePrice,");
+	     sql.append("sum(other_price) as otherPrice ,sum(late_fee) as lateFee ");
+	     sql.append("from pay_info where 1=1 ");
+	     if(MapUtils.isNotEmpty(params)){
+	    	 Date beginDate=(Date)params.get("beginDate");
+	    	 Date endDate=(Date)params.get("endDate");
+	    	 if(beginDate!=null&&endDate!=null){
+	    		 sql.append("and pay_date between :beginDate and :endDate ");
+	    	 }
+	    	 sql.append(" group by pay_date,toll_collector ");
+	    	 return this.listSql(sql.toString(), params,PayInfo.class);
+	     }else{
+	    	 sql.append(" group by pay_date,toll_collector ");
+	    	 return this.listSql(sql.toString(), PayInfo.class);
+	     }
+	     
+	     
+	 }
 }

@@ -236,6 +236,12 @@
       <Property name="label">最后修改时间</Property>
       <Property name="dataType">Date</Property>
     </PropertyDef>
+    <PropertyDef name="mobile">
+      <Property name="label">联系电话</Property>
+    </PropertyDef>
+    <PropertyDef name="addr">
+      <Property name="label">地址</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayWaterMeterInfo">
     <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInfo</Property>

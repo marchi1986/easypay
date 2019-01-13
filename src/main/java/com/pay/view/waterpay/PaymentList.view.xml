@@ -51,6 +51,9 @@
       <Property name="dataSet">dataSetPayInfo</Property>
       <Property name="readOnly">true</Property>
       <Property name="showFooter">true</Property>
+      <DataColumn name="payDate">
+        <Property name="property">payDate</Property>
+      </DataColumn>
       <DataColumn name="payCode">
         <Property name="property">payCode</Property>
         <Property name="width">150</Property>
@@ -86,9 +89,6 @@
       <DataColumn name="actualTotalPrice">
         <Property name="property">actualTotalPrice</Property>
         <Property name="summaryType">sum</Property>
-      </DataColumn>
-      <DataColumn name="payDate">
-        <Property name="property">payDate</Property>
       </DataColumn>
       <DataColumn name="tollCollector">
         <Property name="property">tollCollector</Property>

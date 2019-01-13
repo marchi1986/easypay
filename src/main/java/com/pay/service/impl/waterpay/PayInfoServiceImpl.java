@@ -53,6 +53,20 @@ public class PayInfoServiceImpl implements PayInfoService {
 		List<PayInfo> list=payInfoDao.querySummaryForCondition(parameter);
 		return list;
 	}
+	
+	@DataProvider
+	public List<PayInfo> querySummaryForDateAndTollCollector(Map<String, Object> parameter) {
+		if(MapUtils.isNotEmpty(parameter)){
+			Date beginDate=(Date)parameter.get("beginDate");
+			Date endDate=(Date)parameter.get("endDate");
+			String beginDateFormat= DateUtils.format(beginDate,"yyyy-MM-dd");
+			String endDateFormat= DateUtils.format(endDate,"yyyy-MM-dd");
+			parameter.put("beginDate", beginDateFormat);
+			parameter.put("endDate", endDateFormat);
+		}
+		List<PayInfo> list=payInfoDao.querySummaryForDateAndTollCollector(parameter);
+		return list;
+	}
 
 
 	
