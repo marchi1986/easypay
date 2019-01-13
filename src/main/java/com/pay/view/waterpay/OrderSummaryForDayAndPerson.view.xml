@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="Condition">
+      <PropertyDef name="beginDate">
+        <Property name="label">开始日期</Property>
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="label">结束日期</Property>
+        <Property name="dataType">Date</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="PayInfo" parent="global:PayInfo"/>
+    <DataType name="PayOrderInfo" parent="global:PayOrderInfo"/>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="caption">查询</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonExport">
+        <ClientEvent name="onClick" signature="self,arg,exportReportActionData">exportReportActionData.execute();&#xD;
+</ClientEvent>
+        <Property name="caption">导出数据</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <Export2ReportAction id="exportReportActionData">
+      <Property name="template">dataGridSummary</Property>
+      <Property name="titleName">按日汇总</Property>
+      <Property name="dataScope">serverAll</Property>
+      <Property name="showTitle">true</Property>
+      <Property name="caption">导出数据</Property>
+    </Export2ReportAction>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataSet">dataSetCondition</Property>
+      <AutoFormElement>
+        <Property name="name">beginDate</Property>
+        <Property name="property">beginDate</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">endDate</Property>
+        <Property name="property">endDate</Property>
+        <Property name="width">300</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetCondition">
+      <Property name="dataType">Condition</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="dataPilotSummary">
+        <Property name="dataSet">dataSetPayInfo</Property>
+        <Property name="itemCodes">pages,pageSize</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="dataGridSummary">
+      <Property name="dataSet">dataSetPayInfo</Property>
+      <Property name="readOnly">true</Property>
+      <Property name="showFooter">true</Property>
+      <DataColumn>
+        <Property name="name">tollCollector</Property>
+        <Property name="property">tollCollector</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn name="payDate">
+        <Property name="property">payDate</Property>
+      </DataColumn>
+      <DataColumn name="waterPrice">
+        <Property name="property">waterPrice</Property>
+      </DataColumn>
+      <DataColumn name="garbagePrice">
+        <Property name="property">garbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="actualGarbagePrice">
+        <Property name="property">actualGarbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
+      <DataColumn name="actualNetworkPrice">
+        <Property name="property">actualNetworkPrice</Property>
+      </DataColumn>
+      <DataColumn name="sewagePrice">
+        <Property name="property">sewagePrice</Property>
+      </DataColumn>
+      <DataColumn name="otherPrice">
+        <Property name="property">otherPrice</Property>
+      </DataColumn>
+      <DataColumn name="lateFee">
+        <Property name="property">lateFee</Property>
+      </DataColumn>
+      <DataColumn id="totalPrice" name="totalPrice">
+        <Property name="property">totalPrice</Property>
+        <Property name="summaryType">sum</Property>
+      </DataColumn>
+      <DataColumn name="actualTotalPrice">
+        <Property name="property">actualTotalPrice</Property>
+        <Property name="summaryType">sum</Property>
+      </DataColumn>
+    </DataGrid>
+    <DataSet id="dataSetPayInfo">
+      <Property name="dataProvider">payInfoService#querySummaryForDateAndTollCollector</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataType">[PayInfo]</Property>
+    </DataSet>
+    <Dialog id="dialogOrder">
+      <Property name="width">1200</Property>
+      <Property name="height">600</Property>
+      <Buttons/>
+      <Children>
+        <DataSet id="dataSetOrderList">
+          <Property name="dataProvider">orderInfoService#findByPayCode</Property>
+          <Property name="dataType">[PayOrderInfo]</Property>
+        </DataSet>
+        <DataGrid id="dataGridOrder">
+          <Property name="dataSet">dataSetOrderList</Property>
+          <Property name="width">1024</Property>
+          <Property name="height">400</Property>
+          <Property name="readOnly">true</Property>
+          <DataColumn name="buildingCode">
+            <Property name="property">buildingCode</Property>
+          </DataColumn>
+          <DataColumn name="roomNo">
+            <Property name="property">roomNo</Property>
+          </DataColumn>
+          <DataColumn name="monthlyCycle">
+            <Property name="property">monthlyCycle</Property>
+          </DataColumn>
+          <DataColumn name="waterBeforeQty">
+            <Property name="property">waterBeforeQty</Property>
+          </DataColumn>
+          <DataColumn name="waterCurrentQty">
+            <Property name="property">waterCurrentQty</Property>
+          </DataColumn>
+          <DataColumn name="actualQty">
+            <Property name="property">actualQty</Property>
+          </DataColumn>
+          <DataColumn name="waterApportionQty">
+            <Property name="property">waterApportionQty</Property>
+          </DataColumn>
+          <DataColumn name="price">
+            <Property name="property">price</Property>
+          </DataColumn>
+          <DataColumn name="waterPrice">
+            <Property name="property">waterPrice</Property>
+          </DataColumn>
+          <DataColumn name="garbagePrice">
+            <Property name="property">garbagePrice</Property>
+          </DataColumn>
+          <DataColumn name="apportionPrice">
+            <Property name="property">apportionPrice</Property>
+          </DataColumn>
+          <DataColumn name="lateFee">
+            <Property name="property">lateFee</Property>
+          </DataColumn>
+          <DataColumn name="networkPrice">
+            <Property name="property">networkPrice</Property>
+          </DataColumn>
+          <DataColumn name="sewagePrice">
+            <Property name="property">sewagePrice</Property>
+          </DataColumn>
+          <DataColumn name="otherPrice">
+            <Property name="property">otherPrice</Property>
+          </DataColumn>
+          <DataColumn name="totalPrice">
+            <Property name="property">totalPrice</Property>
+          </DataColumn>
+        </DataGrid>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>
