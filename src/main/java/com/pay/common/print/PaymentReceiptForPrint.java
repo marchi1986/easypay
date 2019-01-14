@@ -418,13 +418,13 @@ public class PaymentReceiptForPrint implements Printable {
 				//第9行
 				case 10:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("2、收费周期为两月一次，每逢单月的15日-20日为收费日（上午9:00-12:00，下午2:30-4:30，节假日不办公），收费顺延，逾期将按", (float) leftPointX + 50, (float) line + gridFontHeight);
+					g2.drawString("2、收费周期为两月一次，每逢单月的15日-20日为收费日（上午9:00-12:00，下午2:30-4:30，节假日不办公，收费顺延）", (float) leftPointX + 50, (float) line + gridFontHeight);
 					
 					break;
 				//第10行
 				case 11:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("每日水费千分之一加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
+					g2.drawString("逾期将按每日水费千分之一加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
 					
 					break;
 				//第11行

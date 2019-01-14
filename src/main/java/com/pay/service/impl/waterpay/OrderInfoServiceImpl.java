@@ -94,7 +94,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			if(now.compareTo(inputHeader.getEndDate())>0){
 				
 				int delayDay= (int)((now.getTime()-inputHeader.getEndDate().getTime())/1000/3600/24);
-				BigDecimal lateFeeForDay=orderInfo.getTotalPrice().multiply(new BigDecimal(0.0005));
+				BigDecimal lateFeeForDay=orderInfo.getTotalPrice().multiply(new BigDecimal(0.0001));
 				BigDecimal lateFee=new BigDecimal(delayDay).multiply(lateFeeForDay).setScale(2,RoundingMode.HALF_UP);
 				orderInfo.setLateFee(lateFee);
 				orderInfo.setTotalPrice(orderInfo.getTotalPrice().add(orderInfo.getLateFee()));
