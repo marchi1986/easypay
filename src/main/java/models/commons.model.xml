@@ -609,6 +609,12 @@
     <PropertyDef name="userName">
       <Property name="label">用户名称</Property>
     </PropertyDef>
+    <PropertyDef name="addr">
+      <Property name="label">地址</Property>
+    </PropertyDef>
+    <PropertyDef name="waterMeterCode">
+      <Property name="label">水表编号</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayRoomGroup">
     <Property name="matchType">com.pay.pojo.PayRoomGroup</Property>

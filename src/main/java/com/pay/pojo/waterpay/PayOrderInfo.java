@@ -158,6 +158,10 @@ public class PayOrderInfo implements Serializable {
 	private String userCode;
 	
 	private String userName;
+	
+	private String addr;
+	
+	private String waterMeterCode;
 
 	public PayOrderInfo() {
 		super();
@@ -476,6 +480,30 @@ public class PayOrderInfo implements Serializable {
 	}
 
 
+	@Column(name = "addr")
+	public String getAddr() {
+		return addr;
+	}
+
+
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+
+	@Column(name = "water_meter_code")
+	public String getWaterMeterCode() {
+		return waterMeterCode;
+	}
+
+
+
+	public void setWaterMeterCode(String waterMeterCode) {
+		this.waterMeterCode = waterMeterCode;
+	}
+
+
 
 	@Override
 	public String toString() {
@@ -487,8 +515,12 @@ public class PayOrderInfo implements Serializable {
 				+ ", totalPrice=" + totalPrice + ", status=" + status + ", remark=" + remark + ", payDate=" + payDate
 				+ ", lastPayDate=" + lastPayDate + ", tollCollector=" + tollCollector + ", createUser=" + createUser
 				+ ", createTime=" + createTime + ", lastModifyUser=" + lastModifyUser + ", lastModifyTime="
-				+ lastModifyTime + ", payCode=" + payCode + ", userCode=" + userCode + ", userName=" + userName + "]";
+				+ lastModifyTime + ", payCode=" + payCode + ", userCode=" + userCode + ", userName=" + userName
+				+ ", addr=" + addr + ", waterMeterCode=" + waterMeterCode + "]";
 	}
+
+
+
 
 
 

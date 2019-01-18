@@ -46,6 +46,23 @@
         <Property name="label">实收金额</Property>
       </PropertyDef>
     </DataType>
+    <DataType name="Paid">
+      <PropertyDef name="userCode">
+        <Property name="label">用户编号</Property>
+      </PropertyDef>
+      <PropertyDef name="userName">
+        <Property name="label">用户名</Property>
+      </PropertyDef>
+      <PropertyDef name="addr">
+        <Property name="label">地址</Property>
+      </PropertyDef>
+      <PropertyDef name="waterMeterCode">
+        <Property name="label">水表编码</Property>
+      </PropertyDef>
+      <PropertyDef name="amount">
+        <Property name="label">金额</Property>
+      </PropertyDef>
+    </DataType>
   </Model>
   <View>
     <ToolBar>
@@ -74,20 +91,28 @@ dialogSwfViewer.show();&#xD;
       <Property name="dataType">Condition</Property>
       <Property name="createPrivateDataSet">true</Property>
       <Property name="cols">*,*,*</Property>
-      <AutoFormElement>
+      <AutoFormElement id="userCodeEditor">
         <Property name="name">userCode</Property>
         <Property name="property">userCode</Property>
         <Property name="label">用户编码</Property>
         <Editor/>
       </AutoFormElement>
       <AutoFormElement>
-        <Property name="name">buildingCode</Property>
-        <Property name="property">buildingCode</Property>
+        <Property name="name">waterMeterCode</Property>
+        <Property name="property">waterMeterCode</Property>
+        <Property name="label">水表编码</Property>
         <Editor/>
       </AutoFormElement>
       <AutoFormElement>
-        <Property name="name">roomNo</Property>
-        <Property name="property">roomNo</Property>
+        <Property name="name">userName</Property>
+        <Property name="property">userName</Property>
+        <Property name="label">用户名</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement layoutConstraint="colSpan:2">
+        <Property name="name">addr</Property>
+        <Property name="property">addr</Property>
+        <Property name="label">地址</Property>
         <Editor/>
       </AutoFormElement>
       <AutoFormElement>
@@ -138,15 +163,24 @@ dialogSwfViewer.show();&#xD;
       <RowSelectorColumn/>
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
+        <Property name="width">50</Property>
       </DataColumn>
-      <DataColumn name="buildingCode">
-        <Property name="property">buildingCode</Property>
-      </DataColumn>
-      <DataColumn name="roomNo">
-        <Property name="property">roomNo</Property>
+      <DataColumn>
+        <Property name="property">userCode</Property>
+        <Property name="name">userCode</Property>
       </DataColumn>
       <DataColumn>
         <Property name="property">userName</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="property">addr</Property>
+        <Property name="name">addr</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="property">waterMeterCode</Property>
+        <Property name="name">waterMeterCode</Property>
         <Editor/>
       </DataColumn>
       <DataColumn name="waterBeforeQty">
@@ -282,6 +316,43 @@ dialogSwfViewer.show();&#xD;
             <Editor/>
           </AutoFormElement>
         </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogPaid">
+      <Property name="width">600</Property>
+      <Property name="height">750</Property>
+      <Buttons>
+        <Button id="buttonCancelPaid">
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+          <Property name="caption">关闭</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <DataGrid id="dataGridPaid">
+          <Property name="dataSet">dataSetPaid</Property>
+          <Property name="showFooter">true</Property>
+          <Property name="readOnly">true</Property>
+          <DataColumn name="userCode">
+            <Property name="property">userCode</Property>
+          </DataColumn>
+          <DataColumn name="userName">
+            <Property name="property">userName</Property>
+          </DataColumn>
+          <DataColumn name="addr">
+            <Property name="property">addr</Property>
+          </DataColumn>
+          <DataColumn name="waterMeterCode">
+            <Property name="property">waterMeterCode</Property>
+          </DataColumn>
+          <DataColumn name="amount">
+            <Property name="property">amount</Property>
+            <Property name="summaryType">sum</Property>
+          </DataColumn>
+        </DataGrid>
+        <DataSet id="dataSetPaid">
+          <Property name="dataType">[Paid]</Property>
+        </DataSet>
       </Children>
       <Tools/>
     </Dialog>

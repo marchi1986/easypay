@@ -34,14 +34,16 @@
       <Property name="dataType">Condition</Property>
       <Property name="createPrivateDataSet">true</Property>
       <Property name="cols">*,*,*</Property>
-      <AutoFormElement>
-        <Property name="name">buildingCode</Property>
-        <Property name="property">buildingCode</Property>
+      <AutoFormElement id="userCodeEditor">
+        <Property name="name">userCode</Property>
+        <Property name="property">userCode</Property>
+        <Property name="label">用户编码</Property>
         <Editor/>
       </AutoFormElement>
       <AutoFormElement>
-        <Property name="name">roomNo</Property>
-        <Property name="property">roomNo</Property>
+        <Property name="name">userName</Property>
+        <Property name="property">userName</Property>
+        <Property name="label">用户名</Property>
         <Editor/>
       </AutoFormElement>
       <AutoFormElement>
@@ -81,11 +83,23 @@
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
       </DataColumn>
-      <DataColumn name="buildingCode">
-        <Property name="property">buildingCode</Property>
+      <DataColumn>
+        <Property name="property">userCode</Property>
+        <Property name="name">userCode</Property>
       </DataColumn>
-      <DataColumn name="roomNo">
-        <Property name="property">roomNo</Property>
+      <DataColumn>
+        <Property name="property">userName</Property>
+        <Property name="name">userName</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">addr</Property>
+        <Property name="property">addr</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">waterMeterCode</Property>
+        <Property name="property">waterMeterCode</Property>
+        <Editor/>
       </DataColumn>
       <DataColumn name="waterBeforeQty">
         <Property name="property">waterBeforeQty</Property>

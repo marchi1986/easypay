@@ -38,6 +38,9 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		 Integer status=null;
 		 String groupId=null;
 		 String userCode="";
+		 String addr="";
+		 String waterMeterCode="";
+		 String userName="";
 		 //是否查询欠费
 		 Boolean isQueryArrears=false;
 	     if(MapUtils.isNotEmpty(params)){
@@ -48,6 +51,9 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	    	 groupId=(String)params.get("groupId");
 	    	 isQueryArrears=(Boolean)params.get("isQueryArrears");
 	    	 userCode=(String)params.get("userCode");
+	    	 addr=(String)params.get("addr");
+	    	 waterMeterCode=(String)params.get("waterMeterCode");
+	    	 userName=(String)params.get("userName");
 	     }
 	     
 	     StringBuffer hql=new StringBuffer();
@@ -70,7 +76,32 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     }
 	     
 	     if (StringHelper.isNotEmpty(userCode)) {
-	    	 hql.append(" AND a.userCode like '").append(userCode).append("%'");
+	    	 if(userCode.indexOf(";")>0){
+	    		 hql.append(" AND (");
+	    		 String[] userCodes=userCode.split(";");
+	    		 int index=0;
+	    		 for(String code:userCodes){
+	    			 if(index!=0){
+	    				 hql.append(" or ");
+	    			 }
+	    			 hql.append(" a.userCode like '").append(code).append("%'");
+	    			 index++;
+	    		 }
+	    		 hql.append(")");
+	    	 }else{
+	    		 hql.append(" AND a.userCode like '").append(userCode).append("%'");
+	    	 }
+	    	 
+	     }
+	     if (StringHelper.isNotEmpty(addr)) {
+	    	 hql.append(" AND a.addr like '%").append(addr).append("%'");
+	     }
+	     if (StringHelper.isNotEmpty(userName)) {
+	    	 hql.append(" AND a.userName like '%").append(userName).append("%'");
+	     }
+	     if (StringHelper.isNotEmpty(waterMeterCode)) {
+
+	    	 hql.append(" AND a.waterMeterCode='").append(waterMeterCode).append("'");
 	     }
 	     
 	     if (status!=null) {
@@ -93,7 +124,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     queryHql.append("select a ").append(hql);
 	     queryCountHql.append("select count(*) ").append(hql);
 	     
-	            
+	     //System.out.println(queryHql.toString());       
 	     this.pagingHQLQuery(queryHql.toString(),queryCountHql.toString(),page,null);
 
 
