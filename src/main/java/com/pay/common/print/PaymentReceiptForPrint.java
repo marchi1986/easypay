@@ -23,6 +23,7 @@ public class PaymentReceiptForPrint implements Printable {
 	private String orderNo;
 	private String waterMeterCode;
 	private String userId;
+	private String userCode;
 	private String billingPeriod;
 	private String addr;
 	private String userName;
@@ -193,6 +194,14 @@ public class PaymentReceiptForPrint implements Printable {
 	public void setAmonut2(BigDecimal amonut2) {
 		this.amonut2 = amonut2;
 	}
+	
+	
+	public String getUserCode() {
+		return userCode;
+	}
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
 	@Override
 	public String toString() {
 		return "WaterBillForPrint [orderNo=" + orderNo + ", userId=" + userId
@@ -281,15 +290,18 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.setFont(gridTitleFont); // 设置字体  
 					g2.drawString("用户编号", (float)leftPointX + 13, (float) line + gridTitleFontHeight);
 					g2.drawString("计费时段", (float) leftPointX + 255, (float) line + gridTitleFontHeight);
+					g2.drawString("水表编号", (float) leftPointX + 370, (float) line + gridTitleFontHeight);
 					
 					g2.setFont(gridFont); // 设置字体  
-					g2.drawString(this.waterMeterCode, (float)leftPointX + 87, (float) line + gridFontHeight);
+					g2.drawString(this.userCode, (float)leftPointX + 87, (float) line + gridFontHeight);
 					g2.drawString(this.billingPeriod, (float) leftPointX + 337, (float) line + gridFontHeight);
+					g2.drawString(this.waterMeterCode, (float) leftPointX + 450, (float) line + gridFontHeight);
 					
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
 					g2.drawLine(leftPointX + 237, (int) line, leftPointX + 237, (int) (line + rowHight)); //中竖线
 					g2.drawLine(leftPointX + 314, (int) line, leftPointX + 314, (int) (line + rowHight)); //中竖线
-					
+					g2.drawLine(leftPointX + 360, (int) line, leftPointX + 360, (int) (line + rowHight)); //中竖线
+					g2.drawLine(leftPointX + 420, (int) line, leftPointX + 420, (int) (line + rowHight)); //中竖线
 					break;
 				//第2行
 				case 2:

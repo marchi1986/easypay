@@ -113,8 +113,13 @@
 !function(self,arg,dataSetPay,ajaxActionRxtx,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid){
 
 	if(arg.keyCode==13){
-
+		
 		var data=dataSetPay.get("data:#");
+		
+		if(!isNotNull(data.get("actualPrice"))){
+			dorado.MessageBox.alert("请输入实际收款金额!");
+			return;
+		}
 		
 		var giveChange=data.get("actualPrice")-data.get("shouldTotalPrice");
 
@@ -123,7 +128,7 @@
 		
 		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"4","data":giveChange+""}).execute(); }, 2000);
 		
-		pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid);
+		//pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid);
 	}
 }
 
@@ -186,11 +191,10 @@ function formatAmount(amount){
 }
 
 function pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid){
+	
 	var data=dataSetPay.get("data:#");
-	if(!isNotNull(data.get("actualTotalPrice"))){
-		dorado.MessageBox.alert("请输入实际收款金额!");
-		return;
-	}
+	
+	dataSetPay.get("data:#").set("actualTotalPrice",data.get("shouldTotalPrice"));
 	
 	
 	updateActionPaymen.execute(function(result){
