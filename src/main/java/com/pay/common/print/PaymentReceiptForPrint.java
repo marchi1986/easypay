@@ -23,6 +23,7 @@ public class PaymentReceiptForPrint implements Printable {
 	private String orderNo;
 	private String waterMeterCode;
 	private String userId;
+	private String userCode;
 	private String billingPeriod;
 	private String addr;
 	private String userName;
@@ -193,6 +194,14 @@ public class PaymentReceiptForPrint implements Printable {
 	public void setAmonut2(BigDecimal amonut2) {
 		this.amonut2 = amonut2;
 	}
+	
+	
+	public String getUserCode() {
+		return userCode;
+	}
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
 	@Override
 	public String toString() {
 		return "WaterBillForPrint [orderNo=" + orderNo + ", userId=" + userId
@@ -281,15 +290,18 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.setFont(gridTitleFont); // 设置字体  
 					g2.drawString("用户编号", (float)leftPointX + 13, (float) line + gridTitleFontHeight);
 					g2.drawString("计费时段", (float) leftPointX + 255, (float) line + gridTitleFontHeight);
+					g2.drawString("水表编号", (float) leftPointX + 370, (float) line + gridTitleFontHeight);
 					
 					g2.setFont(gridFont); // 设置字体  
-					g2.drawString(this.waterMeterCode, (float)leftPointX + 87, (float) line + gridFontHeight);
+					g2.drawString(this.userCode, (float)leftPointX + 87, (float) line + gridFontHeight);
 					g2.drawString(this.billingPeriod, (float) leftPointX + 337, (float) line + gridFontHeight);
+					g2.drawString(this.waterMeterCode, (float) leftPointX + 450, (float) line + gridFontHeight);
 					
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
 					g2.drawLine(leftPointX + 237, (int) line, leftPointX + 237, (int) (line + rowHight)); //中竖线
 					g2.drawLine(leftPointX + 314, (int) line, leftPointX + 314, (int) (line + rowHight)); //中竖线
-					
+					g2.drawLine(leftPointX + 360, (int) line, leftPointX + 360, (int) (line + rowHight)); //中竖线
+					g2.drawLine(leftPointX + 420, (int) line, leftPointX + 420, (int) (line + rowHight)); //中竖线
 					break;
 				//第2行
 				case 2:
@@ -418,13 +430,13 @@ public class PaymentReceiptForPrint implements Printable {
 				//第9行
 				case 10:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("2、收费周期为两月一次，每逢单月的15日-25日为收费日（上午9:00-12:00，下午2:30-4:30，节假日不办公），逾期将按", (float) leftPointX + 50, (float) line + gridFontHeight);
+					g2.drawString("2、收费周期为两月一次，每逢单月的15日-20日为收费日（上午9:00-12:00，下午2:30-4:30，节假日不办公，收费顺延）", (float) leftPointX + 50, (float) line + gridFontHeight);
 					
 					break;
 				//第10行
 				case 11:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("每日水费千分之五加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
+					g2.drawString("逾期将按每日水费千分之一加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
 					
 					break;
 				//第11行
