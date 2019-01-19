@@ -462,6 +462,8 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			//获取楼宇明细
 			PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
 			orderInfo.setUserName(buildingDetail.getUserName());
+			orderInfo.setAddr(buildingDetail.getAddr());
+			orderInfo.setWaterMeterCode(buildingDetail.getWaterMeterCode());
 			//记录该房间月度吨数
 			buildingDetail.setMonthlyQty(waterMeterInputDetail.getCurrentQty());
 			buildingDetailDao.update(buildingDetail);
@@ -469,7 +471,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			//实际用水吨数
 			BigDecimal auctalQty=waterMeterInputDetail.getCurrentQty().subtract(waterMeterInputDetail.getBeforeQty());
 			//用水小于1吨按1吨计算
-			if(auctalQty.compareTo(new BigDecimal(1))==-1){
+			if(auctalQty.compareTo(BigDecimal.ZERO)!=0&&auctalQty.compareTo(new BigDecimal(1))==-1){
 				auctalQty=new BigDecimal(1);
 			}
 			orderInfo.setActualQty(auctalQty);

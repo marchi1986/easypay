@@ -9,8 +9,20 @@
 
 }
 
+//@Bind #userCodeEditor.onKeyPress
+!function(self,arg,dataSetPay,autoFormCondition,dataSetOrderInfo){
+
+	if(arg.keyCode==13){
+		//获取autoformCondition绑定的实体对象
+		var entity = autoFormCondition.get("entity");
+		entity.set("status",0);
+		//将实体对象作为参数传入，并异步刷新
+		dataSetOrderInfo.set("parameter",entity).flushAsync();
+	}
+}
+
 //@Bind #buttonCharge.onClick
-!function(self,arg,dialogPay,dataGridOrderInfo,ajaxActionRxtx,dataSetPay,autoFormPay,dataSetSelected){
+!function(self,arg,dialogPay,dataGridOrderInfo,ajaxActionRxtx,dataSetPay,autoFormPay,dataSetSelected,dataSetPaid){
 	var selectedData = dataGridOrderInfo.get("selection");
 	
 	if(selectedData.length==0){
@@ -27,6 +39,7 @@
 	var sumOtherPayAmount=0;
 	var sumLateFeeAmount=0;
 	dataSetSelected.clear();
+	dataSetPaid.clear();
 	selectedData.each(function(data){
 		dataSetSelected.insert(data);
 		sum=sum+data.get("totalPrice");
@@ -36,10 +49,13 @@
 		sumSewagePayAmount=sumSewagePayAmount+ data.get("sewagePrice");
 		sumOtherPayAmount=sumOtherPayAmount+ data.get("otherPrice");
 		sumLateFeeAmount=sumLateFeeAmount+ data.get("lateFee");
-		
+		dataSetPaid.insert({"userCode":data.get("userCode"),
+			"userName":data.get("userName"),"addr":data.get("addr"),
+			"waterMeterCode":data.get("waterMeterCode"),"amount":data.get("totalPrice")});
 	});
 	
 	dataSetPay.clear();
+	
 	var totalWaterPrice=sumWaterPayAmount;
 	var totalPrice=sum;
 
@@ -49,7 +65,7 @@
 		"sewagePrice":sumSewagePayAmount,"otherPrice":sumOtherPayAmount,
 		"lateFee":sumLateFeeAmount,"totalPrice":totalPrice,"shouldTotalPrice":totalPrice});
 	
-	
+
 
 	dialogPay.show();
 	
@@ -68,6 +84,7 @@
 		paymentForKeyPress(dataSetPay,ajaxActionRxtx,"2");
 	}
 }
+
 
 //@Bind #actualNetworkPrice.onKeyPress
 !function(self,arg,dataSetPay,ajaxActionRxtx){
@@ -93,11 +110,16 @@
 }
 
 //@Bind #actualPrice.onKeyPress
-!function(self,arg,dataSetPay,ajaxActionRxtx){
+!function(self,arg,dataSetPay,ajaxActionRxtx,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid){
 
 	if(arg.keyCode==13){
-
+		
 		var data=dataSetPay.get("data:#");
+		
+		if(!isNotNull(data.get("actualPrice"))){
+			dorado.MessageBox.alert("请输入实际收款金额!");
+			return;
+		}
 		
 		var giveChange=data.get("actualPrice")-data.get("shouldTotalPrice");
 
@@ -105,6 +127,8 @@
 		dataSetPay.get("data:#").set("giveChange",giveChange);
 		
 		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"4","data":giveChange+""}).execute(); }, 2000);
+		
+		//pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid);
 	}
 }
 
@@ -166,15 +190,11 @@ function formatAmount(amount){
 	return sum;
 }
 
-
-//@Bind #buttonConfirmPay.onClick
-!function(self,arg,dialogPay,updateActionPaymen,autoFormCondition,dataSetPay,dataSetOrderInfo){
+function pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid){
 	
 	var data=dataSetPay.get("data:#");
-	if(!isNotNull(data.get("actualTotalPrice"))){
-		dorado.MessageBox.alert("请输入实际收款金额!");
-		return;
-	}
+	
+	dataSetPay.get("data:#").set("actualTotalPrice",data.get("shouldTotalPrice"));
 	
 	
 	updateActionPaymen.execute(function(result){
@@ -186,17 +206,32 @@ function formatAmount(amount){
 		dataSetOrderInfo.set("parameter",entityCondition).flushAsync();
 
 	});
+	dialogPay.hide();
+	dialogPaid.show();
 	
+}
+
+
+//@Bind #buttonConfirmPay.onClick
+!function(self,arg,dialogPay,updateActionPaymen,autoFormCondition,dataSetPay,dataSetOrderInfo,dialogPaid){
+	
+	pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid);
+
+}
+
+//@Bind #buttonCancel.onClick
+!function(self,arg,dialogPay){
+
 	
 	dialogPay.hide();
 
 }
 
-//@Bind #buttonCancel.onClick
-!function(self,arg,dialogPay,dataSetOrderInfo){
+//@Bind #buttonCancelPaid.onClick
+!function(self,arg,dialogPaid){
 
 	
-	dialogPay.hide();
+	dialogPaid.hide();
 
 }
 
