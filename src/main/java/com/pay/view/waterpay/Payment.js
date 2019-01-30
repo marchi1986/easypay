@@ -51,6 +51,12 @@ function searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,isClear){
 	
 }
 
+//@Bind #buttonClear.onClick
+!function(self,arg,dataSetOrderView){
+
+	dataSetOrderView.clear();
+}
+
 //@Bind #userCodeEditor.onKeyPress
 !function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
 

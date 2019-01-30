@@ -70,6 +70,9 @@
         <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
         <Property name="caption">查询</Property>
       </ToolBarButton>
+      <ToolBarButton id="buttonClear">
+        <Property name="caption">清空</Property>
+      </ToolBarButton>
       <ToolBarButton id="buttonCharge">
         <Property name="caption">收费</Property>
         <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
