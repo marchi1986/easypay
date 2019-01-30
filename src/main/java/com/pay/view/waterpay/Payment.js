@@ -1,23 +1,65 @@
+
+function searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,isClear){
+	dataSetOrderInfo.set("parameter",entity).flushAsync(function(){
+		var datas2=null;
+		if(isClear){
+			dataSetOrderView.clear();
+		}else{
+			datas2=dataSetOrderView.getData();
+		}
+		var datas=dataSetOrderInfo.getData();
+
+		datas.each(function(data){
+			
+			if(datas2!=null){
+				
+			
+				var isExists=false;
+				datas2.each(function(data2){
+					
+					var userCode1=data.get("monthlyCycle")+data.get("userCode");
+					//alert(userCode1);
+					var userCode2=data2.get("monthlyCycle")+data2.get("userCode");
+					//alert(userCode1+userCode2);
+
+					if(userCode1==userCode2){
+						isExists=true;
+						return false;
+					}
+				});
+				if(!isExists){
+					dataSetOrderView.insert(data);
+				}
+			}else{
+				dataSetOrderView.insert(data);
+			}
+			
+			//dataSetOrderView.insert(data);
+		});
+		
+	});
+}
+
 //@Bind #buttonQuery.onClick
-!function(self,arg,autoFormCondition,dataSetOrderInfo){
+!function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
 
 	//获取autoformCondition绑定的实体对象
 	var entity = autoFormCondition.get("entity");
 	entity.set("status",0);
 	//将实体对象作为参数传入，并异步刷新
-	dataSetOrderInfo.set("parameter",entity).flushAsync();
-
+	searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,true);
+	
 }
 
 //@Bind #userCodeEditor.onKeyPress
-!function(self,arg,dataSetPay,autoFormCondition,dataSetOrderInfo){
+!function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
 
 	if(arg.keyCode==13){
 		//获取autoformCondition绑定的实体对象
 		var entity = autoFormCondition.get("entity");
 		entity.set("status",0);
 		//将实体对象作为参数传入，并异步刷新
-		dataSetOrderInfo.set("parameter",entity).flushAsync();
+		searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,false);
 	}
 }
 
@@ -200,10 +242,10 @@ function pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,di
 	updateActionPaymen.execute(function(result){
 
 		//获取autoformCondition绑定的实体对象
-		var entityCondition = autoFormCondition.get("entity");
+		//var entityCondition = autoFormCondition.get("entity");
 
 		//将实体对象作为参数传入，并异步刷新
-		dataSetOrderInfo.set("parameter",entityCondition).flushAsync();
+		//dataSetOrderInfo.set("parameter",entityCondition).flushAsync();
 
 	});
 	dialogPay.hide();

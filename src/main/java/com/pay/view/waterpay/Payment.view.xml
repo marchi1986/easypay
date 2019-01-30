@@ -138,9 +138,12 @@ dialogSwfViewer.show();&#xD;
     </AutoForm>
     <DataSet id="dataSetOrderInfo">
       <Property name="dataType">[PayOrderInfo]</Property>
-      <Property name="pageSize">100</Property>
+      <Property name="pageSize">1000</Property>
       <Property name="loadMode">manual</Property>
       <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
+    </DataSet>
+    <DataSet id="dataSetOrderView">
+      <Property name="dataType">[PayInfo]</Property>
     </DataSet>
     <DataSet id="dataSetPay">
       <Property name="dataType">[PayInfo]</Property>
@@ -155,7 +158,7 @@ dialogSwfViewer.show();&#xD;
       </DataPilot>
     </ToolBar>
     <DataGrid id="dataGridOrderInfo">
-      <Property name="dataSet">dataSetOrderInfo</Property>
+      <Property name="dataSet">dataSetOrderView</Property>
       <Property name="readOnly">true</Property>
       <Property name="highlightCurrentRow">true</Property>
       <Property name="selectionMode">multiRows</Property>
@@ -164,41 +167,48 @@ dialogSwfViewer.show();&#xD;
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
         <Property name="width">50</Property>
+        <Property name="caption">月度</Property>
       </DataColumn>
       <DataColumn>
         <Property name="property">userCode</Property>
         <Property name="name">userCode</Property>
+        <Property name="caption">用户编号</Property>
       </DataColumn>
       <DataColumn>
         <Property name="property">userName</Property>
+        <Property name="caption">用户名</Property>
+        <Property name="name">userName</Property>
         <Editor/>
       </DataColumn>
       <DataColumn>
         <Property name="property">addr</Property>
         <Property name="name">addr</Property>
         <Property name="width">150</Property>
+        <Property name="caption">地址</Property>
       </DataColumn>
       <DataColumn>
         <Property name="property">waterMeterCode</Property>
         <Property name="name">waterMeterCode</Property>
+        <Property name="caption">水表编号</Property>
         <Editor/>
       </DataColumn>
       <DataColumn name="waterBeforeQty">
         <Property name="property">waterBeforeQty</Property>
+        <Property name="caption">上月读数</Property>
       </DataColumn>
       <DataColumn name="waterCurrentQty">
         <Property name="property">waterCurrentQty</Property>
+        <Property name="caption">当月读数</Property>
       </DataColumn>
       <DataColumn>
         <Property name="name">actualQty</Property>
         <Property name="property">actualQty</Property>
+        <Property name="caption">用水吨数</Property>
         <Editor/>
-      </DataColumn>
-      <DataColumn name="waterApportionQty">
-        <Property name="property">waterApportionQty</Property>
       </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
+        <Property name="caption">单价</Property>
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>

@@ -475,18 +475,21 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				auctalQty=new BigDecimal(1);
 			}
 			orderInfo.setActualQty(auctalQty);
+			//水费金额已包含损耗费，所以不再另计
 			//获取分摊类型
-			PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
+			//PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
 			//计算分摊数量
-			BigDecimal waterApportionQty=(auctalQty).multiply(apportionType.getPercent());
-			orderInfo.setWaterApportionQty(waterApportionQty);
+			//BigDecimal waterApportionQty=(auctalQty).multiply(apportionType.getPercent());
+			//orderInfo.setWaterApportionQty(waterApportionQty);
+			orderInfo.setWaterApportionQty(new BigDecimal(0));
 			//获取计价金额
 			PayPricingType pricingType=pricingTypeDao.get(buildingDetail.getPricingTypeId());
 			BigDecimal price=pricingType.getPrice();
 			orderInfo.setPrice(price);
 			
 			//计算水费
-			BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+			//BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+			BigDecimal waterPrice=((auctalQty.add(orderInfo.getWaterApportionQty())).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 			int i = (int)Math.ceil(waterPrice.doubleValue());
 			orderInfo.setWaterPrice(new BigDecimal(i));
 			//计算分摊费

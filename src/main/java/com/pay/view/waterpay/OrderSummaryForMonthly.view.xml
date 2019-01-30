@@ -55,9 +55,6 @@
         <Property name="property">actualQty</Property>
         <Editor/>
       </DataColumn>
-      <DataColumn name="waterApportionQty">
-        <Property name="property">waterApportionQty</Property>
-      </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
       </DataColumn>
