@@ -81,7 +81,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
 		
 		orderInfoDao.queryPageForCondition(page, parameter);
-		
+		/*
+		 * 暂不需要计算滞纳金
 		Integer yearMonth=null;
 		PayWaterMeterInputHeader inputHeader=null;
 		for(PayOrderInfo orderInfo:page.getEntities()){
@@ -102,6 +103,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			 
 			yearMonth=currentOrderMonthlyCycle;
 		}
+		*/
 	
 	}
 	

@@ -110,12 +110,6 @@
       <DataColumn name="remark">
         <Property name="property">remark</Property>
       </DataColumn>
-      <DataColumn name="tollCollector">
-        <Property name="property">tollCollector</Property>
-      </DataColumn>
-      <DataColumn name="lastPayDate">
-        <Property name="property">lastPayDate</Property>
-      </DataColumn>
     </DataGrid>
   </View>
 </ViewConfig>
