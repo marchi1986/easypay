@@ -211,7 +211,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			
 			for(PayOrderInfo orderInfo:orderInfos){
 				orderInfo.setPayDate(new Date());
-				orderInfo.setTollCollector(ContextHolder.getLoginUserName());
+				orderInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
 				orderInfo.setStatus(PayConstants.ORDER_STATUS_PAY);
 				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
 				orderInfo.setLastModifyTime(new Date());
