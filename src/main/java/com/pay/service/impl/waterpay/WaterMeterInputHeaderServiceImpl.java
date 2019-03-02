@@ -5,6 +5,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -475,20 +476,24 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				auctalQty=new BigDecimal(1);
 			}
 			orderInfo.setActualQty(auctalQty);
+			//水费金额已包含损耗费，所以不再另计
 			//获取分摊类型
-			PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
+			//PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
 			//计算分摊数量
-			BigDecimal waterApportionQty=(auctalQty).multiply(apportionType.getPercent());
-			orderInfo.setWaterApportionQty(waterApportionQty);
+			//BigDecimal waterApportionQty=(auctalQty).multiply(apportionType.getPercent());
+			//orderInfo.setWaterApportionQty(waterApportionQty);
+			orderInfo.setWaterApportionQty(new BigDecimal(0));
 			//获取计价金额
 			PayPricingType pricingType=pricingTypeDao.get(buildingDetail.getPricingTypeId());
 			BigDecimal price=pricingType.getPrice();
 			orderInfo.setPrice(price);
 			
 			//计算水费
-			BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-			int i = (int)Math.ceil(waterPrice.doubleValue());
-			orderInfo.setWaterPrice(new BigDecimal(i));
+			//BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+			BigDecimal waterPrice=((auctalQty.add(orderInfo.getWaterApportionQty())).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+			//int i = (int)Math.ceil(waterPrice.doubleValue());
+			//修改为逢8进1
+			orderInfo.setWaterPrice(format8in1(waterPrice));
 			//计算分摊费
 			//BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 
@@ -585,8 +590,28 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 		return mapValue;
 	}
 	
+	public BigDecimal format8in1(BigDecimal number){
+		
+		String strNumber=number.setScale(1,BigDecimal.ROUND_HALF_UP).toString();
+		if(strNumber.indexOf(".")>0){
+			String[] splitAry=strNumber.split("\\.");
+			//System.out.println(splitAry.length);
+			//System.out.println(splitAry[1]);
+			
+			if(Integer.parseInt(splitAry[1])>=8){
+				BigDecimal newNumber=new BigDecimal(splitAry[0]);
+				newNumber=newNumber.add(new BigDecimal(1));
+				return newNumber;
+			}else{
+				return number;
+			}
+			
+		}
+		return number;
+	}
+	
 	public static void main(String[] args){
-		BigDecimal bd = BigDecimal.valueOf(20.00);
-		System.out.println(new DecimalFormat("#.####").format(bd));
+		WaterMeterInputHeaderServiceImpl impl=new WaterMeterInputHeaderServiceImpl();
+		System.out.println(impl.format8in1(new BigDecimal("872")));
 	}
 }

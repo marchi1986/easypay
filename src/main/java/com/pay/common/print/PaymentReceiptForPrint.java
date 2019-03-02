@@ -251,7 +251,7 @@ public class PaymentReceiptForPrint implements Printable {
 		int leftPointX = (int) x + 15;
 		int rightPointX = (int) x + 560;
 		
-		System.out.println("X = " + (rightPointX - leftPointX));
+		//System.out.println("X = " + (rightPointX - leftPointX));
 		
 		//设置标题
 		g2.setFont(titleFont); // 设置字体  

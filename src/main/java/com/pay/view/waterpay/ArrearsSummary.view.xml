@@ -83,9 +83,6 @@
       <DataColumn name="actualQty">
         <Property name="property">actualQty</Property>
       </DataColumn>
-      <DataColumn name="waterApportionQty">
-        <Property name="property">waterApportionQty</Property>
-      </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
       </DataColumn>
@@ -112,12 +109,6 @@
       </DataColumn>
       <DataColumn name="remark">
         <Property name="property">remark</Property>
-      </DataColumn>
-      <DataColumn name="tollCollector">
-        <Property name="property">tollCollector</Property>
-      </DataColumn>
-      <DataColumn name="lastPayDate">
-        <Property name="property">lastPayDate</Property>
       </DataColumn>
     </DataGrid>
   </View>
