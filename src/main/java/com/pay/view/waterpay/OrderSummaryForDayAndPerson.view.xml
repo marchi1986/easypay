@@ -76,15 +76,10 @@
       </DataColumn>
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
-      </DataColumn>
-      <DataColumn name="actualGarbagePrice">
-        <Property name="property">actualGarbagePrice</Property>
+        <Property name="caption">卫生费</Property>
       </DataColumn>
       <DataColumn name="networkPrice">
         <Property name="property">networkPrice</Property>
-      </DataColumn>
-      <DataColumn name="actualNetworkPrice">
-        <Property name="property">actualNetworkPrice</Property>
       </DataColumn>
       <DataColumn name="sewagePrice">
         <Property name="property">sewagePrice</Property>
@@ -94,10 +89,6 @@
       </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
-      </DataColumn>
-      <DataColumn id="totalPrice" name="totalPrice">
-        <Property name="property">totalPrice</Property>
-        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="actualTotalPrice">
         <Property name="property">actualTotalPrice</Property>

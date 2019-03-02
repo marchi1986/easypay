@@ -107,9 +107,6 @@
       <DataColumn name="waterCurrentQty">
         <Property name="property">waterCurrentQty</Property>
       </DataColumn>
-      <DataColumn name="waterApportionQty">
-        <Property name="property">waterApportionQty</Property>
-      </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
       </DataColumn>

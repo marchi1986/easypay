@@ -130,6 +130,111 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 
 	 }
 	
+	/**
+	 * 按条件查询
+	 * @param page
+	 * @param params
+	 */
+	public List<PayOrderInfo> queryForCondition(Map<String, Object> params) {
+		 String buildingCode="";
+		 String roomNo="";
+		 Integer monthlyCycle=null;
+		 Integer status=null;
+		 String groupId=null;
+		 String userCode="";
+		 String addr="";
+		 String waterMeterCode="";
+		 String userName="";
+		 //是否查询欠费
+		 Boolean isQueryArrears=false;
+	     if(MapUtils.isNotEmpty(params)){
+	    	 buildingCode = (String)params.get("buildingCode");
+	    	 roomNo = (String)params.get("roomNo");
+	    	 monthlyCycle = (Integer)params.get("monthly");
+	    	 status = (Integer)params.get("status");
+	    	 groupId=(String)params.get("groupId");
+	    	 isQueryArrears=(Boolean)params.get("isQueryArrears");
+	    	 userCode=(String)params.get("userCode");
+	    	 addr=(String)params.get("addr");
+	    	 waterMeterCode=(String)params.get("waterMeterCode");
+	    	 userName=(String)params.get("userName");
+	     }
+	     
+	     StringBuffer hql=new StringBuffer();
+
+	     hql.append("from PayOrderInfo as a,PayBuildingDetail as b ");
+	     hql.append("where a.buildingCode=b.code and a.roomNo=b.roomNo ");
+	     
+	     
+	     if (monthlyCycle!=null) {
+	    	 hql.append(" AND a.monthlyCycle=").append(monthlyCycle);
+	     }
+	             
+	     if (StringHelper.isNotEmpty(buildingCode)) {
+	    	 hql.append(" AND a.buildingCode='").append(buildingCode).append("'");
+	     }
+	     
+	     if (StringHelper.isNotEmpty(roomNo)) {
+
+	    	 hql.append(" AND a.roomNo='").append(roomNo).append("'");
+	     }
+	     
+	     if (StringHelper.isNotEmpty(userCode)) {
+	    	 if(userCode.indexOf(";")>0){
+	    		 hql.append(" AND (");
+	    		 String[] userCodes=userCode.split(";");
+	    		 int index=0;
+	    		 for(String code:userCodes){
+	    			 if(index!=0){
+	    				 hql.append(" or ");
+	    			 }
+	    			 hql.append(" a.userCode like '").append(code).append("%'");
+	    			 index++;
+	    		 }
+	    		 hql.append(")");
+	    	 }else{
+	    		 hql.append(" AND a.userCode like '").append(userCode).append("%'");
+	    	 }
+	    	 
+	     }
+	     if (StringHelper.isNotEmpty(addr)) {
+	    	 hql.append(" AND a.addr like '%").append(addr).append("%'");
+	     }
+	     if (StringHelper.isNotEmpty(userName)) {
+	    	 hql.append(" AND a.userName like '%").append(userName).append("%'");
+	     }
+	     if (StringHelper.isNotEmpty(waterMeterCode)) {
+
+	    	 hql.append(" AND a.waterMeterCode='").append(waterMeterCode).append("'");
+	     }
+	     
+	     if (status!=null) {
+
+	    	 hql.append(" AND a.status=").append(status);
+	     }
+	     
+	     if(isQueryArrears!=null&&isQueryArrears){
+	    	 
+	    	 hql.append(" AND a.lastPayDate<'").append(DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")).append("'");
+	     }
+	     
+	     if (StringUtils.isNotEmpty(groupId)) {
+	    	 hql.append(" AND b.groupId=").append(groupId);
+	     }
+	     hql.append(" order by a.monthlyCycle ");
+	     
+	     StringBuffer queryHql=new StringBuffer();
+	     StringBuffer queryCountHql=new StringBuffer();
+	     queryHql.append("select a ").append(hql);
+	     queryCountHql.append("select count(*) ").append(hql);
+	     
+	     //System.out.println(queryHql.toString());     
+	     return this.list(queryHql.toString());
+	   
+
+
+	 }
+	
 	public List<PayOrderInfo>  querySummaryForCondition(Map<String, Object> params){
 		Integer monthlyCycle=null;
 		Date payDate=null;

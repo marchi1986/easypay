@@ -113,6 +113,53 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	 * @param page,parameter
 	 */
 	@DataProvider
+	public  List<PayOrderInfo> queryForCondition(Map<String, Object> parameter) {
+			
+		if(MapUtils.isNotEmpty(parameter)){
+			if(parameter.get("monthlyCycle")!=null){
+				Date monthly=(Date)parameter.get("monthlyCycle");
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+				String dateFormat= sdf.format(monthly);
+				parameter.put("monthly", Integer.parseInt(dateFormat));
+			}
+			
+		}
+		
+
+		
+		return orderInfoDao.queryForCondition(parameter);
+		/*
+		 * 暂不需要计算滞纳金
+		Integer yearMonth=null;
+		PayWaterMeterInputHeader inputHeader=null;
+		for(PayOrderInfo orderInfo:page.getEntities()){
+			Integer currentOrderMonthlyCycle=orderInfo.getMonthlyCycle();
+			if(yearMonth==null||currentOrderMonthlyCycle!=yearMonth){
+				inputHeader=waterMeterInputHeaderDao.getByMonthly(orderInfo.getMonthlyCycle());
+			}
+			Date now=new Date();
+			//缴费日期大于收费结束日期，需要交纳滞纳金
+			if(now.compareTo(inputHeader.getEndDate())>0){
+				
+				int delayDay= (int)((now.getTime()-inputHeader.getEndDate().getTime())/1000/3600/24);
+				BigDecimal lateFeeForDay=orderInfo.getTotalPrice().multiply(new BigDecimal(0.0001));
+				BigDecimal lateFee=new BigDecimal(delayDay).multiply(lateFeeForDay).setScale(2,RoundingMode.HALF_UP);
+				orderInfo.setLateFee(lateFee);
+				orderInfo.setTotalPrice(orderInfo.getTotalPrice().add(orderInfo.getLateFee()));
+			}
+			 
+			yearMonth=currentOrderMonthlyCycle;
+		}
+		*/
+	
+	}
+	
+	/**
+	 * 根据条件分页查询
+	 * @author marchi.ma
+	 * @param page,parameter
+	 */
+	@DataProvider
 	public void queryPageArrearsForCondition(Page<PayOrderInfo> page,Map<String, Object> parameter) {
 			
 		if(MapUtils.isNotEmpty(parameter)){

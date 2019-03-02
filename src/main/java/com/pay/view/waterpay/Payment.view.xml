@@ -100,19 +100,19 @@ dialogSwfViewer.show();&#xD;
         <Property name="label">用户编码</Property>
         <Editor/>
       </AutoFormElement>
-      <AutoFormElement>
+      <AutoFormElement id="waterMeterCodeEditor">
         <Property name="name">waterMeterCode</Property>
         <Property name="property">waterMeterCode</Property>
         <Property name="label">水表编码</Property>
         <Editor/>
       </AutoFormElement>
-      <AutoFormElement>
+      <AutoFormElement id="userNameEditor">
         <Property name="name">userName</Property>
         <Property name="property">userName</Property>
         <Property name="label">用户名</Property>
         <Editor/>
       </AutoFormElement>
-      <AutoFormElement layoutConstraint="colSpan:2">
+      <AutoFormElement id="addrEditor" layoutConstraint="colSpan:2">
         <Property name="name">addr</Property>
         <Property name="property">addr</Property>
         <Property name="label">地址</Property>
@@ -141,9 +141,8 @@ dialogSwfViewer.show();&#xD;
     </AutoForm>
     <DataSet id="dataSetOrderInfo">
       <Property name="dataType">[PayOrderInfo]</Property>
-      <Property name="pageSize">1000</Property>
       <Property name="loadMode">manual</Property>
-      <Property name="dataProvider">orderInfoService#queryPageForCondition</Property>
+      <Property name="dataProvider">orderInfoService#queryForCondition</Property>
     </DataSet>
     <DataSet id="dataSetOrderView">
       <Property name="dataType">[PayInfo]</Property>
@@ -154,18 +153,14 @@ dialogSwfViewer.show();&#xD;
     <DataSet id="dataSetSelected">
       <Property name="dataType">[PayOrderInfo]</Property>
     </DataSet>
-    <ToolBar>
-      <DataPilot id="dataPilotOrderInfo">
-        <Property name="dataSet">dataSetOrderInfo</Property>
-        <Property name="itemCodes">pages,pageSize</Property>
-      </DataPilot>
-    </ToolBar>
+    <ToolBar/>
     <DataGrid id="dataGridOrderInfo">
       <Property name="dataSet">dataSetOrderView</Property>
       <Property name="readOnly">true</Property>
       <Property name="highlightCurrentRow">true</Property>
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
+      <Property name="showFooter">true</Property>
       <RowSelectorColumn/>
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
@@ -233,6 +228,7 @@ dialogSwfViewer.show();&#xD;
       </DataColumn>
       <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
     </DataGrid>
     <Dialog id="dialogPay">
@@ -268,20 +264,10 @@ dialogSwfViewer.show();&#xD;
             <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement id="actualGarbagePrice">
-            <Property name="name">actualGarbagePrice</Property>
-            <Property name="property">actualGarbagePrice</Property>
-            <Editor/>
-          </AutoFormElement>
           <AutoFormElement>
             <Property name="name">networkPrice</Property>
             <Property name="property">networkPrice</Property>
             <Property name="readOnly">true</Property>
-            <Editor/>
-          </AutoFormElement>
-          <AutoFormElement id="actualNetworkPrice">
-            <Property name="name">actualNetworkPrice</Property>
-            <Property name="property">actualNetworkPrice</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
@@ -323,7 +309,7 @@ dialogSwfViewer.show();&#xD;
             <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement id="remarkEditor">
             <Property name="name">remark</Property>
             <Property name="property">remark</Property>
             <Editor/>

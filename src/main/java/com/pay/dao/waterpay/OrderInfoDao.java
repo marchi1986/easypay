@@ -17,6 +17,8 @@ public interface OrderInfoDao extends IBaseDao<PayOrderInfo, PayOrderInfoPK> {
 	 */
 	public void queryPageForCondition(Page<PayOrderInfo> page, Map<String, Object> params) ;
 	
+	public List<PayOrderInfo> queryForCondition(Map<String, Object> params) ;
+	
 	public List<PayOrderInfo>  querySummaryForCondition(Map<String, Object> params);
 	
 	public List<PayOrderInfo> findByPayCode(String payCode);

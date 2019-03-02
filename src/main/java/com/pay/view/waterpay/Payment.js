@@ -59,7 +59,42 @@ function searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,isClear){
 
 //@Bind #userCodeEditor.onKeyPress
 !function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
+	
+	if(arg.keyCode==13){
+		//获取autoformCondition绑定的实体对象
+		var entity = autoFormCondition.get("entity");
+		entity.set("status",0);
+		//将实体对象作为参数传入，并异步刷新
+		searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,false);
+	}
+}
+//@Bind #addrEditor.onKeyPress
+!function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
+	
+	if(arg.keyCode==13){
+		//获取autoformCondition绑定的实体对象
+		var entity = autoFormCondition.get("entity");
+		entity.set("status",0);
+		//将实体对象作为参数传入，并异步刷新
+		searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,false);
+	}
+}
 
+//@Bind #userNameEditor.onKeyPress
+!function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
+	
+	if(arg.keyCode==13){
+		//获取autoformCondition绑定的实体对象
+		var entity = autoFormCondition.get("entity");
+		entity.set("status",0);
+		//将实体对象作为参数传入，并异步刷新
+		searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,false);
+	}
+}
+
+//@Bind #waterMeterCodeEditor.onKeyPress
+!function(self,arg,autoFormCondition,dataSetOrderInfo,dataSetOrderView){
+	
 	if(arg.keyCode==13){
 		//获取autoformCondition绑定的实体对象
 		var entity = autoFormCondition.get("entity");
@@ -158,7 +193,7 @@ function searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,isClear){
 }
 
 //@Bind #actualPrice.onKeyPress
-!function(self,arg,dataSetPay,ajaxActionRxtx,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid){
+!function(self,arg,dataSetPay,ajaxActionRxtx,autoFormPay){
 
 	if(arg.keyCode==13){
 		
@@ -173,10 +208,21 @@ function searchPayOrderInfo(dataSetOrderInfo,entity,dataSetOrderView,isClear){
 
 		dataSetPay.get("data:#").set("actualTotalPrice",data.get("shouldTotalPrice"));
 		dataSetPay.get("data:#").set("giveChange",giveChange);
-		
+		setFocus(autoFormPay.getElement("remark").getDom());
 		setTimeout(function(){ ajaxActionRxtx.set("parameter",{"state":"4","data":giveChange+""}).execute(); }, 2000);
 		
+		
+		
 		//pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid);
+	}
+}
+
+
+//@Bind #remarkEditor.onKeyPress
+!function(self,arg,dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid){
+	
+	if(arg.keyCode==13){
+		pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,dialogPay,dialogPaid);
 	}
 }
 

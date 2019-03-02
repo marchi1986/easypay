@@ -326,7 +326,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawString("上次行度", (float)leftPointX + 80, (float) line + gridTitleFontHeight);
 					g2.drawString("本次行度", (float)leftPointX + 150, (float) line + gridTitleFontHeight);
 					g2.drawString("实际用水量", (float)leftPointX + 212, (float) line + gridTitleFontHeight);
-					g2.drawString("损耗量", (float)leftPointX + 282, (float) line + gridTitleFontHeight);
+					g2.drawString("", (float)leftPointX + 282, (float) line + gridTitleFontHeight);
 					g2.drawString("合计(t)", (float)leftPointX + 355, (float) line + gridTitleFontHeight);
 					g2.drawString("单价(元)", (float)leftPointX + 420, (float) line + gridTitleFontHeight);
 					g2.drawString("金额(元)", (float)leftPointX + 490, (float) line + gridTitleFontHeight);
@@ -348,7 +348,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawString(String.valueOf(this.beforeQty), (float)leftPointX + 95, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.currentQty), (float)leftPointX + 165, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.actualQty), (float)leftPointX + 230, (float) line + gridTitleFontHeight);
-					g2.drawString(String.valueOf(this.apportionQty), (float)leftPointX + 305, (float) line + gridTitleFontHeight);
+					g2.drawString("", (float)leftPointX + 305, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.totalQty), (float)leftPointX + 365, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.price), (float)leftPointX + 435, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.amount), (float)leftPointX + 505, (float) line + gridTitleFontHeight);
@@ -368,7 +368,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.setFont(gridTitleFont); // 设置字体  
 					// 上次行度、本次行度、实际用水量、分摊、合计、单价、金额
 					g2.drawString("杂项", (float)leftPointX + 23, (float) (line + gridTitleFontHeight*1.7));
-					g2.drawString("垃圾费", (float)leftPointX + 85, (float) line + gridTitleFontHeight);
+					g2.drawString("卫生费", (float)leftPointX + 85, (float) line + gridTitleFontHeight);
 					g2.drawString("网管费", (float)leftPointX + 155, (float) line + gridTitleFontHeight);
 					g2.drawString("排污费", (float)leftPointX + 223, (float) line + gridTitleFontHeight);
 					g2.drawString("其他费用", (float)leftPointX + 285, (float) line + gridTitleFontHeight);
@@ -448,13 +448,13 @@ public class PaymentReceiptForPrint implements Printable {
 				//第12行
 				case 13:
 					g2.setFont(gridFootFont); // 设置字体
-					g2.drawString(companyName, (float) leftPointX + 400, (float) line + gridFontHeight);
+					g2.drawString(companyName, (float) leftPointX + 420, (float) line + gridFontHeight);
 					
 					break;
 				//第13行
 				case 14:
 					g2.setFont(gridFootFont); // 设置字体
-					g2.drawString(this.year+" 年 "+this.month+1+" 月 "+this.day+" 日", (float) leftPointX + 420, (float) line + gridFontHeight);
+					g2.drawString(this.year+" 年 "+(Integer.parseInt(this.month)+1)+" 月 "+this.day+" 日", (float) leftPointX + 420, (float) line + gridFontHeight);
 					
 					break;
 			}
