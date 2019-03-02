@@ -200,7 +200,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			payInfo.setPayCode(payCode);
 			payInfo.setPayDate(new Date());
 			payInfo.setStatus(0);
-			payInfo.setTollCollector(ContextHolder.getLoginUserName());
+			payInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
 			payInfo.setCreateUser(ContextHolder.getLoginUserName());
 			payInfo.setCreateTime(new Date());
 			payInfo.setLastModifyUser(ContextHolder.getLoginUserName());
