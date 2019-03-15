@@ -510,7 +510,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 					.add(orderInfo.getNetworkPrice())
 					.add(orderInfo.getSewagePrice())
 					.add(orderInfo.getOtherPrice());
-			orderInfo.setTotalPrice(formatPrice(totalPrice));
+			orderInfo.setTotalPrice(format8in1(totalPrice));
 			orderInfo.setStatus(PayConstants.ORDER_STATUS_UNPAY);
 			orderInfo.setCreateUser(ContextHolder.getLoginUserName());
 			orderInfo.setCreateTime(new Date());
