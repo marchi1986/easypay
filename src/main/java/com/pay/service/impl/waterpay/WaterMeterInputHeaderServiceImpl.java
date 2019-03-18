@@ -603,7 +603,8 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				newNumber=newNumber.add(new BigDecimal(1));
 				return newNumber;
 			}else{
-				return number;
+				BigDecimal newNumber=new BigDecimal(splitAry[0]);
+				return newNumber;
 			}
 			
 		}
