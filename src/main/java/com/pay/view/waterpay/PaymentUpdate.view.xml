@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayOrderInfo" parent="global:PayOrderInfo"/>
+    <DataType name="Condition">
+      <PropertyDef name="userCode">
+        <Property name="label">用户编码</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <DataSet id="datasetPayOrder">
+      <Property name="dataType">[PayOrderInfo]</Property>
+      <Property name="loadMode">manual</Property>
+      <Property name="dataProvider">orderInfoService#queryForCondition</Property>
+    </DataSet>
+    <DataSet id="datasetCondition">
+      <Property name="dataType">Condition</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <ToolBar>
+      <ToolBarButton id="buttonSearch">
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonEdit">
+        <Property name="caption">编辑</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="dataSet">datasetCondition</Property>
+      <AutoFormElement>
+        <Property name="name">userCode</Property>
+        <Property name="property">userCode</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataGrid id="dataGridPayOrder">
+      <Property name="dataSet">datasetPayOrder</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="monthlyCycle">
+        <Property name="property">monthlyCycle</Property>
+      </DataColumn>
+      <DataColumn name="userCode">
+        <Property name="property">userCode</Property>
+      </DataColumn>
+      <DataColumn name="userName">
+        <Property name="property">userName</Property>
+      </DataColumn>
+      <DataColumn name="waterMeterCode">
+        <Property name="property">waterMeterCode</Property>
+      </DataColumn>
+      <DataColumn name="addr">
+        <Property name="property">addr</Property>
+      </DataColumn>
+      <DataColumn name="waterBeforeQty">
+        <Property name="property">waterBeforeQty</Property>
+      </DataColumn>
+      <DataColumn name="waterCurrentQty">
+        <Property name="property">waterCurrentQty</Property>
+      </DataColumn>
+      <DataColumn name="actualQty">
+        <Property name="property">actualQty</Property>
+      </DataColumn>
+      <DataColumn name="price">
+        <Property name="property">price</Property>
+      </DataColumn>
+      <DataColumn name="waterPrice">
+        <Property name="property">waterPrice</Property>
+      </DataColumn>
+      <DataColumn name="garbagePrice">
+        <Property name="property">garbagePrice</Property>
+      </DataColumn>
+      <DataColumn name="lateFee">
+        <Property name="property">lateFee</Property>
+      </DataColumn>
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
+      <DataColumn name="sewagePrice">
+        <Property name="property">sewagePrice</Property>
+      </DataColumn>
+      <DataColumn name="otherPrice">
+        <Property name="property">otherPrice</Property>
+      </DataColumn>
+      <DataColumn name="totalPrice">
+        <Property name="property">totalPrice</Property>
+      </DataColumn>
+    </DataGrid>
+    <Dialog id="dialogDetail">
+      <Property name="caption">明细</Property>
+      <Property name="width">1200</Property>
+      <Property name="height">600</Property>
+      <Buttons>
+        <Button id="buttonRecount">
+          <Property name="caption">重新计算</Property>
+        </Button>
+        <Button id="buttonSave">
+          <Property name="caption">保存</Property>
+          <Property name="action">updateActionSave</Property>
+        </Button>
+        <Button id="buttonClose">
+          <Property name="caption">关闭</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormDetail">
+          <Property name="dataSet">datasetPayOrder</Property>
+          <Property name="colPadding">*,*,*</Property>
+          <AutoFormElement>
+            <Property name="name">userCode</Property>
+            <Property name="property">userCode</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">userName</Property>
+            <Property name="property">userName</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">waterMeterCode</Property>
+            <Property name="property">waterMeterCode</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">addr</Property>
+            <Property name="property">addr</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">waterBeforeQty</Property>
+            <Property name="property">waterBeforeQty</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement id="waterCurrentQtyEditor">
+            <Property name="name">waterCurrentQty</Property>
+            <Property name="property">waterCurrentQty</Property>
+            <Property name="readOnly">false</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">actualQty</Property>
+            <Property name="property">actualQty</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">price</Property>
+            <Property name="property">price</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">waterPrice</Property>
+            <Property name="property">waterPrice</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">garbagePrice</Property>
+            <Property name="property">garbagePrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">lateFee</Property>
+            <Property name="property">lateFee</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">networkPrice</Property>
+            <Property name="property">networkPrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">sewagePrice</Property>
+            <Property name="property">sewagePrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">otherPrice</Property>
+            <Property name="property">otherPrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">totalPrice</Property>
+            <Property name="property">totalPrice</Property>
+            <Property name="readOnly">true</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="updateActionSave">
+      <Property name="confirmMessage">是否保存？</Property>
+      <Property name="executingMessage">保存中...</Property>
+      <Property name="dataResolver">orderInfoService#save</Property>
+      <Property name="successMessage">保存成功！</Property>
+      <UpdateItem>
+        <Property name="dataSet">datasetPayOrder</Property>
+      </UpdateItem>
+    </UpdateAction>
+  </View>
+</ViewConfig>
