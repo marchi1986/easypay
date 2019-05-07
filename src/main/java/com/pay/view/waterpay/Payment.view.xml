@@ -161,6 +161,7 @@ dialogSwfViewer.show();&#xD;
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
       <Property name="showFooter">true</Property>
+      <RowNumColumn/>
       <RowSelectorColumn/>
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
