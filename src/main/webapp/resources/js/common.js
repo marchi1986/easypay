@@ -58,7 +58,7 @@ function scale8to1(num){
 			if(decimalPlace>=8){
 				return parseInt(arry[0])+1;
 			}else{
-				return num;
+				return parseInt(arry[0]);
 			}
 		}else{
 			return num;
