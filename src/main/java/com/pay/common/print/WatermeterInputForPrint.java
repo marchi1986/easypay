@@ -216,11 +216,11 @@ public class WatermeterInputForPrint implements Printable {
 			
 			List<PayWaterMeterInputDetail> detailList = this.detailMap.get(room);
 			String[] roomArry=room.split("\\|");
-			System.out.println(room);
+			//System.out.println(room);
 			String roomNo=roomArry[0];
-			System.out.println(roomNo);
+			//System.out.println(roomNo);
 			String waterMeterCode=roomArry[1];
-			System.out.println(waterMeterCode);
+			//System.out.println(waterMeterCode);
 			//房间编号
 			g2.setFont(gridTitleFont); // 设置字体  
 			g2.drawString(roomNo, (float)leftPointX + 10, (float) (line + gridTitleFontHeight));
