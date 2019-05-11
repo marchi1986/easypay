@@ -326,10 +326,10 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawString("上次行度", (float)leftPointX + 80, (float) line + gridTitleFontHeight);
 					g2.drawString("本次行度", (float)leftPointX + 150, (float) line + gridTitleFontHeight);
 					g2.drawString("实际用水量", (float)leftPointX + 212, (float) line + gridTitleFontHeight);
-					g2.drawString("", (float)leftPointX + 282, (float) line + gridTitleFontHeight);
-					g2.drawString("合计(t)", (float)leftPointX + 355, (float) line + gridTitleFontHeight);
-					g2.drawString("单价(元)", (float)leftPointX + 420, (float) line + gridTitleFontHeight);
-					g2.drawString("金额(元)", (float)leftPointX + 490, (float) line + gridTitleFontHeight);
+					g2.drawString("合计(t)", (float)leftPointX + 280, (float) line + gridTitleFontHeight);
+					g2.drawString("单价(元)", (float)leftPointX + 355, (float) line + gridTitleFontHeight);
+					g2.drawString("金额(元)", (float)leftPointX + 420, (float) line + gridTitleFontHeight);
+					g2.drawString("", (float)leftPointX + 490, (float) line + gridTitleFontHeight);
 					
 					g2.setFont(gridFont); // 设置字体
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
@@ -348,10 +348,11 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawString(String.valueOf(this.beforeQty), (float)leftPointX + 95, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.currentQty), (float)leftPointX + 165, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.actualQty), (float)leftPointX + 230, (float) line + gridTitleFontHeight);
-					g2.drawString("", (float)leftPointX + 305, (float) line + gridTitleFontHeight);
-					g2.drawString(String.valueOf(this.totalQty), (float)leftPointX + 365, (float) line + gridTitleFontHeight);
-					g2.drawString(String.valueOf(this.price), (float)leftPointX + 435, (float) line + gridTitleFontHeight);
-					g2.drawString(String.valueOf(this.amount), (float)leftPointX + 505, (float) line + gridTitleFontHeight);
+					
+					g2.drawString(String.valueOf(this.totalQty), (float)leftPointX + 305, (float) line + gridTitleFontHeight);
+					g2.drawString(String.valueOf(this.price), (float)leftPointX + 365, (float) line + gridTitleFontHeight);
+					g2.drawString(String.valueOf(this.amount), (float)leftPointX + 435, (float) line + gridTitleFontHeight);
+					g2.drawString("", (float)leftPointX + 505, (float) line + gridTitleFontHeight);
 					
 					g2.setFont(gridFont); // 设置字体
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
@@ -372,7 +373,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawString("网管费", (float)leftPointX + 155, (float) line + gridTitleFontHeight);
 					g2.drawString("排污费", (float)leftPointX + 223, (float) line + gridTitleFontHeight);
 					g2.drawString("其他费用", (float)leftPointX + 285, (float) line + gridTitleFontHeight);
-					g2.drawString("杂项金额(元)", (float)leftPointX + lineSpace*6, (float) line + gridTitleFontHeight);
+					g2.drawString("金额(元)", (float)leftPointX + lineSpace*6, (float) line + gridTitleFontHeight);
 					
 					g2.setFont(gridFont); // 设置字体
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
@@ -405,7 +406,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.setFont(gridTitleFont); // 设置字体
 					g2.drawString("金额合计", (float)leftPointX + 13, (float) line + gridTitleFontHeight);
 					g2.drawString("(大写)", (float)leftPointX + 16, (float) (line + gridTitleFontHeight*2));
-					g2.setFont(gridFont); // 设置字体
+					g2.setFont(gridTitleFont); // 设置字体
 					g2.drawString("滞纳金：", (float) leftPointX + 415, (float) (line + gridTitleFontHeight*1.5));
 					
 					g2.drawString(String.valueOf(this.totalAmountCN), (float)leftPointX + 87, (float) (line + gridFontHeight*1.5));
@@ -414,7 +415,7 @@ public class PaymentReceiptForPrint implements Printable {
 					g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight*1.7)); //中竖线
 					break;
 				case 8:
-					g2.setFont(gridFont); // 设置字体
+					g2.setFont(gridTitleFont); // 设置字体
 					g2.drawString("合计：", (float) leftPointX + 415, (float) line + gridFontHeight);
 					g2.drawString(String.valueOf(this.totalAmountFoot), (float) leftPointX + 500, (float) line + gridFontHeight);
 					break;

@@ -161,6 +161,7 @@ dialogSwfViewer.show();&#xD;
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
       <Property name="showFooter">true</Property>
+      <RowNumColumn/>
       <RowSelectorColumn/>
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
@@ -370,7 +371,7 @@ dialogSwfViewer.show();&#xD;
       <Property name="service">rxtxService#sendDisplay</Property>
     </AjaxAction>
     <UpdateAction id="updateActionPaymen">
-      <Property name="dataResolver">orderInfoService#updatePaymentInfo</Property>
+      <Property name="dataResolver">orderInfoService#pay</Property>
       <Property name="successMessage">确认成功！</Property>
       <UpdateItem>
         <Property name="dataSet">dataSetPay</Property>

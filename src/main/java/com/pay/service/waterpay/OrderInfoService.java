@@ -19,7 +19,7 @@ public interface OrderInfoService {
 	 * 缴费
 	 * @param orderInfos
 	 */
-	public void updatePaymentInfo(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos);
+	public void pay(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos);
 	
 	public List<PayOrderInfo>  querySummaryForCondition(Map<String, Object> parameter);
 	

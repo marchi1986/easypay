@@ -52,13 +52,11 @@ public class WaterMeterImportExcelProcessor extends ImportExcelJdbcDao implement
 					detail.setMonthlyCycle(Integer.parseInt((String)columnValue));
 					break;
 				case 2://楼宇
-					detail.setBuildingCode((String)columnValue);
+					detail.setBuildingCode(((String)columnValue).substring(0, 6));
+					detail.setRoomNo(((String)columnValue).substring(6, 9));
 					break;
-				case 3://门牌
-					detail.setRoomNo((String)columnValue);
-					break;
-				case 4://当前吨数
-					detail.setCurrentQty(BigDecimal.valueOf((Double)columnValue));
+				case 3://当前吨数
+					detail.setCurrentQty(new BigDecimal((String)columnValue));
 					break;
 //				case 5://垃圾费
 //					detail.setGarbagePrice(BigDecimal.valueOf((Double)columnValue));
@@ -199,5 +197,11 @@ public class WaterMeterImportExcelProcessor extends ImportExcelJdbcDao implement
 			LOGGER.error("解析Excel导入数据库时出错！出错类名：WaterMeterImportExcelProcessor。" + e.getMessage());
 			throw new BusinessException("解析Excel导入数据库时出错！出错类名：WaterMeterImportExcelProcessor。" + e.getMessage());
 		}
+	}
+	
+	public static void main(String[] args){
+		String userCode="292070401";
+		System.out.println(userCode.substring(0, 6));
+		System.out.println(userCode.substring(6, 9));
 	}
 }

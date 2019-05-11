@@ -186,7 +186,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	 * @param orderInfos
 	 */
 	@DataResolver
-	public void updatePaymentInfo(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos){
+	public void pay(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos){
 		
 		
 
@@ -343,6 +343,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		}
 		
 		
+	}
+	@DataResolver
+	public void save(List<PayOrderInfo> orderInfos){
+		this.orderInfoDao.updateAll(orderInfos);
 	}
 	
 	public static void main(String[] args){

@@ -493,7 +493,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			BigDecimal waterPrice=((auctalQty.add(orderInfo.getWaterApportionQty())).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 			//int i = (int)Math.ceil(waterPrice.doubleValue());
 			//修改为逢8进1
-			orderInfo.setWaterPrice(format8in1(waterPrice));
+			orderInfo.setWaterPrice(waterPrice);
 			//计算分摊费
 			//BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 
@@ -603,7 +603,8 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				newNumber=newNumber.add(new BigDecimal(1));
 				return newNumber;
 			}else{
-				return number;
+				BigDecimal newNumber=new BigDecimal(splitAry[0]);
+				return newNumber;
 			}
 			
 		}

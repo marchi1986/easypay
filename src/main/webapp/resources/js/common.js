@@ -48,3 +48,22 @@ function getCurrentMonthLast(){
 	var oneDay=1000*60*60*24;
 	return new Date(nextMonthFirstDay-oneDay);
 }
+
+function scale8to1(num){
+	var numFormat=num+"";
+	if(isNotNull(numFormat)){
+		var arry= numFormat.split(".");
+		if(arry.length>1){
+			var decimalPlace=arry[1];
+			if(decimalPlace>=8){
+				return parseInt(arry[0])+1;
+			}else{
+				return num;
+			}
+		}else{
+			return num;
+		}
+	}else{
+		return 0;
+	}
+}
