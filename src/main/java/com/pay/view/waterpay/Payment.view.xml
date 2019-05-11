@@ -161,7 +161,9 @@ dialogSwfViewer.show();&#xD;
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
       <Property name="showFooter">true</Property>
-      <RowNumColumn/>
+      <RowNumColumn>
+        <Property name="width">50</Property>
+      </RowNumColumn>
       <RowSelectorColumn/>
       <DataColumn name="monthlyCycle">
         <Property name="property">monthlyCycle</Property>
@@ -172,11 +174,13 @@ dialogSwfViewer.show();&#xD;
         <Property name="property">userCode</Property>
         <Property name="name">userCode</Property>
         <Property name="caption">用户编号</Property>
+        <Property name="width">100</Property>
       </DataColumn>
       <DataColumn>
         <Property name="property">userName</Property>
         <Property name="caption">用户名</Property>
         <Property name="name">userName</Property>
+        <Property name="width">80</Property>
         <Editor/>
       </DataColumn>
       <DataColumn>
@@ -189,47 +193,59 @@ dialogSwfViewer.show();&#xD;
         <Property name="property">waterMeterCode</Property>
         <Property name="name">waterMeterCode</Property>
         <Property name="caption">水表编号</Property>
+        <Property name="width">80</Property>
         <Editor/>
       </DataColumn>
       <DataColumn name="waterBeforeQty">
         <Property name="property">waterBeforeQty</Property>
         <Property name="caption">上月读数</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="waterCurrentQty">
         <Property name="property">waterCurrentQty</Property>
         <Property name="caption">当月读数</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn>
         <Property name="name">actualQty</Property>
         <Property name="property">actualQty</Property>
         <Property name="caption">用水吨数</Property>
+        <Property name="width">80</Property>
         <Editor/>
       </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
         <Property name="caption">单价</Property>
+        <Property name="width">50</Property>
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="networkPrice">
         <Property name="property">networkPrice</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="sewagePrice">
         <Property name="property">sewagePrice</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
+        <Property name="width">80</Property>
       </DataColumn>
       <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>
         <Property name="summaryType">sum</Property>
+        <Property name="width">100</Property>
       </DataColumn>
     </DataGrid>
     <Dialog id="dialogPay">
@@ -333,6 +349,7 @@ dialogSwfViewer.show();&#xD;
           <Property name="dataSet">dataSetPaid</Property>
           <Property name="showFooter">true</Property>
           <Property name="readOnly">true</Property>
+          <RowNumColumn/>
           <DataColumn name="userCode">
             <Property name="property">userCode</Property>
           </DataColumn>

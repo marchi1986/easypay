@@ -48,7 +48,7 @@
 
 		data.set("actualQty",actualQty);
 		var price=data.get("price");
-		data.set("waterPrice",(actualQty*price).toFixed(1));
+		data.set("waterPrice",scale8to1((actualQty*price).toFixed(1)));
 	}
 	var totalPrice=data.get("waterPrice");
 	if(isNotNull(garbagePrice)){

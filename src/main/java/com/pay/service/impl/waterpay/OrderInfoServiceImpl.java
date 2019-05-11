@@ -189,7 +189,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	public void pay(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos){
 		
 		
-
+		
 		
 		if(CollectionUtils.isNotEmpty(paymentInfos)&& CollectionUtils.isNotEmpty(orderInfos)){
 

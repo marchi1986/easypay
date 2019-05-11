@@ -37,6 +37,7 @@
             <tx:method name="approval*" propagation="REQUIRED"/>
             <tx:method name="sync*" propagation="REQUIRED"/>
             <tx:method name="change*" propagation="REQUIRED"/>
+            <tx:method name="pay*" propagation="REQUIRED"/>
             <!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到-->
             <tx:method name="get*" propagation="REQUIRED" read-only="true" />
             <tx:method name="count*" propagation="REQUIRED" read-only="true" />
