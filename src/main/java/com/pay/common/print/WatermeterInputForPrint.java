@@ -158,7 +158,7 @@ public class WatermeterInputForPrint implements Printable {
 
 		line += titleFontHeight*5 + 10;
 		
-		int lineSpace = (int) 42;	//间距
+		int lineSpace = (int) 55;	//间距
 		
 		// 设置打印颜色为黑色  
 		g2.setColor(Color.black); 
@@ -172,19 +172,30 @@ public class WatermeterInputForPrint implements Printable {
 		//第1行-------------------------开始------------------------------
 		g2.setFont(gridTitleFont); // 设置字体  
 		g2.drawString("房间号", (float)leftPointX + 4, (float) (line + gridTitleFontHeight));
+		g2.drawString("水表编号", (float)leftPointX + lineSpace+5, (float) (line + gridTitleFontHeight));
+		
+		int[] monthArry={1,3,5,7,9,11};
+		
 		int titleLineSpace = (int) 28;	//间距
-		for(int j = 1; j < 13; j++){
-			g2.drawString(j+"月", (float)(leftPointX + lineSpace*(j+1) - titleLineSpace), (float) line + gridTitleFontHeight);
-			if(j == 9){
-				titleLineSpace = 32;
-			}
+		int h=2;
+		for(int j = 0; j < monthArry.length; j++){
+			
+			g2.drawString(monthArry[j]+"月", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
+//			if(j == 9){
+//				titleLineSpace = 32;
+//			}
+			h++;
 		}
+		g2.drawString("备注", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
 		
 		g2.setFont(gridFont); // 设置字体  
 		g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
-		for(int j = 1; j < 13; j++){
-			g2.drawLine(leftPointX + lineSpace*(j+1), (int) line, leftPointX + lineSpace*(j+1), (int) (line + rowHight)); //中竖线
+		h=1;
+		for(int j = 0; j < monthArry.length; j++){
+			g2.drawLine(leftPointX + lineSpace*(h+1), (int) line, leftPointX + lineSpace*(h+1), (int) (line + rowHight)); //中竖线
+			h++;
 		}
+		g2.drawLine(leftPointX + lineSpace*(h+1), (int) line, leftPointX + lineSpace*(h+1), (int) (line + rowHight)); //中竖线
 		line += rowHight;
 		//第1行-------------------------结束------------------------------
 		
@@ -204,24 +215,44 @@ public class WatermeterInputForPrint implements Printable {
 			g2.drawLine(rightPointX, (int) line, rightPointX, (int) (line + rowHight)); //右竖线
 			
 			List<PayWaterMeterInputDetail> detailList = this.detailMap.get(room);
-			
+			String[] roomArry=room.split("\\|");
+			System.out.println(room);
+			String roomNo=roomArry[0];
+			System.out.println(roomNo);
+			String waterMeterCode=roomArry[1];
+			System.out.println(waterMeterCode);
+			//房间编号
 			g2.setFont(gridTitleFont); // 设置字体  
-			g2.drawString(room, (float)leftPointX + 10, (float) (line + gridTitleFontHeight));
+			g2.drawString(roomNo, (float)leftPointX + 10, (float) (line + gridTitleFontHeight));
 			g2.setFont(gridFont); // 设置字体  
 			g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
-			
+			//水表编号
+			g2.setFont(gridTitleFont); // 设置字体  
+			g2.drawString(waterMeterCode, (float)leftPointX + lineSpace+3, (float) (line + gridTitleFontHeight));
+			g2.setFont(gridFont); // 设置字体  
+			g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
+			h=2;
 			for(int j = 1; j < detailList.size()+1; j++){
 				PayWaterMeterInputDetail detail = detailList.get(j-1);
 				
 				g2.setFont(gridTitleFont); // 设置字体  
+
 				if(detail == null || detail.getCurrentQty().compareTo(new BigDecimal(0))==0){
-					g2.drawString("", (float)(leftPointX + lineSpace*(j+1) - titleLineSpace), (float) line + gridTitleFontHeight);
+					g2.drawString("", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
 				}else{
-					g2.drawString(String.valueOf(new DecimalFormat("#.####").format(detail.getCurrentQty())), (float)(leftPointX + lineSpace*(j+1) - titleLineSpace), (float) line + gridTitleFontHeight);
+					g2.drawString(String.valueOf(new DecimalFormat("#.####").format(detail.getCurrentQty())), (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
 				}
+				
+
 				g2.setFont(gridFont); // 设置字体  
-				g2.drawLine(leftPointX + lineSpace*j, (int) line, leftPointX + lineSpace*j, (int) (line + rowHight)); //中竖线
+				g2.drawLine(leftPointX + lineSpace*h, (int) line, leftPointX + lineSpace*h, (int) (line + rowHight)); //中竖线
+				h++;
 			}
+			//备注
+			g2.setFont(gridTitleFont); // 设置字体  
+			g2.drawString("", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
+			g2.setFont(gridFont); // 设置字体  
+			g2.drawLine(leftPointX + lineSpace*h, (int) line, leftPointX + lineSpace*h, (int) (line + rowHight)); //中竖线
 			
 			line += rowHight;
 		}
@@ -242,16 +273,17 @@ public class WatermeterInputForPrint implements Printable {
 		headers.setOrderNo("20171017001010101101");
 		headers.setBuildingCode("10");
 		headers.setAddr("西街31号（69栋南座）");
+		headers.setHouseMaster("asdfasdfs");
 		Map<String, List<PayWaterMeterInputDetail>> detailMap = new HashMap<String, List<PayWaterMeterInputDetail>>();
 		
 		int roomNo = 100;
 		String year = "2017";
-		for(int j = 1; j < 21; j++){
+		for(int j = 1; j < 10; j++){
 			String month = ("0"+j);
 			month = month.substring(month.length()-2, month.length());
 			List<PayWaterMeterInputDetail> details = new ArrayList<PayWaterMeterInputDetail>();
 			roomNo += 1;
-			for(int i = 1; i < 13; i++){
+			for(int i = 1; i < 7; i++){
 				PayWaterMeterInputDetail detail = new PayWaterMeterInputDetail();
 				detail.setCode("20171017001010101101");
 				detail.setCode("10");
@@ -262,9 +294,10 @@ public class WatermeterInputForPrint implements Printable {
 				detail.setNetworkPrice(BigDecimal.valueOf(50));
 				detail.setSewagePrice(BigDecimal.valueOf(20));
 				detail.setOtherPrice(BigDecimal.valueOf(18));
+				detail.setWaterMeterCode("280"+roomNo);
 				details.add(detail);
 			}
-			detailMap.put(String.valueOf(roomNo), details);
+			detailMap.put(String.valueOf(roomNo)+"|"+"203", details);
 		}
 		headers.setDetailMap(detailMap);
 		

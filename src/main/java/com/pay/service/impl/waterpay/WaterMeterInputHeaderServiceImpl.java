@@ -181,11 +181,13 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			for(PayBuildingDetail buildingDetail:buildingDetails){
 				
 				String roomNo = buildingDetail.getRoomNo();
+				String waterMeterCode=buildingDetail.getWaterMeterCode();
 				
 				List<PayWaterMeterInputDetail> printDetails = new ArrayList<PayWaterMeterInputDetail>();
 				//获取每个房号1-12月的抄表记录
-				for(int i = 1; i < 13; i++){
-					String month = "0"+i;
+				int[] monthlyAry={1,3,5,7,9,11};
+				for(int i = 0; i < monthlyAry.length; i++){
+					String month = "0"+String.valueOf(monthlyAry[i]);
 					month = month.substring(month.length()-2, month.length());
 					String yearMonth=year+month;
 					Map<String, Object> parameterDetail = new HashMap<String, Object>();
@@ -199,7 +201,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 						printDetails.add(listDetails.get(0));
 					}
 				}
-				detailMap.put(roomNo, printDetails);
+				detailMap.put(roomNo+"|"+waterMeterCode, printDetails);
 			}
 		}
 		return detailMap;
