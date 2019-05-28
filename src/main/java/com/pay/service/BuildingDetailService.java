@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Map;
 import com.bstek.dorado.data.provider.Page;
 import com.pay.pojo.PayBuildingDetail;
+import com.pay.pojo.PayBuildingDetailPK;
 
 
 public interface BuildingDetailService {
+	
+	public PayBuildingDetail get(PayBuildingDetailPK pk);
 
 	public void queryPageForCondition(Page<PayBuildingDetail> page, Map<String, Object> params) ;
 	

@@ -159,6 +159,7 @@ public class WatermeterInputForPrint implements Printable {
 		line += titleFontHeight*5 + 10;
 		
 		int lineSpace = (int) 55;	//间距
+		int firstSpace=70;
 		
 		// 设置打印颜色为黑色  
 		g2.setColor(Color.black); 
@@ -172,7 +173,7 @@ public class WatermeterInputForPrint implements Printable {
 		//第1行-------------------------开始------------------------------
 		g2.setFont(gridTitleFont); // 设置字体  
 		g2.drawString("房间号", (float)leftPointX + 4, (float) (line + gridTitleFontHeight));
-		g2.drawString("水表编号", (float)leftPointX + lineSpace+5, (float) (line + gridTitleFontHeight));
+		g2.drawString("水表编号", (float)leftPointX +firstSpace +5, (float) (line + gridTitleFontHeight));
 		
 		int[] monthArry={1,3,5,7,9,11};
 		
@@ -189,13 +190,13 @@ public class WatermeterInputForPrint implements Printable {
 		g2.drawString("备注", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
 		
 		g2.setFont(gridFont); // 设置字体  
-		g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
+		g2.drawLine(leftPointX + firstSpace, (int) line, leftPointX + firstSpace, (int) (line + rowHight)); //中竖线
 		h=1;
 		for(int j = 0; j < monthArry.length; j++){
-			g2.drawLine(leftPointX + lineSpace*(h+1), (int) line, leftPointX + lineSpace*(h+1), (int) (line + rowHight)); //中竖线
+			g2.drawLine(leftPointX + (firstSpace-lineSpace)+lineSpace*(h+1), (int) line, leftPointX +(firstSpace-lineSpace)+ lineSpace*(h+1), (int) (line + rowHight)); //中竖线
 			h++;
 		}
-		g2.drawLine(leftPointX + lineSpace*(h+1), (int) line, leftPointX + lineSpace*(h+1), (int) (line + rowHight)); //中竖线
+		g2.drawLine(leftPointX +(firstSpace-lineSpace)+ lineSpace*(h+1), (int) line, leftPointX+(firstSpace-lineSpace) + lineSpace*(h+1), (int) (line + rowHight)); //中竖线
 		line += rowHight;
 		//第1行-------------------------结束------------------------------
 		
@@ -225,34 +226,34 @@ public class WatermeterInputForPrint implements Printable {
 			g2.setFont(gridTitleFont); // 设置字体  
 			g2.drawString(roomNo, (float)leftPointX + 10, (float) (line + gridTitleFontHeight));
 			g2.setFont(gridFont); // 设置字体  
-			g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
+			g2.drawLine(leftPointX + firstSpace, (int) line, leftPointX + firstSpace, (int) (line + rowHight)); //中竖线
 			//水表编号
 			g2.setFont(gridTitleFont); // 设置字体  
-			g2.drawString(waterMeterCode, (float)leftPointX + lineSpace+3, (float) (line + gridTitleFontHeight));
+			g2.drawString(waterMeterCode, (float)leftPointX + firstSpace+3, (float) (line + gridTitleFontHeight));
 			g2.setFont(gridFont); // 设置字体  
-			g2.drawLine(leftPointX + lineSpace, (int) line, leftPointX + lineSpace, (int) (line + rowHight)); //中竖线
-			h=2;
+			g2.drawLine(leftPointX + firstSpace+lineSpace, (int) line, leftPointX + firstSpace+lineSpace, (int) (line + rowHight)); //中竖线
+			h=1;
 			for(int j = 1; j < detailList.size()+1; j++){
 				PayWaterMeterInputDetail detail = detailList.get(j-1);
 				
 				g2.setFont(gridTitleFont); // 设置字体  
 
 				if(detail == null || detail.getCurrentQty().compareTo(new BigDecimal(0))==0){
-					g2.drawString("", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
+					g2.drawString("", (float)(leftPointX + ((lineSpace+firstSpace)+(lineSpace*h))-(titleLineSpace+firstSpace-lineSpace)), (float) line + gridTitleFontHeight);
 				}else{
-					g2.drawString(String.valueOf(new DecimalFormat("#.####").format(detail.getCurrentQty())), (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
+					g2.drawString(String.valueOf(new DecimalFormat("#.####").format(detail.getCurrentQty())), (float)(leftPointX + ((lineSpace+firstSpace)+(lineSpace*h))-(titleLineSpace+firstSpace-lineSpace)), (float) line + gridTitleFontHeight);
 				}
 				
 
 				g2.setFont(gridFont); // 设置字体  
-				g2.drawLine(leftPointX + lineSpace*h, (int) line, leftPointX + lineSpace*h, (int) (line + rowHight)); //中竖线
+				g2.drawLine(leftPointX + (lineSpace+firstSpace)+((lineSpace*h)), (int) line, leftPointX + (lineSpace+firstSpace)+((lineSpace*h)), (int) (line + rowHight)); //中竖线
 				h++;
 			}
 			//备注
 			g2.setFont(gridTitleFont); // 设置字体  
 			g2.drawString("", (float)(leftPointX + lineSpace*(h+1) - titleLineSpace), (float) line + gridTitleFontHeight);
-			g2.setFont(gridFont); // 设置字体  
-			g2.drawLine(leftPointX + lineSpace*h, (int) line, leftPointX + lineSpace*h, (int) (line + rowHight)); //中竖线
+			//g2.setFont(gridFont); // 设置字体  
+			//g2.drawLine(leftPointX + lineSpace*h, (int) line, leftPointX + lineSpace*h, (int) (line + rowHight)); //中竖线
 			
 			line += rowHight;
 		}

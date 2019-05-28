@@ -61,7 +61,7 @@ public class BuildingInfoDaoImpl extends BaseHibernateDAO<PayBuildingInfo, Strin
         }
         whereCase += " AND status = " + status + " ";     
             
-        List<PayBuildingInfo> list=  this.list(" from PayBuildingInfo where 1=1 " + whereCase);
+        List<PayBuildingInfo> list=  this.list(" from PayBuildingInfo where 1=1 " + whereCase+" order by code ");
         return list;
     }
     

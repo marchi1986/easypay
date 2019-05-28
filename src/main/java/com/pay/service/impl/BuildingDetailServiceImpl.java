@@ -23,6 +23,10 @@ public class BuildingDetailServiceImpl implements BuildingDetailService{
 
 	@Autowired
 	private BuildingDetailDao buildingDetailDao;
+	
+	public PayBuildingDetail get(PayBuildingDetailPK pk){
+		return buildingDetailDao.get(pk);
+	}
 
 	/**
 	 * 按条件分页查询
