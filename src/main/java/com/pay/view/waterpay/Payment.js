@@ -301,7 +301,7 @@ function pay(dataSetPay,updateActionPaymen,autoFormCondition,dataSetOrderInfo,di
 
 	});
 	dialogPay.hide();
-	dialogPaid.show();
+	//dialogPaid.show();
 	
 }
 

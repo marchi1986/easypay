@@ -81,7 +81,7 @@ public class RxtxServiceImpl implements RxtxService {
 				ClientDisplay.sendDisplay(rxtxParams);
 			}else{
 				rxtxParams=new HashMap<String, String>();
-				rxtxParams.put("port", "COM3");
+				rxtxParams.put("port", "COM4");
 				rxtxParams.put("baudRate", "2400");
 				rxtxParams.put("displayRate", "0");
 				rxtxParams.put("state", state);

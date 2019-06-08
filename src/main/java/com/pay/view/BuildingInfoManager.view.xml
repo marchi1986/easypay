@@ -361,6 +361,21 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
                 <Property name="editorType">TextArea</Property>
                 <Editor/>
               </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">addrShortDesc</Property>
+                <Property name="property">addrShortDesc</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">networkPrice</Property>
+                <Property name="property">networkPrice</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">garbagePrice</Property>
+                <Property name="property">garbagePrice</Property>
+                <Editor/>
+              </AutoFormElement>
             </AutoForm>
             <DataSetDropDown id="dataSetDropDownPricingType">
               <Property name="dataSet">dataSetPricingType</Property>

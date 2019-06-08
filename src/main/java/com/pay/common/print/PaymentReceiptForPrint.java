@@ -13,6 +13,8 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
 
+import com.bstek.bdf2.core.context.ContextHolder;
+
 /**
  * 打印布局类
  * 实现Printable接口 用于创建打印内容 
@@ -455,6 +457,7 @@ public class PaymentReceiptForPrint implements Printable {
 				//第13行
 				case 14:
 					g2.setFont(gridFootFont); // 设置字体
+					g2.drawString("收费员："+ContextHolder.getLoginUser().getCname(), (float) leftPointX + 50, (float) line + gridFontHeight);
 					g2.drawString(this.year+" 年 "+(Integer.parseInt(this.month)+1)+" 月 "+this.day+" 日", (float) leftPointX + 420, (float) line + gridFontHeight);
 					
 					break;

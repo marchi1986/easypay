@@ -201,7 +201,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 						printDetails.add(listDetails.get(0));
 					}
 				}
-				detailMap.put(roomNo+"|"+waterMeterCode, printDetails);
+				detailMap.put(buildingDetail.getAddrShortDesc()+"|"+waterMeterCode, printDetails);
 			}
 		}
 		return detailMap;
@@ -390,6 +390,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			waterMeterInputBuilding.setLastModifyUser(ContextHolder.getLoginUserName());
 			waterMeterInputBuilding.setLastModifyTime(new Date());
 			
+			
 			Map<String,Object> queryDetailParams=new HashMap<String, Object>();
 			queryDetailParams.put("code", buildingInfo.getCode());
 			
@@ -417,6 +418,8 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 					waterMeterInputDetail.setCreateTime(new Date());
 					waterMeterInputDetail.setLastModifyUser(ContextHolder.getLoginUserName());
 					waterMeterInputDetail.setLastModifyTime(new Date());
+					waterMeterInputDetail.setNetworkPrice(new BigDecimal(buildingDetail.getNetworkPrice()==null?0:buildingDetail.getNetworkPrice()));
+					waterMeterInputDetail.setGarbagePrice(new BigDecimal(buildingDetail.getGarbagePrice()==null?0:buildingDetail.getGarbagePrice()));
 					waterMeterInputDetails.add(waterMeterInputDetail);
 				}
 				waterMeterInputBuildingDao.save(waterMeterInputBuilding);

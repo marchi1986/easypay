@@ -249,7 +249,7 @@ dialogSwfViewer.show();&#xD;
       </DataColumn>
     </DataGrid>
     <Dialog id="dialogPay">
-      <Property name="width">600</Property>
+      <Property name="width">1280</Property>
       <Property name="height">750</Property>
       <Buttons>
         <Button id="buttonConfirmPay">
@@ -264,15 +264,15 @@ dialogSwfViewer.show();&#xD;
       <Children>
         <AutoForm id="autoFormPay">
           <Property name="dataSet">dataSetPay</Property>
-          <Property name="cols">*</Property>
-          <Property name="labelWidth">150</Property>
+          <Property name="cols">*,*,*</Property>
           <Property name="rowHeight">40</Property>
           <Property name="style">
-            <Property name="font-size">20px</Property>
+            <Property name="font-size">10px</Property>
           </Property>
           <AutoFormElement>
             <Property name="name">waterPrice</Property>
             <Property name="property">waterPrice</Property>
+            <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
@@ -295,11 +295,13 @@ dialogSwfViewer.show();&#xD;
           <AutoFormElement>
             <Property name="name">otherPrice</Property>
             <Property name="property">otherPrice</Property>
+            <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
             <Property name="name">lateFee</Property>
             <Property name="property">lateFee</Property>
+            <Property name="readOnly">true</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
@@ -332,19 +334,6 @@ dialogSwfViewer.show();&#xD;
             <Editor/>
           </AutoFormElement>
         </AutoForm>
-      </Children>
-      <Tools/>
-    </Dialog>
-    <Dialog id="dialogPaid">
-      <Property name="width">600</Property>
-      <Property name="height">750</Property>
-      <Buttons>
-        <Button id="buttonCancelPaid">
-          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
-          <Property name="caption">关闭</Property>
-        </Button>
-      </Buttons>
-      <Children>
         <DataGrid id="dataGridPaid">
           <Property name="dataSet">dataSetPaid</Property>
           <Property name="showFooter">true</Property>
@@ -367,6 +356,19 @@ dialogSwfViewer.show();&#xD;
             <Property name="summaryType">sum</Property>
           </DataColumn>
         </DataGrid>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <Dialog id="dialogPaid">
+      <Property name="width">600</Property>
+      <Property name="height">750</Property>
+      <Buttons>
+        <Button id="buttonCancelPaid">
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+          <Property name="caption">关闭</Property>
+        </Button>
+      </Buttons>
+      <Children>
         <DataSet id="dataSetPaid">
           <Property name="dataType">[Paid]</Property>
         </DataSet>

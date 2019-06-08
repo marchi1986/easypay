@@ -242,6 +242,15 @@
     <PropertyDef name="addr">
       <Property name="label">地址</Property>
     </PropertyDef>
+    <PropertyDef name="addrShortDesc">
+      <Property name="label">地址序号</Property>
+    </PropertyDef>
+    <PropertyDef name="networkPrice">
+      <Property name="label">网管费</Property>
+    </PropertyDef>
+    <PropertyDef name="garbagePrice">
+      <Property name="label">卫生费</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayWaterMeterInfo">
     <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInfo</Property>

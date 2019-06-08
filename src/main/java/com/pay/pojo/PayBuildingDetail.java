@@ -103,8 +103,10 @@ public class PayBuildingDetail implements Serializable {
 	
 	private String name;
 	private String addr;
-	
+	private String addrShortDesc;
 	private String mobile;
+	private Integer networkPrice;
+	private Integer garbagePrice;
 	
 	
 	
@@ -312,6 +314,48 @@ public class PayBuildingDetail implements Serializable {
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+	
+	
+	@Column(name = "addr_short_desc")
+	public String getAddrShortDesc() {
+		return addrShortDesc;
+	}
+
+
+
+
+	public void setAddrShortDesc(String addrShortDesc) {
+		this.addrShortDesc = addrShortDesc;
+	}
+
+	
+
+
+	@Column(name = "network_price")
+	public Integer getNetworkPrice() {
+		return networkPrice;
+	}
+
+
+
+
+	public void setNetworkPrice(Integer networkPrice) {
+		this.networkPrice = networkPrice;
+	}
+
+
+
+	@Column(name = "garbage_price")
+	public Integer getGarbagePrice() {
+		return garbagePrice;
+	}
+
+
+
+
+	public void setGarbagePrice(Integer garbagePrice) {
+		this.garbagePrice = garbagePrice;
 	}
 
 

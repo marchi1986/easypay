@@ -172,7 +172,7 @@ public class WatermeterInputForPrint implements Printable {
 		
 		//第1行-------------------------开始------------------------------
 		g2.setFont(gridTitleFont); // 设置字体  
-		g2.drawString("房间号", (float)leftPointX + 4, (float) (line + gridTitleFontHeight));
+		g2.drawString("房号", (float)leftPointX + 2, (float) (line + gridTitleFontHeight));
 		g2.drawString("水表编号", (float)leftPointX +firstSpace +5, (float) (line + gridTitleFontHeight));
 		
 		int[] monthArry={1,3,5,7,9,11};
@@ -224,7 +224,7 @@ public class WatermeterInputForPrint implements Printable {
 			//System.out.println(waterMeterCode);
 			//房间编号
 			g2.setFont(gridTitleFont); // 设置字体  
-			g2.drawString(roomNo, (float)leftPointX + 10, (float) (line + gridTitleFontHeight));
+			g2.drawString(roomNo, (float)leftPointX + 5, (float) (line + gridTitleFontHeight));
 			g2.setFont(gridFont); // 设置字体  
 			g2.drawLine(leftPointX + firstSpace, (int) line, leftPointX + firstSpace, (int) (line + rowHight)); //中竖线
 			//水表编号
