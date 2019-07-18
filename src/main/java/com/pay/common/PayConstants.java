@@ -24,6 +24,8 @@ public class PayConstants {
 	public static final int INPUT_DATA_BUILDING_STATUS_INPUT=1;
 	//全部录入
 	public static final int INPUT_DATA_BUILDING_STATUS_ALLINPUT=2;
+	//全部录入
+	public static final int INPUT_DATA_BUILDING_STATUS_CONFIRM=3;
 	
 	//新单
 	public static final int INPUT_DATA_DETAIL_STATUS_NEW=0;

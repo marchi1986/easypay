@@ -83,6 +83,7 @@ public class BuildingDetailServiceImpl implements BuildingDetailService{
 			if(EntityState.NEW.equals(state)){
 				buildingDetail.setStatus(1);
 				buildingDetail.setGroupId(0);
+				buildingDetail.setUserCode(buildingDetail.getCode()+buildingDetail.getRoomNo());
 				buildingDetail.setMonthlyQty(new BigDecimal(0));
 				buildingDetail.setLastModifyUser(user.getUsername());
 				buildingDetail.setLastModifyTime(new Date());

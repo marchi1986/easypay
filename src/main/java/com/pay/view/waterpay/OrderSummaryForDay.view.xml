@@ -26,6 +26,7 @@
         <ClientEvent name="onClick" signature="self,arg,exportReportActionData">exportReportActionData.execute();&#xD;
 </ClientEvent>
         <Property name="caption">导出数据</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -300px -220px</Property>
       </ToolBarButton>
     </ToolBar>
     <Export2ReportAction id="exportReportActionData">

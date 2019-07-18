@@ -108,21 +108,25 @@ public class PayBuildingDetail implements Serializable {
 	private Integer networkPrice;
 	private Integer garbagePrice;
 	
+
+	
 	
 	
 	@PropertyDef(label = "monthly_qty", description = "monthly_qty:")
 	private BigDecimal monthlyQty;
+	
+	private String userCode;
 
 	public PayBuildingDetail() {
 		super();
 	}
 
 	
-
-
-	public PayBuildingDetail(String code, String roomNo, String userName, String waterMeterCode, Integer apportionTypeId,
-			Integer pricingTypeId, String contractorName, Integer status, String remark, Integer groupId, String createUser,
-			Date createTime, String lastModifyUser, Date lastModifyTime,BigDecimal monthlyQty) {
+	public PayBuildingDetail(String code, String roomNo, String userName, String waterMeterCode,
+			Integer apportionTypeId, Integer pricingTypeId, String contractorName, Integer status, String remark,
+			Integer groupId, String createUser, Date createTime, String lastModifyUser, Date lastModifyTime,
+			String name, String addr, String addrShortDesc, String mobile, Integer networkPrice, Integer garbagePrice,
+			BigDecimal monthlyQty, String userCode) {
 		super();
 		this.code = code;
 		this.roomNo = roomNo;
@@ -138,8 +142,19 @@ public class PayBuildingDetail implements Serializable {
 		this.createTime = createTime;
 		this.lastModifyUser = lastModifyUser;
 		this.lastModifyTime = lastModifyTime;
+		this.name = name;
+		this.addr = addr;
+		this.addrShortDesc = addrShortDesc;
+		this.mobile = mobile;
+		this.networkPrice = networkPrice;
+		this.garbagePrice = garbagePrice;
 		this.monthlyQty = monthlyQty;
+		this.userCode = userCode;
 	}
+
+
+
+
 
 
 
@@ -359,17 +374,35 @@ public class PayBuildingDetail implements Serializable {
 	}
 
 
+	
 
-
-	public String toString() {
-		return "PayBuildingDetail [code=" + code + ",roomNo=" + roomNo
-				+ ",userName=" + userName + ",waterMeterCode=" + waterMeterCode
-				+ ",monthlyQty=" + monthlyQty + ",apportionTypeId="
-				+ apportionTypeId + ",pricingTypeId=" + pricingTypeId
-				+ ",contractorName=" + contractorName + ",status=" + status
-				+ ",remark=" + remark + ",groupId=" + groupId + ",createUser="
-				+ createUser + ",createTime=" + createTime + ",lastModifyUser="
-				+ lastModifyUser + ",lastModifyTime=" + lastModifyTime + "]";
+	@Column(name = "user_code")
+	public String getUserCode() {
+		return userCode;
 	}
+
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "PayBuildingDetail [code=" + code + ", roomNo=" + roomNo + ", userName=" + userName + ", waterMeterCode="
+				+ waterMeterCode + ", apportionTypeId=" + apportionTypeId + ", pricingTypeId=" + pricingTypeId
+				+ ", contractorName=" + contractorName + ", status=" + status + ", remark=" + remark + ", groupId="
+				+ groupId + ", createUser=" + createUser + ", createTime=" + createTime + ", lastModifyUser="
+				+ lastModifyUser + ", lastModifyTime=" + lastModifyTime + ", name=" + name + ", addr=" + addr
+				+ ", addrShortDesc=" + addrShortDesc + ", mobile=" + mobile + ", networkPrice=" + networkPrice
+				+ ", garbagePrice=" + garbagePrice + ", monthlyQty=" + monthlyQty + ", userCode=" + userCode + "]";
+	}
+
+
+
+
+
+
 
 }

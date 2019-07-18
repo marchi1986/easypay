@@ -16,6 +16,7 @@ import com.bstek.bdf2.core.context.ContextHolder;
 import com.bstek.dorado.data.provider.Page;
 import com.pay.common.hibernate.BaseHibernateDAO;
 import com.pay.dao.waterpay.WaterMeterInputDetailDao;
+import com.pay.pojo.waterpay.PayWaterMeterInputBuilding;
 import com.pay.pojo.waterpay.PayWaterMeterInputDetail;
 import com.pay.pojo.waterpay.PayWaterMeterInputDetailPK;
 
@@ -198,5 +199,44 @@ public class WaterMeterInputDetailDaoImpl extends BaseHibernateDAO<PayWaterMeter
 		Map<String,Object> params=new HashMap<String, Object>();
 		params.put("code", code);
 		this.execHql(hql, params);
+	}
+	
+
+	/**
+	 * Query By UserCode
+	 * @param userCode
+	 * @return
+	 */
+	public List<PayWaterMeterInputDetail> getByUserCode(String userCode) {
+		
+		String hql="from PayWaterMeterInputDetail where userCode=:userCode ";
+		
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("userCode", userCode);
+		
+		List<PayWaterMeterInputDetail> list=this.list(hql, params);
+		
+		return list;
+		
+	}
+	
+	/**
+	 * Get By Code And UserCode
+	 * @param code
+	 * @param userCode
+	 * @return
+	 */
+	public PayWaterMeterInputDetail getByCodeAndUserCode(String code,String userCode) {
+		
+		String hql="from PayWaterMeterInputDetail where code=:code and userCode=:userCode ";
+		
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("code", code);
+		params.put("userCode", userCode);
+		
+		PayWaterMeterInputDetail waterMeterInputDetail=this.aggregate(hql, params);
+		
+		return waterMeterInputDetail;
+		
 	}
 }

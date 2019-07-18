@@ -54,12 +54,6 @@ function loadDetail(dataSetInputBuilding,dataSetInputDetail,dialogDetail){
 
 	var entity={"code":code,"monthlyCycle":monthlyCycle,"buildingCode":buildingCode};
 
-	if(record.get("status")==2){
-		dataSetInputDetail.set("readOnly",true);
-	}else{
-		dataSetInputDetail.set("readOnly",false);
-	}
-		
 		//将实体对象作为参数传入，并异步刷新
 	dataSetInputDetail.set("parameter",entity).flushAsync();
 		
@@ -103,11 +97,46 @@ function loadDetail(dataSetInputBuilding,dataSetInputDetail,dialogDetail){
 	if(status==1){
 		arg.dom.style.color =  "orange" ;
 	}else if(status==2){
+		arg.dom.style.color =  "blue" ;
+	}else if(status==3){
 		arg.dom.style.color =  "green" ;
-	}else{
+	}else {
 		arg.dom.style.color =  "red" ;
 	}
 	arg.processDefault = true;
+}
+
+
+//@Bind #dataGridInputDetail.onCurrentChange
+!function(self,arg) {
+
+	setDetailReadOnly(self);
+}
+
+//@Bind #dataGridInputDetail.onFocus
+!function(self,arg) {
+
+	setDetailReadOnly(self);
+}
+
+function setDetailReadOnly(self){
+	var entity = self.get('dataSet').getData('#');
+
+	if(entity.get('status')==3){
+		self.getColumn("beforeQty").set("readOnly",true);
+		self.getColumn("currentQty").set("readOnly",true);
+		self.getColumn("garbagePrice").set("readOnly",true);
+		self.getColumn("garbagePrice").set("readOnly",true);
+		self.getColumn("networkPrice").set("readOnly",true);
+		self.getColumn("otherPrice").set("readOnly",true);
+	}else{
+		self.getColumn("beforeQty").set("readOnly",false);
+		self.getColumn("currentQty").set("readOnly",false);
+		self.getColumn("garbagePrice").set("readOnly",false);
+		self.getColumn("garbagePrice").set("readOnly",false);
+		self.getColumn("networkPrice").set("readOnly",false);
+		self.getColumn("otherPrice").set("readOnly",false);
+	}
 }
 
 

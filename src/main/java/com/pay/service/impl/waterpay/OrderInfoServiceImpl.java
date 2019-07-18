@@ -17,6 +17,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bstek.bdf2.core.config.BdfNamespaceHandler;
 import com.bstek.bdf2.core.context.ContextHolder;
 import com.bstek.dorado.annotation.DataProvider;
 import com.bstek.dorado.annotation.DataResolver;
@@ -31,6 +33,7 @@ import com.pay.dao.BuildingInfoDao;
 import com.pay.dao.waterpay.OrderInfoDao;
 import com.pay.dao.waterpay.PayInfoDao;
 import com.pay.dao.waterpay.WaterMeterInputHeaderDao;
+import com.pay.exception.BusinessException;
 import com.pay.pojo.PayBuildingDetail;
 import com.pay.pojo.PayBuildingDetailPK;
 import com.pay.pojo.PayBuildingInfo;
@@ -186,41 +189,45 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	 * @param orderInfos
 	 */
 	@DataResolver
-	public void pay(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos){
+	public void pay(List<PayInfo> paymentInfos,List<PayOrderInfo> orderInfos)throws BusinessException{
 		
 		
 		
-		
-		if(CollectionUtils.isNotEmpty(paymentInfos)&& CollectionUtils.isNotEmpty(orderInfos)){
-
-			PayInfo payInfo=paymentInfos.get(0);
-			
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-			String payCode= "WP"+sdf.format(new Date());
-			payInfo.setPayCode(payCode);
-			payInfo.setPayDate(new Date());
-			payInfo.setStatus(0);
-			payInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
-			payInfo.setCreateUser(ContextHolder.getLoginUserName());
-			payInfo.setCreateTime(new Date());
-			payInfo.setLastModifyUser(ContextHolder.getLoginUserName());
-			payInfo.setLastModifyTime(new Date());
-
-			
-			payInfoDao.save(payInfo);
-			
-			for(PayOrderInfo orderInfo:orderInfos){
-				orderInfo.setPayDate(new Date());
-				orderInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
-				orderInfo.setStatus(PayConstants.ORDER_STATUS_PAY);
-				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
-				orderInfo.setLastModifyTime(new Date());
-				orderInfo.setPayCode(payCode);
-				orderInfoDao.update(orderInfo);
-				print(orderInfo);
+		try{
+			if(CollectionUtils.isNotEmpty(paymentInfos)&& CollectionUtils.isNotEmpty(orderInfos)){
+	
+				PayInfo payInfo=paymentInfos.get(0);
+				
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
+				String payCode= "WP"+sdf.format(new Date());
+				payInfo.setPayCode(payCode);
+				payInfo.setPayDate(new Date());
+				payInfo.setStatus(0);
+				payInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
+				payInfo.setCreateUser(ContextHolder.getLoginUserName());
+				payInfo.setCreateTime(new Date());
+				payInfo.setLastModifyUser(ContextHolder.getLoginUserName());
+				payInfo.setLastModifyTime(new Date());
+	
+				
+				payInfoDao.save(payInfo);
+				
+				for(PayOrderInfo orderInfo:orderInfos){
+					orderInfo.setPayDate(new Date());
+					orderInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
+					orderInfo.setStatus(PayConstants.ORDER_STATUS_PAY);
+					orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
+					orderInfo.setLastModifyTime(new Date());
+					orderInfo.setPayCode(payCode);
+					orderInfoDao.update(orderInfo);
+					//print(orderInfo);
+				}
+				
+	
 			}
-			
-
+		}catch(Exception e){
+			logger.error(e.getMessage(),e);
+			throw new BusinessException(e.getMessage());
 		}
 	}
 	

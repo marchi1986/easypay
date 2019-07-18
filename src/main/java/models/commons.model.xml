@@ -462,6 +462,9 @@
       <Property name="dataType">int</Property>
       <Property name="label">monthly_cycle</Property>
     </PropertyDef>
+    <PropertyDef name="userCode">
+      <Property name="label">用户编码</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayWaterMeterInputBuilding">
     <Property name="matchType">com.pay.pojo.waterpay.PayWaterMeterInputBuilding</Property>
@@ -729,6 +732,153 @@
     <PropertyDef name="lastModifyTime">
       <Property name="dataType">Date</Property>
       <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="StoreAllotInfo">
+    <Property name="matchType">com.pay.pojo.test.StoreAllotInfo</Property>
+    <PropertyDef name="productCode">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="storeCode">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="productCategory">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="productLevel">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="productBigCategory">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="productYear">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="prodcutColor">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="productSeason">
+      <Property></Property>
+    </PropertyDef>
+    <PropertyDef name="appearMarketDay">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="appearMarketDate">
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
+    <PropertyDef name="firsrtDeliveryDate">
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
+    <PropertyDef name="recentDeliveryDate">
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
+    <PropertyDef name="recentAllotDate">
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
+    <PropertyDef name="productPrice">
+      <Property name="dataType">BigDecimal</Property>
+    </PropertyDef>
+    <PropertyDef name="recent7SalesQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent7SalesQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent7SalesQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent7SalesQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent7SalesQtyTotal">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent30SalesQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent30SalesQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent30SalesQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent30SalesQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="recent30SalesQtyTotal">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="accSalesQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="accSalesQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="accSalesQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="accSalesQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="stockQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="stockQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="stockQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="stockQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="stockQtyTotal">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="waitOutQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="waitOutQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="waitOutQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="waitOutQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="waitOutQtyTotal">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="distributionQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="distributionQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="distributionQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="distributionQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="distributionQtyTotal">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="surplusQtyS">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="surplusQtyM">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="surplusQtyL">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="surplusQtyXl">
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="surplusQtyTotal">
+      <Property name="dataType">Integer</Property>
     </PropertyDef>
   </DataType>
 </Model>

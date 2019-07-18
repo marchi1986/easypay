@@ -25,6 +25,12 @@
         <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
         <Property name="caption">查询</Property>
       </ToolBarButton>
+      <ToolBarButton id="buttonExport">
+        <ClientEvent name="onClick" signature="self,arg,export2ReportAction">export2ReportAction.execute();&#xD;
+</ClientEvent>
+        <Property name="caption">导出</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -300px -220px</Property>
+      </ToolBarButton>
     </ToolBar>
     <AutoForm id="autoFormCondition">
       <Property name="dataType">Condition</Property>
@@ -65,6 +71,9 @@
       <Property name="highlightCurrentRow">true</Property>
       <Property name="selectionMode">multiRows</Property>
       <Property name="stretchColumnsMode">stretchableColumns</Property>
+      <Property name="showGroupFooter">true</Property>
+      <Property name="showFooter">true</Property>
+      <Property name="groupProperty">buildingCode</Property>
       <DataColumn name="buildingCode">
         <Property name="property">buildingCode</Property>
       </DataColumn>
@@ -76,40 +85,56 @@
       </DataColumn>
       <DataColumn name="waterBeforeQty">
         <Property name="property">waterBeforeQty</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="waterCurrentQty">
         <Property name="property">waterCurrentQty</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="actualQty">
         <Property name="property">actualQty</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="networkPrice">
         <Property name="property">networkPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="sewagePrice">
         <Property name="property">sewagePrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="remark">
         <Property name="property">remark</Property>
       </DataColumn>
     </DataGrid>
+    <Export2ReportAction id="export2ReportAction">
+      <Property name="template">dataGridOrderInfo</Property>
+      <Property name="showTitle">true</Property>
+      <Property name="service">serverAll</Property>
+      <Property name="titleName">欠费记录</Property>
+    </Export2ReportAction>
   </View>
 </ViewConfig>

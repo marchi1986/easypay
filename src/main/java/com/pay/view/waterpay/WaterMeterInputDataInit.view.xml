@@ -23,6 +23,9 @@
       <PropertyDef name="remark">
         <Property name="label">备注</Property>
       </PropertyDef>
+      <PropertyDef name="roomNo">
+        <Property name="label">房间号</Property>
+      </PropertyDef>
     </DataType>
   </Model>
   <View>
@@ -107,6 +110,11 @@
       <AutoFormElement>
         <Property name="name">buildingCode</Property>
         <Property name="property">buildingCode</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement id="roomNo">
+        <Property name="property">roomNo</Property>
+        <Property name="name">roomNo</Property>
         <Editor/>
       </AutoFormElement>
     </AutoForm>

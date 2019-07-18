@@ -89,6 +89,7 @@ public class WaterMeterInputBuildingServiceImpl implements
 		mapValue.put("0", "新单");
 		mapValue.put("1", "录入中");
 		mapValue.put("2", "录入完成");
+		mapValue.put("3", "已确认");
 		return mapValue;
 	}
 }

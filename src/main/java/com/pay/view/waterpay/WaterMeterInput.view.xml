@@ -165,6 +165,7 @@ if (beforeQty > arg.data) {&#xD;
         <DataGrid id="dataGridInputDetail">
           <Property name="dataSet">dataSetInputDetail</Property>
           <Property name="showFooter">true</Property>
+          <RowNumColumn/>
           <DataColumn name="roomNo">
             <Property name="property">roomNo</Property>
             <Property name="readOnly">true</Property>
@@ -175,7 +176,7 @@ if (beforeQty > arg.data) {&#xD;
           </DataColumn>
           <DataColumn name="beforeQty">
             <Property name="property">beforeQty</Property>
-            <Property name="readOnly">true</Property>
+            <Property name="readOnly">false</Property>
           </DataColumn>
           <DataColumn name="currentQty">
             <Property name="property">currentQty</Property>
@@ -193,6 +194,12 @@ if (beforeQty > arg.data) {&#xD;
           </DataColumn>
           <DataColumn name="otherPrice">
             <Property name="property">otherPrice</Property>
+          </DataColumn>
+          <DataColumn id="status">
+            <Property name="property">status</Property>
+            <Property name="name">status</Property>
+            <Property name="visible">false</Property>
+            <Editor/>
           </DataColumn>
         </DataGrid>
         <UpdateAction id="updateActionSaveDetail">
@@ -221,6 +228,10 @@ if (beforeQty > arg.data) {&#xD;
           <Entity>
             <Property name="key">录入完成</Property>
             <Property name="value">2</Property>
+          </Entity>
+          <Entity>
+            <Property name="key">已确认</Property>
+            <Property name="value">3</Property>
           </Entity>
         </Collection>
       </Property>

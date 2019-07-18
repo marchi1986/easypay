@@ -5,8 +5,6 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +33,6 @@ import com.pay.dao.waterpay.WaterMeterInputBuildingDao;
 import com.pay.dao.waterpay.WaterMeterInputDetailDao;
 import com.pay.dao.waterpay.WaterMeterInputHeaderDao;
 import com.pay.exception.BusinessException;
-import com.pay.pojo.PayApportionType;
 import com.pay.pojo.PayBuildingDetail;
 import com.pay.pojo.PayBuildingDetailPK;
 import com.pay.pojo.PayBuildingInfo;
@@ -299,7 +296,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			Map<String,Object> buildParamsMap=new HashMap<String, Object>();
 			buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
 			List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
-			createDetail(header.getCode(),header.getMonthlyCycle(),buildingInfos);
+			createInputInfo(header.getCode(),header.getMonthlyCycle(),buildingInfos);
 			
 			waterMeterInputHeaderDao.save(header);
 				
@@ -316,9 +313,8 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 		
 		if(MapUtils.isNotEmpty(params)){
 			Date monthly=(Date)params.get("monthly");
-
 			String buildingCode=(String)params.get("buildingCode");
-
+			String roomNo=(String)params.get("roomNo");
 			
 			
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
@@ -328,27 +324,47 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			//查看该月度是否已初始化数据
 			PayWaterMeterInputHeader waterMeterInputHeader=waterMeterInputHeaderDao.getByMonthly(monthly2Int);
 			
+			
+			
 			if(waterMeterInputHeader!=null){
 				if(PayConstants.INPUT_DATA_STATUS_CONFIRM==waterMeterInputHeader.getMonthlyCycle()){
 					throw new BusinessException("该批次已确认开始收费！");
 				}else{
 					if(StringUtils.isNotEmpty(buildingCode)){
-						//查询该批次是否存在该楼宇录入记录
-						PayWaterMeterInputBuilding waterMeterInputBuilding=waterMeterInputBuildingDao.getByCodeAndBuildCode(waterMeterInputHeader.getCode(), buildingCode);
-						//存在则抛出异常
-						if(waterMeterInputBuilding!=null){
-							
-							throw new BusinessException("该批次已存在该楼宇信息！");
-						}else{
-							Map<String,Object> buildParamsMap=new HashMap<String, Object>();
-							buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
-							buildParamsMap.put("code", buildingCode);
-							List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
-							if(CollectionUtils.isEmpty(buildingInfos)){
-								throw new BusinessException("该楼宇不存在！");
+						if(StringUtils.isNotEmpty(roomNo)){
+							PayWaterMeterInputDetail payWaterMeterInputDetail=waterMeterInputDetailDao.getByCodeAndUserCode(waterMeterInputHeader.getCode(), buildingCode+roomNo);
+							if(payWaterMeterInputDetail!=null){
+								throw new BusinessException("该批次已存在该楼宇明细信息！");
+							}else{
+								PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
+								buildingDetailPK.setCode(buildingCode);
+								buildingDetailPK.setRoomNo(roomNo);
+								PayBuildingDetail buildingDetail=buildingDetailDao.get(buildingDetailPK);
+								if(buildingDetail!=null){
+									payWaterMeterInputDetail=getDetail(waterMeterInputHeader.getCode(),monthly2Int,buildingDetail);
+									waterMeterInputDetailDao.save(payWaterMeterInputDetail);
+								}else{
+									throw new BusinessException("该楼宇房间不存在！");
+								}
 							}
-							createDetail(waterMeterInputHeader.getCode(),waterMeterInputHeader.getMonthlyCycle(),buildingInfos);
+						}else{
+							//查询该批次是否存在该楼宇录入记录
+							PayWaterMeterInputBuilding waterMeterInputBuilding=waterMeterInputBuildingDao.getByCodeAndBuildCode(waterMeterInputHeader.getCode(), buildingCode);
+							if(waterMeterInputBuilding!=null){
+								
+								throw new BusinessException("该批次已存在该楼宇信息！");
+							}else{
+								Map<String,Object> buildParamsMap=new HashMap<String, Object>();
+								buildParamsMap.put("status", PayConstants.ENABLED_STATUS);
+								buildParamsMap.put("code", buildingCode);
+								List<PayBuildingInfo> buildingInfos=buildingInfoDao.queryForCondition(buildParamsMap);
+								if(CollectionUtils.isEmpty(buildingInfos)){
+									throw new BusinessException("该楼宇不存在！");
+								}
+								createInputInfo(waterMeterInputHeader.getCode(),waterMeterInputHeader.getMonthlyCycle(),buildingInfos);
+							}
 						}
+
 					}else{
 						throw new BusinessException("楼宇编号不能为空！");
 					}
@@ -372,7 +388,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 	 * @param monthly
 	 * @param buildingInfos
 	 */
-	private void createDetail(String code,Integer monthly, List<PayBuildingInfo> buildingInfos){
+	private void createInputInfo(String code,Integer monthly, List<PayBuildingInfo> buildingInfos){
 		if(CollectionUtils.isEmpty(buildingInfos)){
 			throw new BusinessException("查询不到楼宇资料，请检查数据！");
 		}
@@ -399,28 +415,9 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			//-------------------水费录入楼宇明细信息--------------------
 			if(CollectionUtils.isNotEmpty(buildingDetails)){
 				List<PayWaterMeterInputDetail> waterMeterInputDetails=new ArrayList<PayWaterMeterInputDetail>();
-				Map<Integer,PayPricingType> pricingTypeMap=pricingTypeService.queryApportionTypeForMap();
+				//Map<Integer,PayPricingType> pricingTypeMap=pricingTypeService.queryApportionTypeForMap();
 				for(PayBuildingDetail buildingDetail:buildingDetails){
-					PayWaterMeterInputDetail waterMeterInputDetail=new PayWaterMeterInputDetail();
-					waterMeterInputDetail.setCode(code);
-					waterMeterInputDetail.setMonthlyCycle(monthly);
-					waterMeterInputDetail.setBuildingCode(buildingDetail.getCode());
-					waterMeterInputDetail.setRoomNo(buildingDetail.getRoomNo());
-					waterMeterInputDetail.setWaterMeterCode(buildingDetail.getWaterMeterCode());
-					waterMeterInputDetail.setBeforeQty(buildingDetail.getMonthlyQty()==null?new BigDecimal(0):buildingDetail.getMonthlyQty());
-					waterMeterInputDetail.setCurrentQty(new BigDecimal(0));
-					waterMeterInputDetail.setGarbagePrice(pricingTypeMap.get(buildingDetail.getPricingTypeId()).getGarbagePrice());
-					waterMeterInputDetail.setNetworkPrice(pricingTypeMap.get(buildingDetail.getPricingTypeId()).getNetworkPrice());
-					waterMeterInputDetail.setSewagePrice(new BigDecimal(0));
-					waterMeterInputDetail.setOtherPrice(new BigDecimal(0));
-					waterMeterInputDetail.setStatus(PayConstants.INPUT_DATA_STATUS_NEW);
-					waterMeterInputDetail.setCreateUser(ContextHolder.getLoginUserName());
-					waterMeterInputDetail.setCreateTime(new Date());
-					waterMeterInputDetail.setLastModifyUser(ContextHolder.getLoginUserName());
-					waterMeterInputDetail.setLastModifyTime(new Date());
-					waterMeterInputDetail.setNetworkPrice(new BigDecimal(buildingDetail.getNetworkPrice()==null?0:buildingDetail.getNetworkPrice()));
-					waterMeterInputDetail.setGarbagePrice(new BigDecimal(buildingDetail.getGarbagePrice()==null?0:buildingDetail.getGarbagePrice()));
-					waterMeterInputDetails.add(waterMeterInputDetail);
+					waterMeterInputDetails.add(getDetail(code,monthly,buildingDetail));
 				}
 				waterMeterInputBuildingDao.save(waterMeterInputBuilding);
 				waterMeterInputDetailDao.saveAll(waterMeterInputDetails);	
@@ -430,108 +427,141 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 		}
 	}
 	
+	private PayWaterMeterInputDetail getDetail(String code,Integer monthly,PayBuildingDetail buildingDetail){
+		PayWaterMeterInputDetail waterMeterInputDetail=new PayWaterMeterInputDetail();
+		waterMeterInputDetail.setCode(code);
+		waterMeterInputDetail.setMonthlyCycle(monthly);
+		waterMeterInputDetail.setBuildingCode(buildingDetail.getCode());
+		waterMeterInputDetail.setRoomNo(buildingDetail.getRoomNo());
+		waterMeterInputDetail.setWaterMeterCode(buildingDetail.getWaterMeterCode());
+		waterMeterInputDetail.setBeforeQty(buildingDetail.getMonthlyQty()==null?new BigDecimal(0):buildingDetail.getMonthlyQty());
+		waterMeterInputDetail.setCurrentQty(new BigDecimal(0));
+		waterMeterInputDetail.setSewagePrice(new BigDecimal(0));
+		waterMeterInputDetail.setOtherPrice(new BigDecimal(0));
+		waterMeterInputDetail.setStatus(PayConstants.INPUT_DATA_STATUS_NEW);
+		waterMeterInputDetail.setCreateUser(ContextHolder.getLoginUserName());
+		waterMeterInputDetail.setCreateTime(new Date());
+		waterMeterInputDetail.setLastModifyUser(ContextHolder.getLoginUserName());
+		waterMeterInputDetail.setLastModifyTime(new Date());
+		waterMeterInputDetail.setNetworkPrice(new BigDecimal(buildingDetail.getNetworkPrice()==null?0:buildingDetail.getNetworkPrice()));
+		waterMeterInputDetail.setGarbagePrice(new BigDecimal(buildingDetail.getGarbagePrice()==null?0:buildingDetail.getGarbagePrice()));
+		waterMeterInputDetail.setUserCode(buildingDetail.getUserCode());
+		
+		return waterMeterInputDetail;
+	}
+	
 	/**
 	 * 确认后生成订单
 	 * @param payWaterMeterInputHeader
 	 */
 	@DataResolver
-	public void confirm(Map<String,Object> params){
+	public void confirm(Map<String,Object> params)throws BusinessException{
+		try{
 		
-		String code=(String)params.get("code");
-		PayWaterMeterInputHeader header= waterMeterInputHeaderDao.get(code);
-		
-		if(PayConstants.INPUT_DATA_STATUS_INPUT!=header.getStatus()){
-			throw new BusinessException("状态不正确，不能确认！");
-		}
-		
-		List<PayWaterMeterInputDetail> waterMeterInputDetails=waterMeterInputDetailDao.queryForCondition(params);
-		
-		if(CollectionUtils.isEmpty(waterMeterInputDetails)){
-			throw new BusinessException("数据异常，该批次没有明细数据！");
-		}
-		
-		List<PayOrderInfo> payOrderInfos=new ArrayList<PayOrderInfo>();
-		for(PayWaterMeterInputDetail waterMeterInputDetail:waterMeterInputDetails){
-			PayOrderInfo orderInfo=new PayOrderInfo();
-			orderInfo.setOrderCode(waterMeterInputDetail.getCode());
-			orderInfo.setBuildingCode(waterMeterInputDetail.getBuildingCode());
-			orderInfo.setRoomNo(waterMeterInputDetail.getRoomNo());
-			orderInfo.setMonthlyCycle(waterMeterInputDetail.getMonthlyCycle());
-			orderInfo.setWaterBeforeQty(waterMeterInputDetail.getBeforeQty());
-			orderInfo.setWaterCurrentQty(waterMeterInputDetail.getCurrentQty());
-			orderInfo.setLastPayDate(new Date(header.getEndDate().getTime()+(1000*60*60*24)));
-			orderInfo.setUserCode(waterMeterInputDetail.getBuildingCode()+waterMeterInputDetail.getRoomNo());
+			String code=(String)params.get("code");
+			PayWaterMeterInputHeader header= waterMeterInputHeaderDao.get(code);
 			
-			PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
-			buildingDetailPK.setCode(waterMeterInputDetail.getBuildingCode());
-			buildingDetailPK.setRoomNo(waterMeterInputDetail.getRoomNo());
-			//获取楼宇明细
-			PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
-			orderInfo.setUserName(buildingDetail.getUserName());
-			orderInfo.setAddr(buildingDetail.getAddr());
-			orderInfo.setWaterMeterCode(buildingDetail.getWaterMeterCode());
-			//记录该房间月度吨数
-			buildingDetail.setMonthlyQty(waterMeterInputDetail.getCurrentQty());
-			buildingDetailDao.update(buildingDetail);
-			
-			//实际用水吨数
-			BigDecimal auctalQty=waterMeterInputDetail.getCurrentQty().subtract(waterMeterInputDetail.getBeforeQty());
-			//用水小于1吨按1吨计算
-			if(auctalQty.compareTo(BigDecimal.ZERO)!=0&&auctalQty.compareTo(new BigDecimal(1))==-1){
-				auctalQty=new BigDecimal(1);
+			if(PayConstants.INPUT_DATA_STATUS_INPUT!=header.getStatus()){
+				throw new BusinessException("状态不正确，不能确认！");
 			}
-			orderInfo.setActualQty(auctalQty);
-			//水费金额已包含损耗费，所以不再另计
-			//获取分摊类型
-			//PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
-			//计算分摊数量
-			//BigDecimal waterApportionQty=(auctalQty).multiply(apportionType.getPercent());
-			//orderInfo.setWaterApportionQty(waterApportionQty);
-			orderInfo.setWaterApportionQty(new BigDecimal(0));
-			//获取计价金额
-			PayPricingType pricingType=pricingTypeDao.get(buildingDetail.getPricingTypeId());
-			BigDecimal price=pricingType.getPrice();
-			orderInfo.setPrice(price);
 			
-			//计算水费
-			//BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-			BigDecimal waterPrice=((auctalQty.add(orderInfo.getWaterApportionQty())).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-			//int i = (int)Math.ceil(waterPrice.doubleValue());
-			//修改为逢8进1
-			orderInfo.setWaterPrice(format8in1(waterPrice));
-			//计算分摊费
-			//BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-
-			orderInfo.setLateFee(new BigDecimal(0));
-			orderInfo.setGarbagePrice(waterMeterInputDetail.getGarbagePrice());
-			orderInfo.setNetworkPrice(waterMeterInputDetail.getNetworkPrice());
-			orderInfo.setSewagePrice(waterMeterInputDetail.getSewagePrice());
-			orderInfo.setOtherPrice(waterMeterInputDetail.getOtherPrice());
-			//计算总价
-			BigDecimal totalPrice=waterPrice
-					//.add(apportionPrice)
-					.add(orderInfo.getLateFee())
-					.add(orderInfo.getGarbagePrice())
-					.add(orderInfo.getNetworkPrice())
-					.add(orderInfo.getSewagePrice())
-					.add(orderInfo.getOtherPrice());
-			orderInfo.setTotalPrice(format8in1(totalPrice) );
-			orderInfo.setStatus(PayConstants.ORDER_STATUS_UNPAY);
-			orderInfo.setCreateUser(ContextHolder.getLoginUserName());
-			orderInfo.setCreateTime(new Date());
-			orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
-			orderInfo.setLastModifyTime(new Date());
-			payOrderInfos.add(orderInfo);
+			List<PayWaterMeterInputDetail> waterMeterInputDetails=waterMeterInputDetailDao.queryForCondition(params);
+			
+			if(CollectionUtils.isEmpty(waterMeterInputDetails)){
+				throw new BusinessException("数据异常，该批次没有明细数据！");
+			}
+			
+			List<PayOrderInfo> payOrderInfos=new ArrayList<PayOrderInfo>();
+			for(PayWaterMeterInputDetail waterMeterInputDetail:waterMeterInputDetails){
+				PayOrderInfo orderInfo=new PayOrderInfo();
+				orderInfo.setOrderCode(waterMeterInputDetail.getCode());
+				orderInfo.setBuildingCode(waterMeterInputDetail.getBuildingCode());
+				orderInfo.setRoomNo(waterMeterInputDetail.getRoomNo());
+				orderInfo.setMonthlyCycle(waterMeterInputDetail.getMonthlyCycle());
+				orderInfo.setWaterBeforeQty(waterMeterInputDetail.getBeforeQty());
+				orderInfo.setWaterCurrentQty(waterMeterInputDetail.getCurrentQty());
+				orderInfo.setLastPayDate(new Date(header.getEndDate().getTime()+(1000*60*60*24)));
+				orderInfo.setUserCode(waterMeterInputDetail.getUserCode());
+				
+				PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
+				buildingDetailPK.setCode(waterMeterInputDetail.getBuildingCode());
+				buildingDetailPK.setRoomNo(waterMeterInputDetail.getRoomNo());
+				//获取楼宇明细
+				PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
+				orderInfo.setUserName(buildingDetail.getUserName());
+				orderInfo.setAddr(buildingDetail.getAddr());
+				orderInfo.setWaterMeterCode(buildingDetail.getWaterMeterCode());
+				//记录该房间月度吨数
+				buildingDetail.setMonthlyQty(waterMeterInputDetail.getCurrentQty());
+				buildingDetail.setGarbagePrice(waterMeterInputDetail.getGarbagePrice()==null?0:waterMeterInputDetail.getGarbagePrice().intValue());
+				buildingDetail.setNetworkPrice(waterMeterInputDetail.getNetworkPrice()==null?0:waterMeterInputDetail.getNetworkPrice().intValue());
+				buildingDetailDao.update(buildingDetail);
+				
+				//实际用水吨数
+				BigDecimal auctalQty=waterMeterInputDetail.getCurrentQty().subtract(waterMeterInputDetail.getBeforeQty());
+				//用水小于1吨按1吨计算
+				if(auctalQty.compareTo(BigDecimal.ZERO)!=0&&auctalQty.compareTo(new BigDecimal(1))==-1){
+					auctalQty=new BigDecimal(1);
+				}
+				orderInfo.setActualQty(auctalQty);
+				//水费金额已包含损耗费，所以不再另计
+				//获取分摊类型
+				//PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
+				//计算分摊数量
+				//BigDecimal waterApportionQty=(auctalQty).multiply(apportionType.getPercent());
+				//orderInfo.setWaterApportionQty(waterApportionQty);
+				orderInfo.setWaterApportionQty(new BigDecimal(0));
+				//获取计价金额
+				PayPricingType pricingType=pricingTypeDao.get(buildingDetail.getPricingTypeId());
+				BigDecimal price=pricingType.getPrice();
+				orderInfo.setPrice(price);
+				
+				//计算水费
+				//BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+				BigDecimal waterPrice=((auctalQty.add(orderInfo.getWaterApportionQty())).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+				//int i = (int)Math.ceil(waterPrice.doubleValue());
+				//修改为逢8进1
+				orderInfo.setWaterPrice(format8in1(waterPrice));
+				//计算分摊费
+				//BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+	
+				orderInfo.setLateFee(new BigDecimal(0));
+				orderInfo.setGarbagePrice(waterMeterInputDetail.getGarbagePrice());
+				orderInfo.setNetworkPrice(waterMeterInputDetail.getNetworkPrice());
+				orderInfo.setSewagePrice(waterMeterInputDetail.getSewagePrice());
+				orderInfo.setOtherPrice(waterMeterInputDetail.getOtherPrice());
+				//计算总价
+				BigDecimal totalPrice=waterPrice
+						//.add(apportionPrice)
+						.add(orderInfo.getLateFee())
+						.add(orderInfo.getGarbagePrice())
+						.add(orderInfo.getNetworkPrice())
+						.add(orderInfo.getSewagePrice())
+						.add(orderInfo.getOtherPrice());
+				orderInfo.setTotalPrice(format8in1(totalPrice) );
+				orderInfo.setStatus(PayConstants.ORDER_STATUS_UNPAY);
+				orderInfo.setCreateUser(ContextHolder.getLoginUserName());
+				orderInfo.setCreateTime(new Date());
+				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
+				orderInfo.setLastModifyTime(new Date());
+				payOrderInfos.add(orderInfo);
+			}
+			
+			orderInfoDao.saveAll(payOrderInfos);
+			
+			
+			header.setStatus(PayConstants.INPUT_DATA_STATUS_CONFIRM);
+			header.setLastModifyUser(ContextHolder.getLoginUserName());
+			header.setLastModifyTime(new Date());
+			waterMeterInputDetailDao.updateStatusByCode(code, PayConstants.INPUT_DATA_BUILDING_STATUS_CONFIRM);
+			waterMeterInputBuildingDao.updateStatusByCode(code, PayConstants.INPUT_DATA_BUILDING_STATUS_CONFIRM);
+			waterMeterInputHeaderDao.update(header);
+			
+			
+		}catch(Exception e){
+			logger.error(e.getMessage(),e);
+			throw new BusinessException(e.getMessage());
 		}
-		
-		orderInfoDao.saveAll(payOrderInfos);
-		
-		
-		header.setStatus(PayConstants.INPUT_DATA_STATUS_CONFIRM);
-		header.setLastModifyUser(ContextHolder.getLoginUserName());
-		header.setLastModifyTime(new Date());
-		waterMeterInputHeaderDao.update(header);
-
 		
 	}
 	

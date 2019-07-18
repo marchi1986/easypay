@@ -48,4 +48,19 @@ public interface WaterMeterInputDetailDao extends IBaseDao<PayWaterMeterInputDet
 	public void updateStatusByCode(String code,int status);
 	
 	public void deleteByCode(String code);
+	
+	/**
+	 * 
+	 * @param userCode
+	 * @return
+	 */
+	public List<PayWaterMeterInputDetail> getByUserCode(String userCode) ;
+	
+	/**
+	 * Get By Code And UserCode
+	 * @param code
+	 * @param userCode
+	 * @return
+	 */
+	public PayWaterMeterInputDetail getByCodeAndUserCode(String code,String userCode);
 }

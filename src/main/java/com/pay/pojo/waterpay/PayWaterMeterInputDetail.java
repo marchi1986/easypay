@@ -119,18 +119,20 @@ public class PayWaterMeterInputDetail implements Serializable {
 	private Date lastModifyTime;
 	
 	private String notExistsStatus;
+	
+	private String userCode;
 
 	public PayWaterMeterInputDetail() {
 		super();
 	}
 
-	public PayWaterMeterInputDetail(String code, int monthlyCycle,
-			String buildingCode, String roomNo, String waterMeterCode,
-			BigDecimal beforeQty, BigDecimal currentQty,
-			BigDecimal garbagePrice, BigDecimal networkPrice,
-			BigDecimal sewagePrice, BigDecimal otherPrice, int status,
-			String remark, String createUser, Date createTime,
-			String lastModifyUser, Date lastModifyTime, String notExistsStatus) {
+
+
+	public PayWaterMeterInputDetail(String code, int monthlyCycle, String buildingCode, String roomNo,
+			String waterMeterCode, BigDecimal beforeQty, BigDecimal currentQty, BigDecimal garbagePrice,
+			BigDecimal networkPrice, BigDecimal sewagePrice, BigDecimal otherPrice, int status, String remark,
+			String createUser, Date createTime, String lastModifyUser, Date lastModifyTime, String notExistsStatus,
+			String userCode) {
 		super();
 		this.code = code;
 		this.monthlyCycle = monthlyCycle;
@@ -150,7 +152,10 @@ public class PayWaterMeterInputDetail implements Serializable {
 		this.lastModifyUser = lastModifyUser;
 		this.lastModifyTime = lastModifyTime;
 		this.notExistsStatus = notExistsStatus;
+		this.userCode = userCode;
 	}
+
+
 
 	public void setCode(String code) {
 		this.code = code;
@@ -320,17 +325,29 @@ public class PayWaterMeterInputDetail implements Serializable {
 		this.notExistsStatus = notExistsStatus;
 	}
 
-	public String toString() {
-		return "PayWaterMeterInputDetail [code=" + code + ",monthlyCycle="
-				+ monthlyCycle + ",buildingCode=" + buildingCode + ",roomNo="
-				+ roomNo + ",waterMeterCode=" + waterMeterCode + ",beforeQty="
-				+ beforeQty + ",currentQty=" + currentQty + ",garbagePrice="
-				+ garbagePrice + ",networkPrice=" + networkPrice
-				+ ",sewagePrice=" + sewagePrice + ",otherPrice=" + otherPrice
-				+ ",status=" + status + ",remark=" + remark + ",createUser="
-				+ createUser + ",createTime=" + createTime + ",lastModifyUser="
-				+ lastModifyUser + ",lastModifyTime=" + lastModifyTime + ",notExistsStatus=" 
-				+ notExistsStatus + "]";
+
+	@Column(name = "user_code", length = 45)
+	public String getUserCode() {
+		return userCode;
 	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "PayWaterMeterInputDetail [code=" + code + ", monthlyCycle=" + monthlyCycle + ", buildingCode="
+				+ buildingCode + ", roomNo=" + roomNo + ", waterMeterCode=" + waterMeterCode + ", beforeQty="
+				+ beforeQty + ", currentQty=" + currentQty + ", garbagePrice=" + garbagePrice + ", networkPrice="
+				+ networkPrice + ", sewagePrice=" + sewagePrice + ", otherPrice=" + otherPrice + ", status=" + status
+				+ ", remark=" + remark + ", createUser=" + createUser + ", createTime=" + createTime
+				+ ", lastModifyUser=" + lastModifyUser + ", lastModifyTime=" + lastModifyTime + ", notExistsStatus="
+				+ notExistsStatus + ", userCode=" + userCode + "]";
+	}
+
+	
 
 }
