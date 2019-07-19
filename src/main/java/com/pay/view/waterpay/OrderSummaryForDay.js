@@ -22,10 +22,10 @@
 //@Bind #dataGridSummary.onDataRowDoubleClick
 !function(self,arg,dialogOrder,dataSetOrderList){
 
-	var payCode= self.get("currentEntity").get("payCode");
+	var payDay= self.get("currentEntity").get("payDay");
 
 	
-	dataSetOrderList.set("parameter",{"payCode":payCode}).flushAsync();
+	dataSetOrderList.set("parameter",{"payDay":payDay}).flushAsync();
 	
 	dialogOrder.show();
 

@@ -627,6 +627,15 @@
     <PropertyDef name="waterMeterCode">
       <Property name="label">水表编号</Property>
     </PropertyDef>
+    <PropertyDef name="rejectUser">
+      <Property name="label">驳回人</Property>
+    </PropertyDef>
+    <PropertyDef name="rejectDate">
+      <Property name="dataType">Date</Property>
+    </PropertyDef>
+    <PropertyDef name="payDay">
+      <Property name="label">支付日期</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayRoomGroup">
     <Property name="matchType">com.pay.pojo.PayRoomGroup</Property>

@@ -22,4 +22,15 @@ public interface OrderInfoDao extends IBaseDao<PayOrderInfo, PayOrderInfoPK> {
 	public List<PayOrderInfo>  querySummaryForCondition(Map<String, Object> params);
 	
 	public List<PayOrderInfo> findByPayCode(String payCode);
+	
+	/**
+	 * 按每人每日收费汇总
+	 */
+	public List<PayOrderInfo> querySummaryForDayAndTollCollector(Map<String, Object> params);
+	
+	public List<PayOrderInfo> findByPayDayAndTollCollector(Map<String,Object> params);
+	
+	public List<PayOrderInfo> findByPayDay(Map<String,Object> params);
+	
+	public List<PayOrderInfo> querySummaryDay(Map<String, Object> params) ;
 }

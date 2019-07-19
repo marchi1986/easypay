@@ -19,6 +19,7 @@ import com.pay.common.DateUtils;
 import com.pay.common.PayConstants;
 import com.pay.common.hibernate.BaseHibernateDAO;
 import com.pay.dao.waterpay.OrderInfoDao;
+import com.pay.pojo.waterpay.PayInfo;
 import com.pay.pojo.waterpay.PayOrderInfo;
 import com.pay.pojo.waterpay.PayOrderInfoPK;
 
@@ -322,4 +323,72 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		params.put("payCode", payCode);
 		return this.list(hql, params);
 	}
+	
+	public List<PayOrderInfo> findByPayDayAndTollCollector(Map<String,Object> params){
+		String hql="from PayOrderInfo where payDay=:payDay and  tollCollector=:tollCollector";
+
+		return this.list(hql, params);
+	}
+	
+	public List<PayOrderInfo> findByPayDay(Map<String,Object> params){
+		String hql="from PayOrderInfo where payDay=:payDay ";
+
+		return this.list(hql, params);
+	}
+	
+	
+	/**
+	 * 按每人每日收费汇总
+	 */
+	public List<PayOrderInfo> querySummaryForDayAndTollCollector(Map<String, Object> params) {
+
+	     
+	     StringBuffer sql=new StringBuffer();
+
+	     sql.append("select   ");
+	     sql.append("pay_day as payDay,toll_collector as tollCollector,sum(water_price) as waterPrice,sum(garbage_price) as garbagePrice,sum(total_price)as totalPrice, ");
+	     sql.append("sum(network_price) as networkPrice ,sum(sewage_price) as sewagePrice,");
+	     sql.append("sum(other_price) as otherPrice ,sum(late_fee) as lateFee ");
+	     sql.append("from pay_order_info where 1=1 and status=1 ");
+	     if(MapUtils.isNotEmpty(params)){
+	    	 Date beginDate=(Date)params.get("beginDate");
+	    	 Date endDate=(Date)params.get("endDate");
+	    	 if(beginDate!=null&&endDate!=null){
+	    		 sql.append("and pay_date between :beginDate and :endDate ");
+	    	 }
+	    	 sql.append(" group by pay_day,toll_collector ");
+	    	 return this.listSql(sql.toString(), params,PayOrderInfo.class);
+	     }else{
+	    	 sql.append(" group by pay_day,toll_collector ");
+	    	 return this.listSql(sql.toString(), PayOrderInfo.class);
+	     }
+	     
+	     
+	 }
+	
+	public List<PayOrderInfo> querySummaryDay(Map<String, Object> params) {
+
+	     
+	     StringBuffer sql=new StringBuffer();
+
+	     sql.append("select   ");
+	     sql.append("pay_day as payDay,sum(water_price) as waterPrice,sum(garbage_price) as garbagePrice,sum(total_price)as totalPrice, ");
+	     sql.append("sum(network_price) as networkPrice,sum(sewage_price) as sewagePrice,");
+	     sql.append("sum(other_price) as otherPrice ,sum(late_fee) as lateFee ");
+	     sql.append("from pay_order_info where 1=1 and status=1 ");
+	     if(MapUtils.isNotEmpty(params)){
+	    	 Date beginDate=(Date)params.get("beginDate");
+	    	 Date endDate=(Date)params.get("endDate");
+	    	 if(beginDate!=null&&endDate!=null){
+	    		 sql.append("and pay_date between :beginDate and :endDate ");
+	    	 }
+	    	 sql.append(" group by pay_day ");
+	    	 return this.listSql(sql.toString(), params,PayOrderInfo.class);
+	     }else{
+	    	 sql.append(" group by pay_day ");
+	    	 return this.listSql(sql.toString(), PayOrderInfo.class);
+	     }
+	     
+	     
+	 }
 }

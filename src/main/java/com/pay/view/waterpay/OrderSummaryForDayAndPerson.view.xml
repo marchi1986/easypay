@@ -13,7 +13,6 @@
         <Property name="dataType">Date</Property>
       </PropertyDef>
     </DataType>
-    <DataType name="PayInfo" parent="global:PayInfo"/>
     <DataType name="PayOrderInfo" parent="global:PayOrderInfo"/>
   </Model>
   <View>
@@ -69,8 +68,9 @@
         <Property name="property">tollCollector</Property>
         <Editor/>
       </DataColumn>
-      <DataColumn name="payDate">
-        <Property name="property">payDate</Property>
+      <DataColumn id="payDay">
+        <Property name="property">payDay</Property>
+        <Property name="name">payDay</Property>
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
@@ -91,15 +91,16 @@
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
       </DataColumn>
-      <DataColumn name="actualTotalPrice">
-        <Property name="property">actualTotalPrice</Property>
+      <DataColumn>
+        <Property name="property">totalPrice</Property>
         <Property name="summaryType">sum</Property>
+        <Property name="name">totalPrice</Property>
       </DataColumn>
     </DataGrid>
     <DataSet id="dataSetPayInfo">
-      <Property name="dataProvider">payInfoService#querySummaryForDateAndTollCollector</Property>
+      <Property name="dataProvider">orderInfoService#querySummaryForDayAndTollCollector</Property>
       <Property name="loadMode">manual</Property>
-      <Property name="dataType">[PayInfo]</Property>
+      <Property name="dataType">[PayOrderInfo]</Property>
     </DataSet>
     <Dialog id="dialogOrder">
       <Property name="width">1200</Property>
@@ -107,7 +108,7 @@
       <Buttons/>
       <Children>
         <DataSet id="dataSetOrderList">
-          <Property name="dataProvider">orderInfoService#findByPayCode</Property>
+          <Property name="dataProvider">orderInfoService#findByPayDayAndTollCollector</Property>
           <Property name="dataType">[PayOrderInfo]</Property>
         </DataSet>
         <DataGrid id="dataGridOrder">
@@ -133,9 +134,6 @@
           <DataColumn name="actualQty">
             <Property name="property">actualQty</Property>
           </DataColumn>
-          <DataColumn name="waterApportionQty">
-            <Property name="property">waterApportionQty</Property>
-          </DataColumn>
           <DataColumn name="price">
             <Property name="property">price</Property>
           </DataColumn>
@@ -144,9 +142,7 @@
           </DataColumn>
           <DataColumn name="garbagePrice">
             <Property name="property">garbagePrice</Property>
-          </DataColumn>
-          <DataColumn name="apportionPrice">
-            <Property name="property">apportionPrice</Property>
+            <Property name="caption">卫生费</Property>
           </DataColumn>
           <DataColumn name="lateFee">
             <Property name="property">lateFee</Property>

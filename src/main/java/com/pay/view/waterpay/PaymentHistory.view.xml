@@ -25,6 +25,10 @@
         <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
         <Property name="caption">查询</Property>
       </ToolBarButton>
+      <ToolBarButton id="buttonReject">
+        <Property name="caption">撤销</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -220px -240px</Property>
+      </ToolBarButton>
       <ToolBarButton id="buttonPrint">
         <Property name="caption">打印</Property>
         <Property name="icon">url(>skin>common/icons.gif) -120px -20px</Property>
@@ -164,6 +168,14 @@
       <UpdateItem>
         <Property name="dataSet">dataSetSelected</Property>
         <Property name="dataPath">!DIRTY_TREE</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <UpdateAction id="updateActionReject">
+      <Property name="confirmMessage">是否确定取消该单据？</Property>
+      <Property name="successMessage">撤销成功！</Property>
+      <Property name="dataResolver">orderInfoService#reject</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetSelected</Property>
       </UpdateItem>
     </UpdateAction>
   </View>

@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +69,7 @@ public class PayInfoServiceImpl implements PayInfoService {
 		List<PayInfo> list=payInfoDao.querySummaryForDateAndTollCollector(parameter);
 		return list;
 	}
+
 
 
 	

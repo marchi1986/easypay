@@ -22,10 +22,10 @@
 //@Bind #dataGridSummary.onDataRowDoubleClick
 !function(self,arg,dialogOrder,dataSetOrderList){
 
-	var payCode= self.get("currentEntity").get("payCode");
-
+	var payDay= self.get("currentEntity").get("payDay");
+	var tollCollector= self.get("currentEntity").get("tollCollector");
 	
-	dataSetOrderList.set("parameter",{"payCode":payCode}).flushAsync();
+	dataSetOrderList.set("parameter",{"payDay":payDay,"tollCollector":tollCollector}).flushAsync();
 	
 	dialogOrder.show();
 
@@ -35,9 +35,4 @@
 !function(arg) {
 	arg.dom.innerText = "总计："
 			+ dorado.util.Common.formatFloat(arg.data.get("totalPrice"), "#,##0");
-}
-//@Bind #dataGridSummary.#actualTotalPrice.onRenderFooterCell
-!function(arg) {
-	arg.dom.innerText = "总计："
-			+ dorado.util.Common.formatFloat(arg.data.get("actualTotalPrice"), "#,##0");
 }

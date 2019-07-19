@@ -7,9 +7,11 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
@@ -26,6 +28,7 @@ import com.bstek.dorado.annotation.Expose;
 import com.bstek.dorado.data.provider.Page;
 import com.common.rxtx.ClientDisplay;
 import com.pay.common.CommonUtils;
+import com.pay.common.DateUtils;
 import com.pay.common.PayConstants;
 import com.pay.common.print.PaymentReceiptForPrint;
 import com.pay.dao.BuildingDetailDao;
@@ -196,31 +199,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		try{
 			if(CollectionUtils.isNotEmpty(paymentInfos)&& CollectionUtils.isNotEmpty(orderInfos)){
 	
-				PayInfo payInfo=paymentInfos.get(0);
 				
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
+				SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMmdd");
 				String payCode= "WP"+sdf.format(new Date());
-				payInfo.setPayCode(payCode);
-				payInfo.setPayDate(new Date());
-				payInfo.setStatus(0);
-				payInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
-				payInfo.setCreateUser(ContextHolder.getLoginUserName());
-				payInfo.setCreateTime(new Date());
-				payInfo.setLastModifyUser(ContextHolder.getLoginUserName());
-				payInfo.setLastModifyTime(new Date());
-	
-				
-				payInfoDao.save(payInfo);
+
 				
 				for(PayOrderInfo orderInfo:orderInfos){
 					orderInfo.setPayDate(new Date());
+					orderInfo.setPayDay(Integer.parseInt(sdf2.format(new Date())));
 					orderInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
 					orderInfo.setStatus(PayConstants.ORDER_STATUS_PAY);
 					orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
 					orderInfo.setLastModifyTime(new Date());
 					orderInfo.setPayCode(payCode);
 					orderInfoDao.update(orderInfo);
-					//print(orderInfo);
+					print(orderInfo);
 				}
 				
 	
@@ -354,6 +348,76 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	@DataResolver
 	public void save(List<PayOrderInfo> orderInfos){
 		this.orderInfoDao.updateAll(orderInfos);
+	}
+	
+	@DataResolver
+	public void reject(List<PayOrderInfo> list){
+		if(CollectionUtils.isNotEmpty(list)){
+			for(PayOrderInfo orderInfo:list){
+				
+				
+				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
+				orderInfo.setLastModifyTime(new Date());
+				orderInfo.setPayCode("");
+				orderInfo.setPayDate(null);
+				orderInfo.setPayDay(null);
+				orderInfo.setTollCollector("");
+				orderInfo.setRejectUser(ContextHolder.getLoginUser().getEname());
+				orderInfo.setRejectDate(new Date());
+				orderInfo.setStatus(PayConstants.ORDER_STATUS_UNPAY);
+			}
+			
+			orderInfoDao.updateAll(list);
+		}
+	}
+	@DataProvider
+	public List<PayOrderInfo> querySummaryForDay(Map<String, Object> parameter) {
+		if(MapUtils.isNotEmpty(parameter)){
+			Date beginDate=(Date)parameter.get("beginDate");
+			Date endDate=(Date)parameter.get("endDate");
+			String beginDateFormat= DateUtils.format(beginDate,"yyyy-MM-dd");
+			String endDateFormat= DateUtils.format(endDate,"yyyy-MM-dd");
+			parameter.put("beginDate", beginDateFormat+" 00:00:00");
+			parameter.put("endDate", endDateFormat+" 23:59:59");
+		}
+		List<PayOrderInfo> list=orderInfoDao.querySummaryDay(parameter);
+		return list;
+	}
+	
+	@DataProvider
+	public List<PayOrderInfo> querySummaryForDayAndTollCollector(Map<String, Object> parameter) {
+		if(MapUtils.isNotEmpty(parameter)){
+			Date beginDate=(Date)parameter.get("beginDate");
+			Date endDate=(Date)parameter.get("endDate");
+			String beginDateFormat= DateUtils.format(beginDate,"yyyy-MM-dd");
+			String endDateFormat= DateUtils.format(endDate,"yyyy-MM-dd");
+			parameter.put("beginDate", beginDateFormat+" 00:00:00");
+			parameter.put("endDate", endDateFormat+" 23:59:59");
+		}
+		List<PayOrderInfo> list=orderInfoDao.querySummaryForDayAndTollCollector(parameter);
+		return list;
+	}
+	
+	@DataProvider
+	public List<PayOrderInfo> findByPayDayAndTollCollector(Map<String, Object> parameter) {
+		if(MapUtils.isNotEmpty(parameter)){	
+			
+			List<PayOrderInfo> list=orderInfoDao.findByPayDayAndTollCollector(parameter);
+			return list;
+			
+		}
+		return null;
+	}
+	
+	@DataProvider
+	public List<PayOrderInfo> findByPayDay(Map<String, Object> parameter) {
+		if(MapUtils.isNotEmpty(parameter)){	
+			
+			List<PayOrderInfo> list=orderInfoDao.findByPayDay(parameter);
+			return list;
+			
+		}
+		return null;
 	}
 	
 	public static void main(String[] args){

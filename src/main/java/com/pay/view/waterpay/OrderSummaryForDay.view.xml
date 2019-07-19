@@ -64,8 +64,9 @@
       <Property name="dataSet">dataSetPayInfo</Property>
       <Property name="readOnly">true</Property>
       <Property name="showFooter">true</Property>
-      <DataColumn name="payDate">
-        <Property name="property">payDate</Property>
+      <DataColumn>
+        <Property name="property">payDay</Property>
+        <Property name="name">payDay</Property>
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
@@ -73,14 +74,8 @@
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
       </DataColumn>
-      <DataColumn name="actualGarbagePrice">
-        <Property name="property">actualGarbagePrice</Property>
-      </DataColumn>
       <DataColumn name="networkPrice">
         <Property name="property">networkPrice</Property>
-      </DataColumn>
-      <DataColumn name="actualNetworkPrice">
-        <Property name="property">actualNetworkPrice</Property>
       </DataColumn>
       <DataColumn name="sewagePrice">
         <Property name="property">sewagePrice</Property>
@@ -95,15 +90,11 @@
         <Property name="property">totalPrice</Property>
         <Property name="summaryType">sum</Property>
       </DataColumn>
-      <DataColumn name="actualTotalPrice">
-        <Property name="property">actualTotalPrice</Property>
-        <Property name="summaryType">sum</Property>
-      </DataColumn>
     </DataGrid>
     <DataSet id="dataSetPayInfo">
-      <Property name="dataProvider">payInfoService#querySummaryForCondition</Property>
+      <Property name="dataProvider">orderInfoService#querySummaryForDay</Property>
       <Property name="loadMode">manual</Property>
-      <Property name="dataType">[PayInfo]</Property>
+      <Property name="dataType">[PayOrderInfo]</Property>
     </DataSet>
     <Dialog id="dialogOrder">
       <Property name="width">1200</Property>
@@ -111,7 +102,7 @@
       <Buttons/>
       <Children>
         <DataSet id="dataSetOrderList">
-          <Property name="dataProvider">orderInfoService#findByPayCode</Property>
+          <Property name="dataProvider">orderInfoService#findByPayDay</Property>
           <Property name="dataType">[PayOrderInfo]</Property>
         </DataSet>
         <DataGrid id="dataGridOrder">
@@ -137,9 +128,6 @@
           <DataColumn name="actualQty">
             <Property name="property">actualQty</Property>
           </DataColumn>
-          <DataColumn name="waterApportionQty">
-            <Property name="property">waterApportionQty</Property>
-          </DataColumn>
           <DataColumn name="price">
             <Property name="property">price</Property>
           </DataColumn>
@@ -148,9 +136,6 @@
           </DataColumn>
           <DataColumn name="garbagePrice">
             <Property name="property">garbagePrice</Property>
-          </DataColumn>
-          <DataColumn name="apportionPrice">
-            <Property name="property">apportionPrice</Property>
           </DataColumn>
           <DataColumn name="lateFee">
             <Property name="property">lateFee</Property>

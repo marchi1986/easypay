@@ -162,6 +162,10 @@ public class PayOrderInfo implements Serializable {
 	private String addr;
 	
 	private String waterMeterCode;
+	
+	private String rejectUser;
+	private Date rejectDate;
+	private Integer payDay;
 
 	public PayOrderInfo() {
 		super();
@@ -169,12 +173,18 @@ public class PayOrderInfo implements Serializable {
 
 	
 
+
+
+
+
+
 	public PayOrderInfo(String orderCode, String buildingCode, String roomNo, int monthlyCycle,
 			BigDecimal waterBeforeQty, BigDecimal waterCurrentQty, BigDecimal actualQty, BigDecimal waterApportionQty,
-			BigDecimal price, BigDecimal waterPrice, BigDecimal garbagePrice,
-			BigDecimal lateFee, BigDecimal networkPrice, BigDecimal sewagePrice, BigDecimal otherPrice,
-			BigDecimal totalPrice, int status, String remark, Date payDate, Date lastPayDate, String tollCollector,
-			String createUser, Date createTime, String lastModifyUser, Date lastModifyTime, String payCode) {
+			BigDecimal price, BigDecimal waterPrice, BigDecimal garbagePrice, BigDecimal lateFee,
+			BigDecimal networkPrice, BigDecimal sewagePrice, BigDecimal otherPrice, BigDecimal totalPrice, int status,
+			String remark, Date payDate, Date lastPayDate, String tollCollector, String createUser, Date createTime,
+			String lastModifyUser, Date lastModifyTime, String payCode, String userCode, String userName, String addr,
+			String waterMeterCode, String rejectUser, Date rejectDate, Integer payDay) {
 		super();
 		this.orderCode = orderCode;
 		this.buildingCode = buildingCode;
@@ -202,7 +212,19 @@ public class PayOrderInfo implements Serializable {
 		this.lastModifyUser = lastModifyUser;
 		this.lastModifyTime = lastModifyTime;
 		this.payCode = payCode;
+		this.userCode = userCode;
+		this.userName = userName;
+		this.addr = addr;
+		this.waterMeterCode = waterMeterCode;
+		this.rejectUser = rejectUser;
+		this.rejectDate = rejectDate;
+		this.payDay = payDay;
 	}
+
+
+
+
+
 
 
 
@@ -503,6 +525,43 @@ public class PayOrderInfo implements Serializable {
 		this.waterMeterCode = waterMeterCode;
 	}
 
+	
+
+	@Column(name = "reject_user")
+	public String getRejectUser() {
+		return rejectUser;
+	}
+
+
+
+	public void setRejectUser(String rejectUser) {
+		this.rejectUser = rejectUser;
+	}
+
+
+	@Column(name = "reject_date")
+	public Date getRejectDate() {
+		return rejectDate;
+	}
+
+
+
+	public void setRejectDate(Date rejectDate) {
+		this.rejectDate = rejectDate;
+	}
+	
+	
+
+
+	@Column(name = "pay_day")
+	public Integer getPayDay() {
+		return payDay;
+	}
+
+
+	public void setPayDay(Integer payDay) {
+		this.payDay = payDay;
+	}
 
 
 	@Override
@@ -516,8 +575,16 @@ public class PayOrderInfo implements Serializable {
 				+ ", lastPayDate=" + lastPayDate + ", tollCollector=" + tollCollector + ", createUser=" + createUser
 				+ ", createTime=" + createTime + ", lastModifyUser=" + lastModifyUser + ", lastModifyTime="
 				+ lastModifyTime + ", payCode=" + payCode + ", userCode=" + userCode + ", userName=" + userName
-				+ ", addr=" + addr + ", waterMeterCode=" + waterMeterCode + "]";
+				+ ", addr=" + addr + ", waterMeterCode=" + waterMeterCode + ", rejectUser=" + rejectUser
+				+ ", rejectDate=" + rejectDate + ", payDay=" + payDay + "]";
 	}
+
+
+
+
+
+
+
 
 
 
