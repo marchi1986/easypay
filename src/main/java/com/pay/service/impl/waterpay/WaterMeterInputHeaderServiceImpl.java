@@ -625,7 +625,7 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 		return mapValue;
 	}
 	
-	public BigDecimal format8in1(BigDecimal number){
+	public static BigDecimal format8in1(BigDecimal number){
 		
 		String strNumber=number.setScale(1,BigDecimal.ROUND_HALF_UP).toString();
 		if(strNumber.indexOf(".")>0){
