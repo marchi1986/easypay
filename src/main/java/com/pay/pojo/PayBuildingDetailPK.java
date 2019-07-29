@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-public class PayBuildingDetailPK implements Serializable{
+public class PayBuildingDetailPK extends AbstractPojo implements Serializable{
 
 
 	private static final long serialVersionUID = 1L;

@@ -10,7 +10,7 @@
 	var entity = autoFormCondition.get("entity");
 	var userCode=entity.get("userCode");
 	if(isNotNull(userCode)){
-		datasetPayOrder.set("parameter",{"userCode":userCode,"status":0}).flushAsync();
+		datasetPayOrder.set("parameter",{"userCode":userCode}).flushAsync();
 	}else{
 		dorado.MessageBox.alert("请输入用户编码！");
 	}
