@@ -133,12 +133,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		
 
 		
-		return orderInfoDao.queryForCondition(parameter);
-		/*
-		 * 暂不需要计算滞纳金
+		List<PayOrderInfo> payOrders= orderInfoDao.queryForCondition(parameter);
+		
+/*
 		Integer yearMonth=null;
 		PayWaterMeterInputHeader inputHeader=null;
-		for(PayOrderInfo orderInfo:page.getEntities()){
+		for(PayOrderInfo orderInfo:payOrders){
 			Integer currentOrderMonthlyCycle=orderInfo.getMonthlyCycle();
 			if(yearMonth==null||currentOrderMonthlyCycle!=yearMonth){
 				inputHeader=waterMeterInputHeaderDao.getByMonthly(orderInfo.getMonthlyCycle());
@@ -148,15 +148,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			if(now.compareTo(inputHeader.getEndDate())>0){
 				
 				int delayDay= (int)((now.getTime()-inputHeader.getEndDate().getTime())/1000/3600/24);
-				BigDecimal lateFeeForDay=orderInfo.getTotalPrice().multiply(new BigDecimal(0.0001));
-				BigDecimal lateFee=new BigDecimal(delayDay).multiply(lateFeeForDay).setScale(2,RoundingMode.HALF_UP);
-				orderInfo.setLateFee(lateFee);
+				BigDecimal lateFeeForDay=orderInfo.getWaterPrice().multiply(new BigDecimal(0.001));
+				BigDecimal lateFee=new BigDecimal(delayDay).multiply(lateFeeForDay).setScale(1,RoundingMode.HALF_UP);
+				orderInfo.setLateFee(WaterMeterInputHeaderServiceImpl.format8in1(lateFee));
 				orderInfo.setTotalPrice(orderInfo.getTotalPrice().add(orderInfo.getLateFee()));
 			}
 			 
 			yearMonth=currentOrderMonthlyCycle;
 		}
-		*/
+	*/	
+		return payOrders;
+		
 	
 	}
 	
@@ -201,11 +203,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	
 				
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-				SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMmdd");
+				SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMMdd");
 				String payCode= "WP"+sdf.format(new Date());
 
 				
 				for(PayOrderInfo orderInfo:orderInfos){
+					
+					PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
+					buildingDetailPK.setCode(orderInfo.getBuildingCode());
+					buildingDetailPK.setRoomNo(orderInfo.getRoomNo());
+					PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
+					buildingDetail.setGarbagePrice(orderInfo.getGarbagePrice().intValue());
+					buildingDetail.setNetworkPrice(orderInfo.getNetworkPrice().intValue());
+					buildingDetailDao.update(buildingDetail);
+					
 					orderInfo.setPayDate(new Date());
 					orderInfo.setPayDay(Integer.parseInt(sdf2.format(new Date())));
 					orderInfo.setTollCollector(ContextHolder.getLoginUser().getCname());
@@ -355,6 +366,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		if(CollectionUtils.isNotEmpty(list)){
 			for(PayOrderInfo orderInfo:list){
 				
+
 				
 				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
 				orderInfo.setLastModifyTime(new Date());
