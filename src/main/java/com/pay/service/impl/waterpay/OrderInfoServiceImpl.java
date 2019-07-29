@@ -358,7 +358,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	}
 	@DataResolver
 	public void save(List<PayOrderInfo> orderInfos){
-		this.orderInfoDao.updateAll(orderInfos);
+		this.orderInfoDao.updateAll(orderInfos); 
 	}
 	
 	@DataResolver
