@@ -74,22 +74,28 @@
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
         <Property name="caption">卫生费</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="networkPrice">
         <Property name="property">networkPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="sewagePrice">
         <Property name="property">sewagePrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
+        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn>
         <Property name="property">totalPrice</Property>

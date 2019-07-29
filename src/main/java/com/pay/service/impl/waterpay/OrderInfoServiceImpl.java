@@ -203,7 +203,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	
 				
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-				SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMmdd");
+				SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMMdd");
 				String payCode= "WP"+sdf.format(new Date());
 
 				
