@@ -215,6 +215,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 					PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
 					buildingDetail.setGarbagePrice(orderInfo.getGarbagePrice().intValue());
 					buildingDetail.setNetworkPrice(orderInfo.getNetworkPrice().intValue());
+					buildingDetail.setMonthlyQty(orderInfo.getActualQty());
 					buildingDetailDao.update(buildingDetail);
 					
 					orderInfo.setPayDate(new Date());
