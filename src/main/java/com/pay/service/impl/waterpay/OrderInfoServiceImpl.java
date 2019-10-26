@@ -87,7 +87,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
 		
 		orderInfoDao.queryPageForCondition(page, parameter);
-/*
+		/*
+		 * 暂不需要计算滞纳金
 		Integer yearMonth=null;
 		PayWaterMeterInputHeader inputHeader=null;
 		for(PayOrderInfo orderInfo:page.getEntities()){
@@ -108,8 +109,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			 
 			yearMonth=currentOrderMonthlyCycle;
 		}
-		
-	*/
+		*/
+	
 	}
 	
 	/**
@@ -180,37 +181,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		}
 		parameter.put("isQueryArrears", true);
 		
-		
-		orderInfoDao.queryPageForCondition(page, parameter);
-
-	
-	}
-	
-	/**
-	 * 根据条件分页查询
-	 * @author marchi.ma
-	 * @param page,parameter
-	 */
-	@DataProvider
-	public void queryPagePayForCondition(Page<PayOrderInfo> page,Map<String, Object> parameter) {
-			
-		if(MapUtils.isNotEmpty(parameter)){
-			if(parameter.get("beginDate")!=null){
-				Date monthly=(Date)parameter.get("beginDate");
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-				String dateFormat= sdf.format(monthly);
-				parameter.put("beginPayDay", Integer.parseInt(dateFormat));
-			}
-			if(parameter.get("endDate")!=null){
-				Date monthly=(Date)parameter.get("endDate");
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-				String dateFormat= sdf.format(monthly);
-				parameter.put("endPayDay", Integer.parseInt(dateFormat));
-			}
-			
-		}
-		parameter.put("isQueryArrears", false);
-		parameter.put("status", 1);
 		
 		orderInfoDao.queryPageForCondition(page, parameter);
 
@@ -390,7 +360,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	}
 	@DataResolver
 	public void save(List<PayOrderInfo> orderInfos){
-		this.orderInfoDao.updateAll(orderInfos);
+		this.orderInfoDao.updateAll(orderInfos); 
 	}
 	
 	@DataResolver
