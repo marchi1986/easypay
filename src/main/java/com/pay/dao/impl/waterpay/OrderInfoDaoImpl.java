@@ -42,6 +42,8 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		 String addr="";
 		 String waterMeterCode="";
 		 String userName="";
+		 String beginPayDay="";
+		 String endPayDay="";
 		 //是否查询欠费
 		 Boolean isQueryArrears=false;
 	     if(MapUtils.isNotEmpty(params)){
@@ -55,6 +57,13 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	    	 addr=(String)params.get("addr");
 	    	 waterMeterCode=(String)params.get("waterMeterCode");
 	    	 userName=(String)params.get("userName");
+	    	 if(params.get("beginPayDay")!=null){
+	    		 beginPayDay=((Integer)params.get("beginPayDay")).toString();
+	    	 }
+	    	 if(params.get("endPayDay")!=null){
+	    		 endPayDay=((Integer)params.get("endPayDay")).toString();
+	    	 }
+	    	 
 	     }
 	     
 	     StringBuffer hql=new StringBuffer();
@@ -106,13 +115,21 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     }
 	     
 	     if (status!=null) {
-
-	    	 hql.append(" AND a.status=").append(status);
+	    	 if(status==3){
+	    		 hql.append(" AND a.status in(1,3)");
+	    	 }else{
+	    		 hql.append(" AND a.status=").append(status);
+	    	 }
+	    	 
 	     }
 	     
 	     if(isQueryArrears!=null&&isQueryArrears){
 	    	 
 	    	 hql.append(" AND a.lastPayDate<'").append(DateUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")).append("'");
+	     }
+	     
+	     if(StringUtils.isNotEmpty(beginPayDay)&&StringUtils.isNotEmpty(endPayDay)){
+	    	 hql.append(" AND a.payDay between ").append(beginPayDay).append(" and ").append(endPayDay);
 	     }
 	     
 	     if (StringUtils.isNotEmpty(groupId)) {

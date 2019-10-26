@@ -28,6 +28,12 @@
       <ToolBarButton id="buttonEdit">
         <Property name="caption">编辑</Property>
       </ToolBarButton>
+      <ToolBarButton id="buttonEdit2">
+        <Property name="caption">编辑2</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEdit3">
+        <Property name="caption">编辑3</Property>
+      </ToolBarButton>
     </ToolBar>
     <AutoForm id="autoFormCondition">
       <Property name="dataSet">datasetCondition</Property>

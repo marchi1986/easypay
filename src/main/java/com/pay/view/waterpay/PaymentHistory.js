@@ -3,7 +3,7 @@
 
 	//获取autoformCondition绑定的实体对象
 	var entity = autoFormCondition.get("entity");
-	entity.set("status",1);
+	entity.set("status",3);
 	//将实体对象作为参数传入，并异步刷新
 	dataSetOrderInfo.set("parameter",entity).flushAsync();
 
@@ -15,7 +15,7 @@
 	if(arg.keyCode==13){
 		//获取autoformCondition绑定的实体对象
 		var entity = autoFormCondition.get("entity");
-		entity.set("status",1);
+		entity.set("status",3);
 		//将实体对象作为参数传入，并异步刷新
 		dataSetOrderInfo.set("parameter",entity).flushAsync();
 	}

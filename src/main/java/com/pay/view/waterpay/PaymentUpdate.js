@@ -23,6 +23,24 @@
 	dialogDetail.show();
 }
 
+//@Bind #buttonEdit2.onClick
+!function(self,arg,datasetPayOrder,updateActionSave){
+	var data=datasetPayOrder.get("data:#");
+
+	data.set("status",3);
+	
+	updateActionSave.execute();
+}
+
+//@Bind #buttonEdit3.onClick
+!function(self,arg,datasetPayOrder,updateActionSave){
+	var data=datasetPayOrder.get("data:#");
+
+	data.set("status",1);
+	
+	updateActionSave.execute();
+}
+
 //@Bind #dataGridPayOrder.onDoubleClick
 !function(self,arg,dialogDetail){
 	dialogDetail.show();

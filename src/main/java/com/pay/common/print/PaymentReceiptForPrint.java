@@ -439,7 +439,7 @@ public class PaymentReceiptForPrint implements Printable {
 				//第10行
 				case 11:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("逾期将按每日水费千分之一加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
+					g2.drawString("逾期将按每月总金额百分之十加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
 					
 					break;
 				//第11行

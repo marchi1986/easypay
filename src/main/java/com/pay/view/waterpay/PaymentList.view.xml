@@ -43,140 +43,85 @@
     </DataSet>
     <ToolBar>
       <DataPilot id="dataPilotSummary">
-        <Property name="dataSet">dataSetPayInfo</Property>
+        <Property name="dataSet">dataSetOrderList</Property>
         <Property name="itemCodes">pages,pageSize</Property>
       </DataPilot>
     </ToolBar>
-    <DataGrid id="dataGridSummary">
-      <Property name="dataSet">dataSetPayInfo</Property>
+    <DataSet id="dataSetOrderList">
+      <Property name="dataProvider">orderInfoService#queryPagePayForCondition</Property>
+      <Property name="dataType">[PayOrderInfo]</Property>
+      <Property name="pageSize">100</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <DataGrid id="dataGridOrder">
+      <Property name="dataSet">dataSetOrderList</Property>
       <Property name="readOnly">true</Property>
-      <Property name="showFooter">true</Property>
-      <DataColumn name="payDate">
-        <Property name="property">payDate</Property>
-      </DataColumn>
-      <DataColumn name="payCode">
-        <Property name="property">payCode</Property>
+      <DataColumn>
+        <Property name="name">lastModifyTime</Property>
+        <Property name="property">lastModifyTime</Property>
+        <Property name="caption">时间</Property>
         <Property name="width">150</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn name="orderCode">
+        <Property name="property">orderCode</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="buildingCode">
+        <Property name="property">buildingCode</Property>
+      </DataColumn>
+      <DataColumn name="roomNo">
+        <Property name="property">roomNo</Property>
+      </DataColumn>
+      <DataColumn name="waterMeterCode">
+        <Property name="property">waterMeterCode</Property>
+      </DataColumn>
+      <DataColumn name="addr">
+        <Property name="property">addr</Property>
+        <Property name="width">150</Property>
+      </DataColumn>
+      <DataColumn name="userName">
+        <Property name="property">userName</Property>
+      </DataColumn>
+      <DataColumn name="waterBeforeQty">
+        <Property name="property">waterBeforeQty</Property>
+      </DataColumn>
+      <DataColumn name="waterCurrentQty">
+        <Property name="property">waterCurrentQty</Property>
+      </DataColumn>
+      <DataColumn name="actualQty">
+        <Property name="property">actualQty</Property>
+      </DataColumn>
+      <DataColumn name="price">
+        <Property name="property">price</Property>
       </DataColumn>
       <DataColumn name="waterPrice">
         <Property name="property">waterPrice</Property>
-        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
-        <Property name="summaryType">sum</Property>
-      </DataColumn>
-      <DataColumn name="actualGarbagePrice">
-        <Property name="property">actualGarbagePrice</Property>
-        <Property name="summaryType">sum</Property>
-      </DataColumn>
-      <DataColumn name="networkPrice">
-        <Property name="property">networkPrice</Property>
-        <Property name="summaryType">sum</Property>
-      </DataColumn>
-      <DataColumn name="actualNetworkPrice">
-        <Property name="property">actualNetworkPrice</Property>
-        <Property name="summaryType">sum</Property>
-      </DataColumn>
-      <DataColumn name="sewagePrice">
-        <Property name="property">sewagePrice</Property>
-        <Property name="summaryType">sum</Property>
-      </DataColumn>
-      <DataColumn name="otherPrice">
-        <Property name="property">otherPrice</Property>
-        <Property name="summaryType">sum</Property>
       </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
-        <Property name="summaryType">sum</Property>
       </DataColumn>
-      <DataColumn id="totalPrice" name="totalPrice">
+      <DataColumn name="networkPrice">
+        <Property name="property">networkPrice</Property>
+      </DataColumn>
+      <DataColumn name="sewagePrice">
+        <Property name="property">sewagePrice</Property>
+      </DataColumn>
+      <DataColumn name="otherPrice">
+        <Property name="property">otherPrice</Property>
+      </DataColumn>
+      <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>
-        <Property name="summaryType">sum</Property>
       </DataColumn>
-      <DataColumn name="actualTotalPrice">
-        <Property name="property">actualTotalPrice</Property>
-        <Property name="summaryType">sum</Property>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
       </DataColumn>
       <DataColumn name="tollCollector">
         <Property name="property">tollCollector</Property>
       </DataColumn>
-      <DataColumn name="remark">
-        <Property name="property">remark</Property>
-        <Property name="width">300</Property>
-      </DataColumn>
     </DataGrid>
-    <DataSet id="dataSetPayInfo">
-      <Property name="dataProvider">payInfoService#queryPageForCondition</Property>
-      <Property name="loadMode">manual</Property>
-      <Property name="pageSize">1000</Property>
-      <Property name="dataType">[PayInfo]</Property>
-    </DataSet>
-    <Dialog id="dialogOrder">
-      <Property name="width">1200</Property>
-      <Property name="height">600</Property>
-      <Buttons/>
-      <Children>
-        <DataSet id="dataSetOrderList">
-          <Property name="dataProvider">orderInfoService#findByPayCode</Property>
-          <Property name="dataType">[PayOrderInfo]</Property>
-        </DataSet>
-        <DataGrid id="dataGridOrder">
-          <Property name="dataSet">dataSetOrderList</Property>
-          <Property name="width">1024</Property>
-          <Property name="height">400</Property>
-          <Property name="readOnly">true</Property>
-          <DataColumn name="buildingCode">
-            <Property name="property">buildingCode</Property>
-          </DataColumn>
-          <DataColumn name="roomNo">
-            <Property name="property">roomNo</Property>
-          </DataColumn>
-          <DataColumn name="monthlyCycle">
-            <Property name="property">monthlyCycle</Property>
-          </DataColumn>
-          <DataColumn name="waterBeforeQty">
-            <Property name="property">waterBeforeQty</Property>
-          </DataColumn>
-          <DataColumn name="waterCurrentQty">
-            <Property name="property">waterCurrentQty</Property>
-          </DataColumn>
-          <DataColumn name="actualQty">
-            <Property name="property">actualQty</Property>
-          </DataColumn>
-          <DataColumn name="waterApportionQty">
-            <Property name="property">waterApportionQty</Property>
-          </DataColumn>
-          <DataColumn name="price">
-            <Property name="property">price</Property>
-          </DataColumn>
-          <DataColumn name="waterPrice">
-            <Property name="property">waterPrice</Property>
-          </DataColumn>
-          <DataColumn name="garbagePrice">
-            <Property name="property">garbagePrice</Property>
-          </DataColumn>
-          <DataColumn name="apportionPrice">
-            <Property name="property">apportionPrice</Property>
-          </DataColumn>
-          <DataColumn name="lateFee">
-            <Property name="property">lateFee</Property>
-          </DataColumn>
-          <DataColumn name="networkPrice">
-            <Property name="property">networkPrice</Property>
-          </DataColumn>
-          <DataColumn name="sewagePrice">
-            <Property name="property">sewagePrice</Property>
-          </DataColumn>
-          <DataColumn name="otherPrice">
-            <Property name="property">otherPrice</Property>
-          </DataColumn>
-          <DataColumn name="totalPrice">
-            <Property name="property">totalPrice</Property>
-          </DataColumn>
-        </DataGrid>
-      </Children>
-      <Tools/>
-    </Dialog>
   </View>
 </ViewConfig>
