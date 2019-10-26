@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -180,6 +181,45 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			
 		}
 		parameter.put("isQueryArrears", true);
+		
+		
+		orderInfoDao.queryPageForCondition(page, parameter);
+
+	
+	}
+	
+	/**
+	 * 根据条件分页查询
+	 * @author marchi.ma
+	 * @param page,parameter
+	 */
+	@DataProvider
+	public void queryPagePayForCondition(Page<PayOrderInfo> page,Map<String, Object> parameter) {
+			
+		if(MapUtils.isNotEmpty(parameter)){
+			if(parameter.get("monthlyCycle")!=null){
+				Date monthly=(Date)parameter.get("monthlyCycle");
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMM");
+				String dateFormat= sdf.format(monthly);
+				parameter.put("monthly", Integer.parseInt(dateFormat));
+
+			}
+			SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMMdd");
+			Date beginDate=(Date)parameter.get("beginDate");
+			Date endDate=(Date)parameter.get("endDate");
+			String beginDateFormat=sdf2.format(beginDate);
+			String endDateFormat=sdf2.format(endDate);
+			if(StringUtils.isNotEmpty(beginDateFormat)){
+				parameter.put("beginPayDay", Integer.parseInt(beginDateFormat));
+			}
+			if(StringUtils.isNotEmpty(endDateFormat)){
+				parameter.put("endPayDay", Integer.parseInt(endDateFormat));
+			}
+
+			
+		}
+		parameter.put("isQueryArrears", false);
+		parameter.put("status", 1);
 		
 		
 		orderInfoDao.queryPageForCondition(page, parameter);
