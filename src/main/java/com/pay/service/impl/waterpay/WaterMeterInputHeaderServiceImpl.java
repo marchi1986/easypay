@@ -488,6 +488,9 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				buildingDetailPK.setRoomNo(waterMeterInputDetail.getRoomNo());
 				//获取楼宇明细
 				PayBuildingDetail buildingDetail= buildingDetailDao.get(buildingDetailPK);
+				if(buildingDetail==null){
+					throw new BusinessException(waterMeterInputDetail.getBuildingCode()+"-"+waterMeterInputDetail.getRoomNo()+"不存在！");
+				}
 				orderInfo.setUserName(buildingDetail.getUserName());
 				orderInfo.setAddr(buildingDetail.getAddr());
 				orderInfo.setWaterMeterCode(buildingDetail.getWaterMeterCode());
