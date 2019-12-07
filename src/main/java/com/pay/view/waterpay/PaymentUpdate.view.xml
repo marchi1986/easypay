@@ -30,9 +30,11 @@
       </ToolBarButton>
       <ToolBarButton id="buttonEdit2">
         <Property name="caption">编辑2</Property>
+        <Property name="visible">false</Property>
       </ToolBarButton>
       <ToolBarButton id="buttonEdit3">
         <Property name="caption">编辑3</Property>
+        <Property name="visible">false</Property>
       </ToolBarButton>
     </ToolBar>
     <AutoForm id="autoFormCondition">
