@@ -9,6 +9,7 @@ import com.bstek.dorado.annotation.PropertyDef;
  * pay_order_info:
  */
 @Entity
+@IdClass(PayOrderInfoPK.class)
 @Table(name = "pay_order_info")
 public class PayOrderInfo implements Serializable {
 

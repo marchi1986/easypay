@@ -43,6 +43,7 @@ import com.pay.pojo.PayBuildingDetailPK;
 import com.pay.pojo.PayBuildingInfo;
 import com.pay.pojo.waterpay.PayInfo;
 import com.pay.pojo.waterpay.PayOrderInfo;
+import com.pay.pojo.waterpay.PayOrderInfoPK;
 import com.pay.pojo.waterpay.PayWaterMeterInputHeader;
 import com.pay.service.waterpay.OrderInfoService;
 
@@ -248,6 +249,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
 				
 				for(PayOrderInfo orderInfo:orderInfos){
+
+					Integer isPay=orderInfoDao.findByPay(orderInfo.getOrderCode(), orderInfo.getUserCode());
+					if(isPay>0){
+						throw new BusinessException("用户:"+orderInfo.getUserCode()+"该月度:"+orderInfo.getMonthlyCycle()+"已缴费!");
+					}
+					
 					
 					PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
 					buildingDetailPK.setCode(orderInfo.getBuildingCode());

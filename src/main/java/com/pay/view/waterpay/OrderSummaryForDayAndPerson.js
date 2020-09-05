@@ -21,14 +21,14 @@
 
 //@Bind #dataGridSummary.onDataRowDoubleClick
 !function(self,arg,dialogOrder,dataSetOrderList){
-
+	/*
 	var payDay= self.get("currentEntity").get("payDay");
 	var tollCollector= self.get("currentEntity").get("tollCollector");
 	
 	dataSetOrderList.set("parameter",{"payDay":payDay,"tollCollector":tollCollector}).flushAsync();
 	
 	dialogOrder.show();
-
+	*/
 }
 
 //@Bind #dataGridSummary.#totalPrice.onRenderFooterCell

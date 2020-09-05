@@ -33,4 +33,6 @@ public interface OrderInfoDao extends IBaseDao<PayOrderInfo, PayOrderInfoPK> {
 	public List<PayOrderInfo> findByPayDay(Map<String,Object> params);
 	
 	public List<PayOrderInfo> querySummaryDay(Map<String, Object> params) ;
+	
+	public Integer findByPay(String orderCode,String userCode);
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 import com.bstek.dorado.data.provider.Page;
 import com.pay.common.hibernate.BaseHibernateDAO;
@@ -38,6 +39,10 @@ public class PayInfoDaoImpl extends BaseHibernateDAO<PayInfo, String> implements
 	    	 Date endDate=(Date)params.get("endDate");
 	    	 if(beginDate!=null&&endDate!=null){
 	    		 hql.append("and payDate between :beginDate and :endDate ");
+	    	 }
+	    	 String status=(String)params.get("status");
+	    	 if(StringUtils.isNotEmpty(status)){
+	    		 hql.append("and status=:status ");
 	    	 }
 	    	 queryCountHql.append("select count(*) ").append(hql);
 	    	 this.pagingHQLQuery(hql.toString(),queryCountHql.toString(),page,params);

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.annotations.common.util.StringHelper;
 import org.hibernate.transform.Transformers;
+import org.jasig.cas.client.session.HashMapBackedSessionMappingStorage;
 import org.springframework.stereotype.Repository;
 import com.bstek.dorado.data.provider.Page;
 import com.pay.common.DateUtils;
@@ -408,4 +409,12 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     
 	     
 	 }
+	
+	public Integer findByPay(String orderCode,String userCode){
+		String hql="select count(*) from PayOrderInfo where orderCode=:orderCode and userCode=:userCode and status in(1,3)";
+		Map<String,Object> params=new HashMap<>();
+		params.put("orderCode", orderCode);
+		params.put("userCode", userCode);
+		return this.queryForInt(hql, params);
+	}
 }

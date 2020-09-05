@@ -417,7 +417,9 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				List<PayWaterMeterInputDetail> waterMeterInputDetails=new ArrayList<PayWaterMeterInputDetail>();
 				//Map<Integer,PayPricingType> pricingTypeMap=pricingTypeService.queryApportionTypeForMap();
 				for(PayBuildingDetail buildingDetail:buildingDetails){
-					waterMeterInputDetails.add(getDetail(code,monthly,buildingDetail));
+					if(PayConstants.ENABLED_STATUS==buildingDetail.getStatus()){
+						waterMeterInputDetails.add(getDetail(code,monthly,buildingDetail));
+					}
 				}
 				waterMeterInputBuildingDao.save(waterMeterInputBuilding);
 				waterMeterInputDetailDao.saveAll(waterMeterInputDetails);	

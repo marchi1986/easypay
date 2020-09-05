@@ -94,7 +94,7 @@
       <Property name="showFooter">true</Property>
       <RowSelectorColumn/>
       <DataColumn>
-        <Property name="property">payCode</Property>
+        <Property name="property">orderCode</Property>
         <Property name="width">200</Property>
         <Editor/>
       </DataColumn>

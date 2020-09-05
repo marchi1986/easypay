@@ -519,7 +519,7 @@
     <Property name="matchType">com.pay.pojo.waterpay.PayOrderInfo</Property>
     <PropertyDef name="orderCode">
       <Property></Property>
-      <Property name="label">编号</Property>
+      <Property name="label">订单编号</Property>
     </PropertyDef>
     <PropertyDef name="buildingCode">
       <Property></Property>
