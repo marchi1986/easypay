@@ -71,6 +71,12 @@ public class PayBuildingInfo extends AbstractPojo implements Serializable {
 	 */
 	@PropertyDef(label = "last_modify_time", description = "last_modify_time:")
 	private Date lastModifyTime;
+	
+	/**
+	 * last_modify_time:
+	 */
+	@PropertyDef(label = "user_count", description = "user_count:")
+	private Integer userCount;
 
 	public PayBuildingInfo() {
 		super();
@@ -188,6 +194,17 @@ public class PayBuildingInfo extends AbstractPojo implements Serializable {
 	public Date getLastModifyTime() {
 		return lastModifyTime;
 	}
+
+	@Column(name = "user_count")
+	public Integer getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(Integer userCount) {
+		this.userCount = userCount;
+	}
+	
+	
 
 
 }

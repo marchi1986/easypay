@@ -33,6 +33,11 @@
         </Property>
       </PropertyDef>
       <PropertyDef name="contractorName"/>
+      <PropertyDef name="isCountApportion">
+        <Property name="mapping">
+          <Property name="mapValues">${dorado.getDataProvider(&quot;waterMeterInfoService#getIsCountApportionDesc&quot;).getResult()}</Property>
+        </Property>
+      </PropertyDef>
     </DataType>
     <DataType name="PayReplaceWaterMeterHistory" parent="global:PayReplaceWaterMeterHistory"/>
   </Model>
@@ -179,6 +184,11 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
           <AutoFormElement>
             <Property name="name">status</Property>
             <Property name="property">status</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">userCount</Property>
+            <Property name="property">userCount</Property>
             <Editor/>
           </AutoFormElement>
         </AutoForm>
@@ -374,6 +384,16 @@ setFocus(autoFormCondition.getElement(&quot;code&quot;).getDom());&#xD;
               <AutoFormElement>
                 <Property name="name">garbagePrice</Property>
                 <Property name="property">garbagePrice</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="property">isCountApportion</Property>
+                <Property name="name">isCountApportion</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">userCount</Property>
+                <Property name="property">userCount</Property>
                 <Editor/>
               </AutoFormElement>
             </AutoForm>

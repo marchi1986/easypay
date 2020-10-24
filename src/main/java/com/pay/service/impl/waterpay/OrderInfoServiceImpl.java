@@ -32,6 +32,7 @@ import com.pay.common.CommonUtils;
 import com.pay.common.DateUtils;
 import com.pay.common.PayConstants;
 import com.pay.common.print.PaymentReceiptForPrint;
+import com.pay.common.print.PaymentReceiptForPrint2;
 import com.pay.dao.BuildingDetailDao;
 import com.pay.dao.BuildingInfoDao;
 import com.pay.dao.waterpay.OrderInfoDao;
@@ -277,7 +278,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 					orderInfo.setLastPayDate(new Date());
 					orderInfo.setPayCode(payCode);
 					orderInfoDao.update(orderInfo);
-					print(orderInfo);
+					if(orderInfo.getMonthlyCycle()>202009){
+						print2(orderInfo);
+					}else{
+						print(orderInfo);
+					}
+					
 				}
 				
 	
@@ -307,7 +313,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	@DataResolver
 	public void printList(List<PayOrderInfo> orderInfos){
 		for(PayOrderInfo orderInfo:orderInfos){
-			print(orderInfo);
+			if(orderInfo.getMonthlyCycle()>202009){
+				print2(orderInfo);
+			}else{
+				print(orderInfo);
+			}
+			
 		}
 	}
 	
@@ -354,6 +365,82 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		paymentReceiptForPrint.setTotalAmountCN(CommonUtils.change(orderInfo.getTotalPrice().doubleValue()));
 		//杂费小计
 		BigDecimal amonut2=orderInfo.getGarbagePrice().add(orderInfo.getNetworkPrice().add(orderInfo.getSewagePrice().add(orderInfo.getOtherPrice())));
+		paymentReceiptForPrint.setAmonut2(amonut2);
+		paymentReceiptForPrint.setOverdueAmount(orderInfo.getLateFee());
+		//总计
+		paymentReceiptForPrint.setTotalAmountFoot(orderInfo.getTotalPrice());
+		
+		Calendar c=Calendar.getInstance();
+		c.setTime(new Date());
+		
+		paymentReceiptForPrint.setYear(String.valueOf(c.get(Calendar.YEAR)));
+		paymentReceiptForPrint.setMonth(String.valueOf(c.get(Calendar.MONTH)));
+		paymentReceiptForPrint.setDay(String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+
+		
+		// 通俗理解就是书、文档
+		Book book = new Book();
+		// 设置成竖打
+		PageFormat pf = new PageFormat();
+		pf.setOrientation(PageFormat.PORTRAIT);
+		// 通过Paper设置页面的空白边距和可打印区域。必须与实际打印纸张大小相符。
+		Paper p = new Paper();
+		p.setSize(590, 420); // A5纸张大小
+		p.setImageableArea(10, 10, 590, 420); // A5
+		pf.setPaper(p);
+				
+		// 把 PageFormat 和 Printable 添加到书中，组成一个页面
+		book.append(paymentReceiptForPrint, pf);
+		// 获取打印服务对象
+		PrinterJob job = PrinterJob.getPrinterJob();
+		// 设置打印类
+		job.setPageable(book);
+		try {
+			// 可以用printDialog显示打印对话框，在用户确认后打印；也可以直接打印
+			// boolean a=job.printDialog();
+			// if(a)
+				// {
+			job.print();
+					// }
+		} catch (PrinterException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void print2(PayOrderInfo orderInfo){
+		PayBuildingDetailPK buildingDetailPK=new PayBuildingDetailPK();
+		buildingDetailPK.setCode(orderInfo.getBuildingCode());
+		buildingDetailPK.setRoomNo(orderInfo.getRoomNo());
+		PayBuildingDetail buildingDetail=buildingDetailDao.get(buildingDetailPK);
+		
+		PaymentReceiptForPrint2 paymentReceiptForPrint = new PaymentReceiptForPrint2();
+		paymentReceiptForPrint.setOrderNo(orderInfo.getOrderCode().substring(0,10)+orderInfo.getBuildingCode()+orderInfo.getRoomNo());
+		paymentReceiptForPrint.setUserCode(buildingDetail.getCode()+buildingDetail.getRoomNo());
+		paymentReceiptForPrint.setWaterMeterCode(buildingDetail.getWaterMeterCode());
+		PayWaterMeterInputHeader inputHeader= waterMeterInputHeaderDao.get(orderInfo.getOrderCode());
+		SimpleDateFormat sdf=new SimpleDateFormat("M");	
+		paymentReceiptForPrint.setBillingPeriod(sdf.format(inputHeader.getBeginDate()) +"月");
+		//PayBuildingInfo buildingInfo=buildingInfoDao.get(orderInfo.getBuildingCode());
+		paymentReceiptForPrint.setAddr(buildingDetail.getAddr());
+		paymentReceiptForPrint.setUserName(buildingDetail.getUserName());
+		paymentReceiptForPrint.setBeforeQty(orderInfo.getWaterBeforeQty());
+		paymentReceiptForPrint.setCurrentQty(orderInfo.getWaterCurrentQty());
+		paymentReceiptForPrint.setActualQty(orderInfo.getActualQty());
+		paymentReceiptForPrint.setApportionQty(orderInfo.getWaterApportionQty());
+		paymentReceiptForPrint.setTotalQty(orderInfo.getFeeQty());
+		paymentReceiptForPrint.setPrice(orderInfo.getPrice());
+		paymentReceiptForPrint.setAmount(orderInfo.getWaterPrice());
+		paymentReceiptForPrint.setGarbagePrice(orderInfo.getGarbagePrice());
+		paymentReceiptForPrint.setNetworkPrice(orderInfo.getNetworkPrice());
+		paymentReceiptForPrint.setSewagePrice(orderInfo.getSewagePrice());
+		paymentReceiptForPrint.setOtherPrice(orderInfo.getOtherPrice());
+		paymentReceiptForPrint.setUserCount(orderInfo.getUserCount());
+		paymentReceiptForPrint.setApportionPrice(orderInfo.getApportionPrice());
+		paymentReceiptForPrint.setApportionAmount(orderInfo.getApportionAmount());
+		paymentReceiptForPrint.setTotalAmountCN(CommonUtils.change(orderInfo.getTotalPrice().doubleValue()));
+		//杂费小计
+		//BigDecimal amonut2=orderInfo.getGarbagePrice().add(orderInfo.getNetworkPrice().add(orderInfo.getSewagePrice().add(orderInfo.getOtherPrice())));
+		BigDecimal amonut2=orderInfo.getGarbagePrice().add(orderInfo.getApportionAmount()).add(orderInfo.getOtherPrice());
 		paymentReceiptForPrint.setAmonut2(amonut2);
 		paymentReceiptForPrint.setOverdueAmount(orderInfo.getLateFee());
 		//总计

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="PayMonthlyApportionPrice" parent="global:PayMonthlyApportionPrice"/>
+    <DataType name="Condition">
+      <PropertyDef name="monthly">
+        <Property name="dataType">Date</Property>
+        <Property name="displayFormat">YM</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton id="buttonQuery">
+        <Property name="icon">url(>skin>common/icons.gif) -20px -40px</Property>
+        <Property name="caption">查询</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonAdd">
+        <Property name="icon">url(>skin>common/icons.gif) -120px -0px</Property>
+        <Property name="caption">新增</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEdit">
+        <Property name="caption">编辑</Property>
+        <Property name="action">updateActionSave</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -200px -0px</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDel">
+        <Property name="caption">删除并保存</Property>
+        <Property name="icon">url(>skin>common/icons.gif) -140px -0px</Property>
+      </ToolBarButton>
+      <Separator/>
+      <ToolBarButton id="buttonRefreshCache">
+        <Property name="icon">url(>skin>common/icons.gif) -40px -240px</Property>
+        <Property name="action">ajaxActionRefreshCache</Property>
+        <Property name="caption">刷新缓存</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCondition">
+      <Property name="createPrivateDataSet">true</Property>
+      <Property name="cols">400,*,*</Property>
+      <Property name="labelSeparator">:</Property>
+      <Property name="dataType">Condition</Property>
+      <AutoFormElement>
+        <Property name="name">monthly</Property>
+        <Property name="label">分摊月度</Property>
+        <Property name="trigger">defaultYearMonthDropDown</Property>
+        <Property name="property">monthly</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <DataSet id="dataSetApportionPrice">
+      <Property name="dataType">[PayMonthlyApportionPrice]</Property>
+      <Property name="dataProvider">monthlyApportionPriceService#queryForCondition</Property>
+      <Property name="loadMode">lazy</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <ToolBar>
+      <DataPilot id="datapilotApportionPrice">
+        <Property name="itemCodes">pages,pageSize</Property>
+        <Property name="dataSet">dataSetApportionPrice</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="datagridApportionPrice">
+      <Property name="dataSet">dataSetApportionPrice</Property>
+      <Property name="height">400</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="monthly">
+        <Property name="property">monthly</Property>
+      </DataColumn>
+      <DataColumn name="price">
+        <Property name="property">price</Property>
+      </DataColumn>
+      <DataColumn name="remark">
+        <Property name="property">remark</Property>
+      </DataColumn>
+      <DataColumn name="createTime">
+        <Property name="property">createTime</Property>
+      </DataColumn>
+      <DataColumn name="createUser">
+        <Property name="property">createUser</Property>
+      </DataColumn>
+    </DataGrid>
+    <UpdateAction id="updateActionSave">
+      <Property name="successMessage">保存成功！</Property>
+      <Property name="executingMessage">正在保存...</Property>
+      <Property name="confirmMessage">是否确认保存？</Property>
+      <Property name="hotkey">ctrl+s</Property>
+      <Property name="dataResolver">monthlyApportionPriceService#saveAll</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetApportionPrice</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogEdit">
+      <Property name="width">650</Property>
+      <Property name="height">500</Property>
+      <Property name="caption">分摊信息</Property>
+      <Buttons>
+        <Button id="buttonSave">
+          <Property name="icon">url(>skin>common/icons.gif) -140px -20px</Property>
+          <Property name="caption">保存</Property>
+        </Button>
+        <Button id="buttonCancel">
+          <Property name="caption">取消</Property>
+          <Property name="icon">url(>skin>common/icons.gif) -280px -220px</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormApportionPrice">
+          <Property name="dataSet">dataSetApportionPrice</Property>
+          <AutoFormElement>
+            <Property name="name">monthly</Property>
+            <Property name="property">monthly</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">price</Property>
+            <Property name="property">price</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">remark</Property>
+            <Property name="property">remark</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <AjaxAction id="ajaxActionRefreshCache">
+      <Property name="confirmMessage">是否刷新缓存</Property>
+      <Property name="executingMessage">刷新中...</Property>
+      <Property name="successMessage">刷新成功！</Property>
+      <Property name="service">monthlyApportionPriceService#refreshCache</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

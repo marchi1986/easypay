@@ -27,6 +27,7 @@ import com.pay.common.print.WatermeterInputForPrint;
 import com.pay.dao.ApportionTypeDao;
 import com.pay.dao.BuildingDetailDao;
 import com.pay.dao.BuildingInfoDao;
+import com.pay.dao.MonthlyApportionPriceDao;
 import com.pay.dao.PricingTypeDao;
 import com.pay.dao.waterpay.OrderInfoDao;
 import com.pay.dao.waterpay.WaterMeterInputBuildingDao;
@@ -36,6 +37,7 @@ import com.pay.exception.BusinessException;
 import com.pay.pojo.PayBuildingDetail;
 import com.pay.pojo.PayBuildingDetailPK;
 import com.pay.pojo.PayBuildingInfo;
+import com.pay.pojo.PayMonthlyApportionPrice;
 import com.pay.pojo.PayPricingType;
 import com.pay.pojo.waterpay.PayOrderInfo;
 import com.pay.pojo.waterpay.PayWaterMeterInputBuilding;
@@ -75,6 +77,9 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 	
 	@Autowired
 	private OrderInfoDao orderInfoDao;
+	
+	@Autowired
+	private MonthlyApportionPriceDao monthlyApportionPriceDao;
 	
 	/**
 	 * 打印抄表表格
@@ -472,6 +477,13 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 			if(CollectionUtils.isEmpty(waterMeterInputDetails)){
 				throw new BusinessException("数据异常，该批次没有明细数据！");
 			}
+			PayMonthlyApportionPrice monthlyApportionPrice=null;
+			if(header.getMonthlyCycle()>202009){
+				monthlyApportionPrice= monthlyApportionPriceDao.get(header.getMonthlyCycle());
+				if(monthlyApportionPrice==null){
+					throw new BusinessException("请先维护月度摊分单价！");
+				}
+			}
 			
 			List<PayOrderInfo> payOrderInfos=new ArrayList<PayOrderInfo>();
 			for(PayWaterMeterInputDetail waterMeterInputDetail:waterMeterInputDetails){
@@ -501,14 +513,19 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				buildingDetail.setGarbagePrice(waterMeterInputDetail.getGarbagePrice()==null?0:waterMeterInputDetail.getGarbagePrice().intValue());
 				buildingDetail.setNetworkPrice(waterMeterInputDetail.getNetworkPrice()==null?0:waterMeterInputDetail.getNetworkPrice().intValue());
 				buildingDetailDao.update(buildingDetail);
-				
+				BigDecimal auctalQty=BigDecimal.ZERO;
 				//实际用水吨数
-				BigDecimal auctalQty=waterMeterInputDetail.getCurrentQty().subtract(waterMeterInputDetail.getBeforeQty());
-				//用水小于1吨按1吨计算
-				if(auctalQty.compareTo(BigDecimal.ZERO)!=0&&auctalQty.compareTo(new BigDecimal(1))==-1){
-					auctalQty=new BigDecimal(1);
+				if(waterMeterInputDetail.getCurrentQty().compareTo(BigDecimal.ZERO)!=0){
+					auctalQty=waterMeterInputDetail.getCurrentQty().subtract(waterMeterInputDetail.getBeforeQty());
+					//用水小于1吨按1吨计算
+					if(auctalQty.compareTo(BigDecimal.ZERO)!=0&&auctalQty.compareTo(new BigDecimal(1))==-1){
+						auctalQty=new BigDecimal(1);
+					}else{
+						orderInfo.setActualQty(BigDecimal.ZERO);
+					}
 				}
 				orderInfo.setActualQty(auctalQty);
+				
 				//水费金额已包含损耗费，所以不再另计
 				//获取分摊类型
 				//PayApportionType apportionType=apportionTypeDao.get(buildingDetail.getApportionTypeId());
@@ -523,13 +540,31 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 				
 				//计算水费
 				//BigDecimal waterPrice=((auctalQty.add(waterApportionQty)).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
-				BigDecimal waterPrice=((auctalQty.add(orderInfo.getWaterApportionQty())).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+				//计费用水量 实际用水+实际用水的16.31%
+				BigDecimal feeQty=auctalQty.add(auctalQty.multiply(new BigDecimal("0.1631")).setScale(4,BigDecimal.ROUND_HALF_UP));
+				orderInfo.setFeeQty(feeQty);
+				BigDecimal waterPrice=((feeQty).multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
 				//int i = (int)Math.ceil(waterPrice.doubleValue());
 				//修改为逢8进1
 				orderInfo.setWaterPrice(format8in1(waterPrice));
 				//计算分摊费
 				//BigDecimal apportionPrice=(orderInfo.getWaterApportionQty().multiply(price)).setScale(1,BigDecimal.ROUND_HALF_UP);
+				if(monthlyApportionPrice!=null){
+					orderInfo.setApportionPrice(monthlyApportionPrice.getPrice());
+					orderInfo.setApportionAmount(BigDecimal.ZERO);
+					if(buildingDetail.getIsCountApportion()==1){
+						
+						if(buildingDetail.getUserCount()!=null){
+							BigDecimal apportionAmount=new BigDecimal(buildingDetail.getUserCount()).multiply(monthlyApportionPrice.getPrice());
+							orderInfo.setApportionAmount(apportionAmount);
+							orderInfo.setUserCount(buildingDetail.getUserCount());
+						}
 	
+					}
+				}else{
+					orderInfo.setApportionAmount(BigDecimal.ZERO);
+				}
+				
 				orderInfo.setLateFee(new BigDecimal(0));
 				orderInfo.setGarbagePrice(waterMeterInputDetail.getGarbagePrice());
 				orderInfo.setNetworkPrice(waterMeterInputDetail.getNetworkPrice());
@@ -542,14 +577,18 @@ public class WaterMeterInputHeaderServiceImpl implements WaterMeterInputHeaderSe
 						.add(orderInfo.getGarbagePrice())
 						.add(orderInfo.getNetworkPrice())
 						.add(orderInfo.getSewagePrice())
-						.add(orderInfo.getOtherPrice());
+						.add(orderInfo.getOtherPrice())
+						.add(orderInfo.getApportionAmount());
 				orderInfo.setTotalPrice(format8in1(totalPrice) );
 				orderInfo.setStatus(PayConstants.ORDER_STATUS_UNPAY);
 				orderInfo.setCreateUser(ContextHolder.getLoginUserName());
 				orderInfo.setCreateTime(new Date());
 				orderInfo.setLastModifyUser(ContextHolder.getLoginUserName());
 				orderInfo.setLastModifyTime(new Date());
-				payOrderInfos.add(orderInfo);
+				if(orderInfo.getTotalPrice().compareTo(BigDecimal.ZERO)!=0){
+					payOrderInfos.add(orderInfo);
+				}
+				
 			}
 			
 			orderInfoDao.saveAll(payOrderInfos);

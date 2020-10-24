@@ -118,6 +118,14 @@ public class WaterMeterInfoServiceImpl implements WaterMeterInfoService {
 		return mapValue;
 	}
 	
+	@DataProvider
+	public Map<String, String> getIsCountApportionDesc() {
+		Map<String, String> mapValue = new LinkedHashMap<String, String>();
+		mapValue.put("0", "否");
+		mapValue.put("1", "是");
+		return mapValue;
+	}
+	
 	/**
 	 * 获取是否主表关联
 	 * @author marchi.ma

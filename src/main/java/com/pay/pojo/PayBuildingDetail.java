@@ -13,7 +13,7 @@ import com.bstek.dorado.annotation.PropertyDef;
 @Entity
 @IdClass(PayBuildingDetailPK.class)
 @Table(name = "pay_building_detail")
-public class PayBuildingDetail implements Serializable {
+public class PayBuildingDetail extends AbstractPojo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -116,48 +116,9 @@ public class PayBuildingDetail implements Serializable {
 	private BigDecimal monthlyQty;
 	
 	private String userCode;
-
-	public PayBuildingDetail() {
-		super();
-	}
-
 	
-	public PayBuildingDetail(String code, String roomNo, String userName, String waterMeterCode,
-			Integer apportionTypeId, Integer pricingTypeId, String contractorName, Integer status, String remark,
-			Integer groupId, String createUser, Date createTime, String lastModifyUser, Date lastModifyTime,
-			String name, String addr, String addrShortDesc, String mobile, Integer networkPrice, Integer garbagePrice,
-			BigDecimal monthlyQty, String userCode) {
-		super();
-		this.code = code;
-		this.roomNo = roomNo;
-		this.userName = userName;
-		this.waterMeterCode = waterMeterCode;
-		this.apportionTypeId = apportionTypeId;
-		this.pricingTypeId = pricingTypeId;
-		this.contractorName = contractorName;
-		this.status = status;
-		this.remark = remark;
-		this.groupId = groupId;
-		this.createUser = createUser;
-		this.createTime = createTime;
-		this.lastModifyUser = lastModifyUser;
-		this.lastModifyTime = lastModifyTime;
-		this.name = name;
-		this.addr = addr;
-		this.addrShortDesc = addrShortDesc;
-		this.mobile = mobile;
-		this.networkPrice = networkPrice;
-		this.garbagePrice = garbagePrice;
-		this.monthlyQty = monthlyQty;
-		this.userCode = userCode;
-	}
-
-
-
-
-
-
-
+	private Integer isCountApportion;
+	private Integer userCount;
 
 	public void setCode(String code) {
 		this.code = code;
@@ -386,18 +347,24 @@ public class PayBuildingDetail implements Serializable {
 		this.userCode = userCode;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "PayBuildingDetail [code=" + code + ", roomNo=" + roomNo + ", userName=" + userName + ", waterMeterCode="
-				+ waterMeterCode + ", apportionTypeId=" + apportionTypeId + ", pricingTypeId=" + pricingTypeId
-				+ ", contractorName=" + contractorName + ", status=" + status + ", remark=" + remark + ", groupId="
-				+ groupId + ", createUser=" + createUser + ", createTime=" + createTime + ", lastModifyUser="
-				+ lastModifyUser + ", lastModifyTime=" + lastModifyTime + ", name=" + name + ", addr=" + addr
-				+ ", addrShortDesc=" + addrShortDesc + ", mobile=" + mobile + ", networkPrice=" + networkPrice
-				+ ", garbagePrice=" + garbagePrice + ", monthlyQty=" + monthlyQty + ", userCode=" + userCode + "]";
+	@Column(name = "is_count_apportion")
+	public Integer getIsCountApportion() {
+		return isCountApportion;
 	}
+
+	public void setIsCountApportion(Integer isCountApportion) {
+		this.isCountApportion = isCountApportion;
+	}
+
+	@Column(name = "user_count")
+	public Integer getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(Integer userCount) {
+		this.userCount = userCount;
+	}
+
 
 
 

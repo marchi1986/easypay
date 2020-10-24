@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.bstek.dorado.annotation.PropertyDef;
+import com.pay.pojo.AbstractPojo;
 
 /**
  * pay_order_info:
@@ -11,7 +12,7 @@ import com.bstek.dorado.annotation.PropertyDef;
 @Entity
 @IdClass(PayOrderInfoPK.class)
 @Table(name = "pay_order_info")
-public class PayOrderInfo implements Serializable {
+public class PayOrderInfo extends AbstractPojo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -167,67 +168,11 @@ public class PayOrderInfo implements Serializable {
 	private String rejectUser;
 	private Date rejectDate;
 	private Integer payDay;
-
-	public PayOrderInfo() {
-		super();
-	}
-
 	
-
-
-
-
-
-
-	public PayOrderInfo(String orderCode, String buildingCode, String roomNo, int monthlyCycle,
-			BigDecimal waterBeforeQty, BigDecimal waterCurrentQty, BigDecimal actualQty, BigDecimal waterApportionQty,
-			BigDecimal price, BigDecimal waterPrice, BigDecimal garbagePrice, BigDecimal lateFee,
-			BigDecimal networkPrice, BigDecimal sewagePrice, BigDecimal otherPrice, BigDecimal totalPrice, int status,
-			String remark, Date payDate, Date lastPayDate, String tollCollector, String createUser, Date createTime,
-			String lastModifyUser, Date lastModifyTime, String payCode, String userCode, String userName, String addr,
-			String waterMeterCode, String rejectUser, Date rejectDate, Integer payDay) {
-		super();
-		this.orderCode = orderCode;
-		this.buildingCode = buildingCode;
-		this.roomNo = roomNo;
-		this.monthlyCycle = monthlyCycle;
-		this.waterBeforeQty = waterBeforeQty;
-		this.waterCurrentQty = waterCurrentQty;
-		this.actualQty = actualQty;
-		this.waterApportionQty = waterApportionQty;
-		this.price = price;
-		this.waterPrice = waterPrice;
-		this.garbagePrice = garbagePrice;
-		this.lateFee = lateFee;
-		this.networkPrice = networkPrice;
-		this.sewagePrice = sewagePrice;
-		this.otherPrice = otherPrice;
-		this.totalPrice = totalPrice;
-		this.status = status;
-		this.remark = remark;
-		this.payDate = payDate;
-		this.lastPayDate = lastPayDate;
-		this.tollCollector = tollCollector;
-		this.createUser = createUser;
-		this.createTime = createTime;
-		this.lastModifyUser = lastModifyUser;
-		this.lastModifyTime = lastModifyTime;
-		this.payCode = payCode;
-		this.userCode = userCode;
-		this.userName = userName;
-		this.addr = addr;
-		this.waterMeterCode = waterMeterCode;
-		this.rejectUser = rejectUser;
-		this.rejectDate = rejectDate;
-		this.payDay = payDay;
-	}
-
-
-
-
-
-
-
+	private Integer userCount;
+	private BigDecimal apportionPrice;
+	private BigDecimal feeQty;
+	private BigDecimal apportionAmount;
 
 	public void setOrderCode(String orderCode) {
 		this.orderCode = orderCode;
@@ -563,41 +508,47 @@ public class PayOrderInfo implements Serializable {
 	public void setPayDay(Integer payDay) {
 		this.payDay = payDay;
 	}
+	
+	
 
+	@Column(name = "user_count")
+	public Integer getUserCount() {
+		return userCount;
+	}
 
-	@Override
-	public String toString() {
-		return "PayOrderInfo [orderCode=" + orderCode + ", buildingCode=" + buildingCode + ", roomNo=" + roomNo
-				+ ", monthlyCycle=" + monthlyCycle + ", waterBeforeQty=" + waterBeforeQty + ", waterCurrentQty="
-				+ waterCurrentQty + ", actualQty=" + actualQty + ", waterApportionQty=" + waterApportionQty + ", price="
-				+ price + ", waterPrice=" + waterPrice + ", garbagePrice=" + garbagePrice + ", lateFee=" + lateFee
-				+ ", networkPrice=" + networkPrice + ", sewagePrice=" + sewagePrice + ", otherPrice=" + otherPrice
-				+ ", totalPrice=" + totalPrice + ", status=" + status + ", remark=" + remark + ", payDate=" + payDate
-				+ ", lastPayDate=" + lastPayDate + ", tollCollector=" + tollCollector + ", createUser=" + createUser
-				+ ", createTime=" + createTime + ", lastModifyUser=" + lastModifyUser + ", lastModifyTime="
-				+ lastModifyTime + ", payCode=" + payCode + ", userCode=" + userCode + ", userName=" + userName
-				+ ", addr=" + addr + ", waterMeterCode=" + waterMeterCode + ", rejectUser=" + rejectUser
-				+ ", rejectDate=" + rejectDate + ", payDay=" + payDay + "]";
+	public void setUserCount(Integer userCount) {
+		this.userCount = userCount;
+	}
+
+	@Column(name = "apportion_price")
+	public BigDecimal getApportionPrice() {
+		return apportionPrice;
 	}
 
 
+	public void setApportionPrice(BigDecimal apportionPrice) {
+		this.apportionPrice = apportionPrice;
+	}
 
+	@Column(name = "fee_qty")
+	public BigDecimal getFeeQty() {
+		return feeQty;
+	}
 
+	public void setFeeQty(BigDecimal feeQty) {
+		this.feeQty = feeQty;
+	}
 
+	@Column(name = "apportion_amount")
+	public BigDecimal getApportionAmount() {
+		return apportionAmount;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	public void setApportionAmount(BigDecimal apportionAmount) {
+		this.apportionAmount = apportionAmount;
+	}
 	
+	
+
 
 }

@@ -77,6 +77,10 @@
       <Property name="dataType">Date</Property>
       <Property name="label">最后修改时间</Property>
     </PropertyDef>
+    <PropertyDef name="userCount">
+      <Property name="dataType">Integer</Property>
+      <Property name="label">户数</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayPricingType">
     <Property name="matchType">com.pay.pojo.PayPricingType</Property>
@@ -256,6 +260,14 @@
     </PropertyDef>
     <PropertyDef name="monthlyQty">
       <Property name="label">月度吨数</Property>
+    </PropertyDef>
+    <PropertyDef name="isCountApportion">
+      <Property name="label">是否计算分摊</Property>
+      <Property name="dataType">Integer</Property>
+    </PropertyDef>
+    <PropertyDef name="userCount">
+      <Property name="dataType">Integer</Property>
+      <Property name="label">户数</Property>
     </PropertyDef>
   </DataType>
   <DataType name="PayWaterMeterInfo">
@@ -642,6 +654,18 @@
     <PropertyDef name="payDay">
       <Property name="label">支付日期</Property>
     </PropertyDef>
+    <PropertyDef name="apportionAmount">
+      <Property name="label">摊分金额</Property>
+    </PropertyDef>
+    <PropertyDef name="apportionPrice">
+      <Property name="label">摊分单价</Property>
+    </PropertyDef>
+    <PropertyDef name="feeQty">
+      <Property name="label">计费用水量</Property>
+    </PropertyDef>
+    <PropertyDef name="userCount">
+      <Property name="label">户数</Property>
+    </PropertyDef>
   </DataType>
   <DataType name="PayRoomGroup">
     <Property name="matchType">com.pay.pojo.PayRoomGroup</Property>
@@ -747,6 +771,29 @@
     <PropertyDef name="lastModifyTime">
       <Property name="dataType">Date</Property>
       <Property name="label">最后修改时间</Property>
+    </PropertyDef>
+  </DataType>
+  <DataType name="PayMonthlyApportionPrice">
+    <Property name="matchType">com.pay.pojo.PayMonthlyApportionPrice</Property>
+    <PropertyDef name="monthly">
+      <Property name="dataType">Integer</Property>
+      <Property name="label">月度</Property>
+    </PropertyDef>
+    <PropertyDef name="price">
+      <Property name="dataType">BigDecimal</Property>
+      <Property name="label">摊分单价</Property>
+    </PropertyDef>
+    <PropertyDef name="remark">
+      <Property/>
+      <Property name="label">备注</Property>
+    </PropertyDef>
+    <PropertyDef name="createTime">
+      <Property name="dataType">Date</Property>
+      <Property name="label">创建时间</Property>
+    </PropertyDef>
+    <PropertyDef name="createUser">
+      <Property/>
+      <Property name="label">创建人</Property>
     </PropertyDef>
   </DataType>
 </Model>

@@ -214,6 +214,13 @@ dialogSwfViewer.show();&#xD;
         <Property name="summaryType">sum</Property>
         <Editor/>
       </DataColumn>
+      <DataColumn>
+        <Property name="name">feeQty</Property>
+        <Property name="property">feeQty</Property>
+        <Property name="width">100</Property>
+        <Property name="caption">计费用水量</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
         <Property name="caption">单价</Property>
@@ -249,10 +256,19 @@ dialogSwfViewer.show();&#xD;
         <Property name="width">80</Property>
         <Property name="summaryType">sum</Property>
       </DataColumn>
-      <DataColumn name="totalPrice">
+      <DataColumn>
+        <Property name="name">apportionAmount</Property>
+        <Property name="property">apportionAmount</Property>
+        <Property name="caption">摊分金额</Property>
+        <Property name="width">80</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
         <Property name="property">totalPrice</Property>
         <Property name="summaryType">sum</Property>
         <Property name="width">100</Property>
+        <Property name="name">totalPrice</Property>
+        <Property name="name">apportionAmount</Property>
       </DataColumn>
     </DataGrid>
     <Dialog id="dialogPay">
