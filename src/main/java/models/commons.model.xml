@@ -656,15 +656,19 @@
     </PropertyDef>
     <PropertyDef name="apportionAmount">
       <Property name="label">摊分金额</Property>
+      <Property name="dataType">BigDecimal</Property>
     </PropertyDef>
     <PropertyDef name="apportionPrice">
       <Property name="label">摊分单价</Property>
+      <Property name="dataType">BigDecimal</Property>
     </PropertyDef>
     <PropertyDef name="feeQty">
       <Property name="label">计费用水量</Property>
+      <Property name="dataType">Integer</Property>
     </PropertyDef>
     <PropertyDef name="userCount">
       <Property name="label">户数</Property>
+      <Property name="dataType">Integer</Property>
     </PropertyDef>
   </DataType>
   <DataType name="PayRoomGroup">
@@ -784,7 +788,7 @@
       <Property name="label">摊分单价</Property>
     </PropertyDef>
     <PropertyDef name="remark">
-      <Property/>
+      <Property></Property>
       <Property name="label">备注</Property>
     </PropertyDef>
     <PropertyDef name="createTime">
@@ -792,7 +796,7 @@
       <Property name="label">创建时间</Property>
     </PropertyDef>
     <PropertyDef name="createUser">
-      <Property/>
+      <Property></Property>
       <Property name="label">创建人</Property>
     </PropertyDef>
   </DataType>

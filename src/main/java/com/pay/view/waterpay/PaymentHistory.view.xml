@@ -127,6 +127,12 @@
         <Property name="property">waterCurrentQty</Property>
         <Property name="summaryType">sum</Property>
       </DataColumn>
+      <DataColumn>
+        <Property name="name">feeQty</Property>
+        <Property name="property">feeQty</Property>
+        <Property name="align">right</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>
       </DataColumn>
@@ -153,6 +159,21 @@
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
         <Property name="summaryType">sum</Property>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">userCount</Property>
+        <Property name="property">userCount</Property>
+        <Property name="align">right</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">apportionPrice</Property>
+        <Property name="property">apportionPrice</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="property">apportionAmount</Property>
+        <Editor/>
       </DataColumn>
       <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>

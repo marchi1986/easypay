@@ -314,6 +314,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	public void printList(List<PayOrderInfo> orderInfos){
 		for(PayOrderInfo orderInfo:orderInfos){
 			if(orderInfo.getMonthlyCycle()>202009){
+
 				print2(orderInfo);
 			}else{
 				print(orderInfo);
