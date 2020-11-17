@@ -375,8 +375,15 @@ public class PaymentReceiptForPrint2 implements Printable {
 					g2.drawString(String.valueOf(this.currentQty), (float)leftPointX + 165, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.actualQty), (float)leftPointX + 230, (float) line + gridTitleFontHeight);
 					
-			
-					g2.drawString(String.valueOf(this.price), (float)leftPointX + 305, (float) line + gridTitleFontHeight);
+					String priceStr="";
+					if(this.price.compareTo(new BigDecimal("4.86"))==0){
+						priceStr="3.46+1.4";
+					}else if(this.price.compareTo(new BigDecimal("2.93"))==0){
+						priceStr="1.98+0.95";
+					}else{
+						priceStr=String.valueOf(this.price);
+					}
+					g2.drawString(priceStr, (float)leftPointX + 305, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.totalQty), (float)leftPointX + 380, (float) line + gridTitleFontHeight);
 					//g2.drawString("2", (float)leftPointX + 435, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.amount), (float)leftPointX + 505, (float) line + gridTitleFontHeight);
@@ -416,7 +423,7 @@ public class PaymentReceiptForPrint2 implements Printable {
 				case 6:
 					g2.setFont(gridFont); // 设置字体  
 					// 垃圾费、网管费、排污费、其它费用、小计
-					g2.drawString(String.valueOf(this.userCount), (float)leftPointX + 95, (float) line + gridTitleFontHeight);
+					g2.drawString(String.valueOf(this.userCount==null?0:this.userCount), (float)leftPointX + 95, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.apportionPrice), (float)leftPointX + 190, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.apportionAmount), (float)leftPointX + 280, (float) line + gridTitleFontHeight);
 					g2.drawString(String.valueOf(this.getGarbagePrice()), (float)leftPointX + 370, (float) line + gridTitleFontHeight);
@@ -467,7 +474,7 @@ public class PaymentReceiptForPrint2 implements Printable {
 				//第10行
 				case 11:
 					g2.setFont(gridFont); // 设置字体
-					g2.drawString("逾期将按每月总金额百分之十加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
+					g2.drawString("逾期将按每日千分之三加收滞纳金。若滞纳金赶超本金时，按照村规处罚；", (float) leftPointX + 64, (float) line + gridFontHeight);
 					
 					break;
 				//第11行
@@ -479,8 +486,8 @@ public class PaymentReceiptForPrint2 implements Printable {
 				//第11行
 				case 13:
 					g2.setFont(gridFont); // 设置字体
-					//g2.drawString("4、收费处联系电话：020-37376948", (float) leftPointX + 50, (float) line + gridFontHeight);
-					g2.drawString("4、自来水+排污：商业3.46+1.4 住宅1.98+0.95  单位(元)", (float) leftPointX + 50, (float) line + gridFontHeight);
+					g2.drawString("4、收费处联系电话：020-37376948", (float) leftPointX + 50, (float) line + gridFontHeight);
+					//g2.drawString("4、自来水+排污：商业3.46+1.4 住宅1.98+0.95  单位(元)", (float) leftPointX + 50, (float) line + gridFontHeight);
 					g2.setFont(gridFootFont); // 设置字体
 					g2.drawString(companyName, (float) leftPointX + 420, (float) line + gridFontHeight);
 					break;
