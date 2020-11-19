@@ -69,8 +69,9 @@
       <DataColumn name="waterCurrentQty">
         <Property name="property">waterCurrentQty</Property>
       </DataColumn>
-      <DataColumn name="actualQty">
+      <DataColumn>
         <Property name="property">actualQty</Property>
+        <Property name="name">actualQty</Property>
       </DataColumn>
       <DataColumn name="price">
         <Property name="property">price</Property>

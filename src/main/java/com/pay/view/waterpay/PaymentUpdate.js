@@ -58,6 +58,7 @@
 	var sewagePrice=data.get("sewagePrice");
 	var otherPrice=data.get("otherPrice");
 	var apportionAmount=data.get("apportionAmount");
+	var monthlyCycle=data.get("monthlyCycle");
 	
 	if(isNotNull(waterCurrentQty)){
 		if(waterCurrentQty<waterBeforeQty){
@@ -67,7 +68,12 @@
 
 		data.set("actualQty",actualQty);
 		var price=data.get("price");
-		data.set("waterPrice",scale8to1((actualQty*price).toFixed(1)));
+		if(monthlyCycle>202009){
+			data.set("waterPrice",scale8to1(((actualQty+(actualQty*0.1631))*price).toFixed(1)));
+		}else{
+			data.set("waterPrice",scale8to1(((actualQty)*price).toFixed(1)));
+		}
+		
 	}
 	var totalPrice=data.get("waterPrice");
 	if(isNotNull(garbagePrice)){
