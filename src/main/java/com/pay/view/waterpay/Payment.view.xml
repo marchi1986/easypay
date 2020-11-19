@@ -261,6 +261,7 @@ dialogSwfViewer.show();&#xD;
         <Property name="property">apportionAmount</Property>
         <Property name="caption">摊分金额</Property>
         <Property name="width">80</Property>
+        <Property name="summaryType">sum</Property>
         <Editor/>
       </DataColumn>
       <DataColumn>

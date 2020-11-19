@@ -93,6 +93,11 @@
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
       </DataColumn>
+      <DataColumn>
+        <Property name="property">apportionAmount</Property>
+        <Property name="name">apportionAmount</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="totalPrice">
         <Property name="property">totalPrice</Property>
       </DataColumn>
@@ -194,6 +199,11 @@
           <AutoFormElement>
             <Property name="name">otherPrice</Property>
             <Property name="property">otherPrice</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="property">apportionAmount</Property>
+            <Property name="name">apportionAmount</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>

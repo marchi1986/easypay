@@ -57,6 +57,7 @@
 	var networkPrice=data.get("networkPrice");
 	var sewagePrice=data.get("sewagePrice");
 	var otherPrice=data.get("otherPrice");
+	var apportionAmount=data.get("apportionAmount");
 	
 	if(isNotNull(waterCurrentQty)){
 		if(waterCurrentQty<waterBeforeQty){
@@ -84,7 +85,9 @@
 	if(isNotNull(otherPrice)){
 		totalPrice=totalPrice+otherPrice;
 	}
-
+	if(isNotNull(apportionAmount)){
+		totalPrice=totalPrice+apportionAmount;
+	}
 
 		
 	data.set("totalPrice",scale8to1(totalPrice.toFixed(1)));
