@@ -93,6 +93,11 @@
         <Property name="property">otherPrice</Property>
         <Property name="summaryType">sum</Property>
       </DataColumn>
+      <DataColumn>
+        <Property name="name">apportionAmount</Property>
+        <Property name="property">apportionAmount</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="lateFee">
         <Property name="property">lateFee</Property>
         <Property name="summaryType">sum</Property>

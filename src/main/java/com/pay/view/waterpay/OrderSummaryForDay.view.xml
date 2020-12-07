@@ -84,6 +84,11 @@
         <Property name="property">sewagePrice</Property>
         <Property name="summaryType">sum</Property>
       </DataColumn>
+      <DataColumn>
+        <Property name="name">apportionAmount</Property>
+        <Property name="property">apportionAmount</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
         <Property name="summaryType">sum</Property>

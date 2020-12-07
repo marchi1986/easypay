@@ -295,6 +295,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 		selCase.append("sum(sewage_price) as sewagePrice,");
 		selCase.append("sum(other_price) as otherPrice, ");
 		selCase.append("sum(actual_qty) as actualQty, ");
+		selCase.append("sum(apportion_amount) as apportionAmount, ");
 		selCase.append("sum(total_price) as totalPrice ");
 		selCase.append("from Pay_Order_Info ");
 		whereCase.append(" and status=").append(PayConstants.ORDER_STATUS_PAY);
@@ -366,7 +367,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     sql.append("select   ");
 	     sql.append("pay_day as payDay,toll_collector as tollCollector,sum(water_price) as waterPrice,sum(garbage_price) as garbagePrice,sum(total_price)as totalPrice, ");
 	     sql.append("sum(network_price) as networkPrice ,sum(sewage_price) as sewagePrice,");
-	     sql.append("sum(other_price) as otherPrice ,sum(late_fee) as lateFee ");
+	     sql.append("sum(other_price) as otherPrice ,sum(apportion_amount) as apportionAmount,sum(late_fee) as lateFee ");
 	     sql.append("from pay_order_info where 1=1 and status=1 ");
 	     if(MapUtils.isNotEmpty(params)){
 	    	 Date beginDate=(Date)params.get("beginDate");
@@ -392,7 +393,7 @@ public class OrderInfoDaoImpl extends BaseHibernateDAO<PayOrderInfo, PayOrderInf
 	     sql.append("select   ");
 	     sql.append("pay_day as payDay,sum(water_price) as waterPrice,sum(garbage_price) as garbagePrice,sum(total_price)as totalPrice, ");
 	     sql.append("sum(network_price) as networkPrice,sum(sewage_price) as sewagePrice,");
-	     sql.append("sum(other_price) as otherPrice ,sum(late_fee) as lateFee ");
+	     sql.append("sum(other_price) as otherPrice ,sum(apportion_amount) as apportionAmount,sum(late_fee) as lateFee ");
 	     sql.append("from pay_order_info where 1=1 and status=1 ");
 	     if(MapUtils.isNotEmpty(params)){
 	    	 Date beginDate=(Date)params.get("beginDate");

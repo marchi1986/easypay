@@ -61,17 +61,22 @@
       <DataColumn name="garbagePrice">
         <Property name="property">garbagePrice</Property>
       </DataColumn>
-      <DataColumn name="lateFee">
-        <Property name="property">lateFee</Property>
-      </DataColumn>
       <DataColumn name="networkPrice">
         <Property name="property">networkPrice</Property>
       </DataColumn>
       <DataColumn name="sewagePrice">
         <Property name="property">sewagePrice</Property>
       </DataColumn>
+      <DataColumn>
+        <Property name="name">apportionAmount</Property>
+        <Property name="property">apportionAmount</Property>
+        <Editor/>
+      </DataColumn>
       <DataColumn name="otherPrice">
         <Property name="property">otherPrice</Property>
+      </DataColumn>
+      <DataColumn name="lateFee">
+        <Property name="property">lateFee</Property>
       </DataColumn>
       <DataColumn>
         <Property name="name">totalPrice</Property>
